@@ -11,7 +11,7 @@ export default defineConfig({
   server: {
     port: 3300,
     proxy: {
-      '/api': 'https://binno-members-repo-production.up.railway.app/api/'
+      '/api': 'https://binno-members-repo-production.up.railway.app'
     },
     host: true
   },
