@@ -7,10 +7,8 @@ import { Link, useParams } from 'react-router-dom';
 import GuideElements from './GuideElements';
 
 import './Guides.css';
-import { BorderRightOutlined } from '@mui/icons-material';
 
 const GuidePage = () => {
-    const [ele, setEle] = useState([1, 2, 3]);
     const { program_id } = useParams();
     const [pageContents, setPageContents] = useState();
     const [currentPage, setCurrentPage] = useState('');
@@ -24,7 +22,7 @@ const GuidePage = () => {
                 console.log(data);
                 setPageContents(data);
                 setCurrentPage(data[0]?.program_pages_id);
-            }
+            };
 
             loadPageData();
         } catch (error) {   
@@ -32,9 +30,11 @@ const GuidePage = () => {
         }
     }, [program_id]);
 
+
     return (
     <div>
-        <div className='App'> 
+        {pageContents ? (
+            <div className='App'> 
             <div className='layoutContainer'>
                 <div className="Headline">
                     <Header />
@@ -45,11 +45,11 @@ const GuidePage = () => {
                             <Back link={'/guides'}/>
                         </div>
                         <div className="page-title-sm">
-                            <p>{pageContents &&  pageContents[0].program_heading}</p>
+                            <p>{pageContents[0]?.program_heading}</p>
                         </div>
                         <div className="page-save-btn">
                             <button >
-                                Save & Publish
+                                Save
                             </button>
                         </div>
                     </div>
@@ -67,8 +67,9 @@ const GuidePage = () => {
                             </ul>
                         </div>
                         <div className="page-edit">
+
                             <div className="cover-photo">
-                                
+
                             </div>
                             <GuideElements page={currentPage}/>
                         </div>
@@ -76,6 +77,11 @@ const GuidePage = () => {
                 </div>
             </div>
         </div>
+        ) : (
+            <div>
+                <h1>Loading...</h1>
+            </div>
+        )}
     </div>
     )
     

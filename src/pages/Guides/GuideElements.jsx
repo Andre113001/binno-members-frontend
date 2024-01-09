@@ -25,15 +25,15 @@ const GuideElements = (props) => {
     const { page } = props;
     const [pageDetail, setPageDetail] = useState();
     const [elements, setElements] = useState();
-    console.log(elements);
 
     useEffect(() =>  {
         try {
             const loadPageData = async () => {
                 const response = await fetch(`/api/program/page/${page}`)
                 const data = await response.json()
-                setElements(data.elements);
-                setPageDetail(data.fetchPageResult[0]);
+                // console.log({"Elements": data[0], "PageData": data[1]});
+                setElements(data[0]);
+                setPageDetail(data[1]);
             }
 
             loadPageData();
@@ -41,8 +41,6 @@ const GuideElements = (props) => {
             console.log('Error Fetching Data: ', error.message);
         }
     }, [page])
-
-    // console.log(elements);
 
     const sensors = useSensors(
         useSensor(PointerSensor),
