@@ -22,6 +22,16 @@ export default function Modal() {
     return currentDate.toLocaleDateString(undefined, dateYear);
   }; 
 
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const title = event.target.elements.title.value;
+    const category = event.target.elements.category.value;
+    const description = event.target.elements.description.value;
+    console.log('Form submitted:', { title, description, category});
+    toggleModal();
+  };
+
     const [modal, setModal] = useState(false);
     const toggleModal = () => {
       setModal(!modal);
@@ -55,19 +65,23 @@ export default function Modal() {
                     <button className="close-modal" onClick={toggleModal}>
                     <CloseRoundedIcon />
                     </button>
-                    <div className="categoryTagContainer">
-                      <button className='categoryButton'>Add to Category
-                      </button>
+                      <div className="categoryTagContainer">
+                        <button className='categoryButton'>Add to Category
+                        </button>
                     </div>
-                    <input 
+                    <div className="texboxContainer">
+                      <TextBox />
+                      {/* <input 
                           type="text"
                           className='contentDetail'
                           placeholder='Write a Short description...'
                         />
+                        /> */}
+                    </div>
                     <div className="dropboxContainer">
                       <DropBox />
                     </div>
-                    <button className='uploadButton' onClick={toggleModal}>  
+                    <button type="submit" className="uploadButton">  
                       Upload
                     </button>
                 </div>
