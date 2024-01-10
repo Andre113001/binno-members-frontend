@@ -1,7 +1,7 @@
 
 .imageContainer{
-  width: 1000px;
-  height: 300px;
+  width: 800px;
+  height: 250px;
   border: dashed 1px black;
   background-color: #c4c4c4;
   display: flex;
