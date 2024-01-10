@@ -5,7 +5,6 @@ import BlogCards from './blogCards.jsx';
 // Components 
 import SideBar from '../../components/Sidebar/Sidebar.jsx';
 import Header from '../../components/header/Header.jsx';
-import Modal from '../../components/modal/modal.jsx';
 
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
