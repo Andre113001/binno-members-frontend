@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import './modal.css'
-import DropBox from '../dropbox/DropBox'
+import DropBox from '../dropbox/DropBox.jsx'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import AddIcon from '@mui/icons-material/Add';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
 
 export default function Modal() {
@@ -30,6 +32,10 @@ export default function Modal() {
     const description = event.target.elements.description.value;
     console.log('Form submitted:', { title, description, category});
     toggleModal();
+
+    if (inputValue.length <= characterLimit) {
+      setText(inputValue);
+    }
   };
 
     const [modal, setModal] = useState(false);
@@ -70,13 +76,27 @@ export default function Modal() {
                         </button>
                     </div>
                     <div className="texboxContainer">
-                      <TextBox />
-                      {/* <input 
-                          type="text"
-                          className='contentDetail'
-                          placeholder='Write a Short description...'
-                        />
-                        /> */}
+                    <Box
+                      component="form"
+                      sx={{
+                        '& .MuiTextField-root': { m: 1, width: '1250px' },
+                      }}
+                      noValidate
+                      autoComplete="off"
+                    >
+                        <div>
+                          <TextField
+                            aria-label="empty textarea"
+                            placeholder="Write a short description"
+                            multiline
+                            style={{ maxHeight: '250px' ,height: '250px',maxWidth:'1300px' ,width: '100%', border: 'white', 
+                              margin: "20px", backgroundColor:"rgb(241,241,241)", outline:'none'}}
+                            minRows={6}
+                            maxRows={7}
+                            inputProps={{ maxLength: 150 }}
+                          />
+                        </div>
+                    </Box>
                     </div>
                     <div className="dropboxContainer">
                       <DropBox />

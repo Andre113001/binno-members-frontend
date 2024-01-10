@@ -114,13 +114,6 @@ body.active-modal {
     background-color: #054eae;
 }
 
-.dropboxContainer {
-    display: flex;
-    align-self: center;
-    margin-bottom: 20px;
-    border: none;
-}
-
 .close-modal {
     position: absolute;
     top: 20px;
