@@ -1,0 +1,49 @@
+
+.imageContainer{
+  width: 1000px;
+  height: 300px;
+  border: dashed 1px black;
+  background-color: #c4c4c4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+}
+
+.uploadedPreview{
+  position: relative;
+    width: auto;
+    height: 200px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    object-fit: cover;
+
+}
+
+.uploadedPreview img {
+  width: inherit;
+  height: inherit;
+  object-fit: cover;
+}
+
+.uploadedPreview span {
+  position: absolute;
+  bottom: 12px;
+  background: #fff;
+  padding: 4px 12px;
+  border-radius: 24px;
+  font-size: 10px;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+.TextImage{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
