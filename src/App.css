@@ -80,4 +80,7 @@ body {
 }
 
 
-
+.MuiTextField-root > label {
+  background-color: inherit;
+  border: none;
+}
