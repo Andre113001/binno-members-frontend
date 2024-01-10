@@ -5,6 +5,15 @@ import Back from '../../components/Back/Back';
 
 import { Link, useParams } from 'react-router-dom';
 import GuideElements from './GuideElements';
+import {
+    AddPhotoAlternateOutlined
+} from '@mui/icons-material'
+
+import {
+    Chip,
+    styled,
+    Button
+} from '@mui/material'
 
 import './Guides.css';
 
@@ -12,6 +21,10 @@ const GuidePage = () => {
     const { program_id } = useParams();
     const [pageContents, setPageContents] = useState();
     const [currentPage, setCurrentPage] = useState('');
+    const [isSaved, setIsSaved] = useState(false);
+    const [backgroundImage, setBackgroundImage] = useState(
+        'https://variety.com/wp-content/uploads/2023/06/MCDSPMA_SP062.jpg?w=1000&h=563&crop=1&resize=1000%2C563'
+      );
     
     useEffect(() =>  {
         try {
@@ -30,6 +43,38 @@ const GuidePage = () => {
         }
     }, [program_id]);
 
+    // Callback function to update save status
+    const updateSaveStatus = (status) => {
+        setIsSaved(status);
+    };
+
+    const showAlert = () => {
+        alert('Please save your changes before navigating to another page.');
+    };
+
+    const handleCoverPhoto = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setBackgroundImage(reader.result);
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+
+      
+    const VisuallyHiddenInput = styled('input')({
+        clip: 'rect(0 0 0 0)',
+        clipPath: 'inset(50%)',
+        height: 1,
+        overflow: 'hidden',
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        whiteSpace: 'nowrap',
+        width: 1,
+    });
 
     return (
     <div>
@@ -44,14 +89,6 @@ const GuidePage = () => {
                         <div className="back">
                             <Back link={'/guides'}/>
                         </div>
-                        <div className="page-title-sm">
-                            <p>{pageContents[0]?.program_heading}</p>
-                        </div>
-                        <div className="page-save-btn">
-                            <button >
-                                Save
-                            </button>
-                        </div>
                     </div>
                     <main className='page-body'>
                         <div className="page-selector">
@@ -61,17 +98,24 @@ const GuidePage = () => {
                             <ul>
                                 {pageContents?.map((content, index) => (
                                     <li key={content.program_pages_id}  className='pages'>
-                                        <Link onClick={() => setCurrentPage(content.program_pages_id)}>{index + 1}. {content.program_pages_title}</Link>
+                                        <Link style={{textDecoration: "none", color: 'black' }} onClick={() => (isSaved ? setCurrentPage(content.program_pages_id) : showAlert())}>{index + 1}. {content.program_pages_title}</Link>
                                     </li>
                                 ))}
                             </ul>
                         </div>
                         <div className="page-edit">
-
-                            <div className="cover-photo">
-
+                            <div className="page-title-sm">
+                                <p>{pageContents[0]?.program_heading}</p>
                             </div>
-                            <GuideElements page={currentPage}/>
+                            <div className="cover-photo" style={{ backgroundImage: `url(${backgroundImage})` }}>
+                                <div className="upload-cover-btn">
+                                <Button component="label" variant="filled" style={{ backgroundColor: "#424864", color: 'white', fontSize: 12, borderRadius: 30, display: 'flex', alignItems: 'center' }} startIcon={<AddPhotoAlternateOutlined />}>
+                                    Change Photo
+                                    <VisuallyHiddenInput onChange={handleCoverPhoto} type="file" />
+                                </Button>
+                                </div>
+                            </div>
+                            <GuideElements page={currentPage} updateSaveStatus={updateSaveStatus}/>
                         </div>
                     </main>
                 </div>
@@ -82,9 +126,9 @@ const GuidePage = () => {
                 <h1>Loading...</h1>
             </div>
         )}
+        {console.log(isSaved)}
     </div>
     )
-    
 }
 
 export default GuidePage

@@ -18,7 +18,16 @@ export function Sortable(props) {
   const fixedSizedStyle = {
     width: '100%', // Set the width to your desired value
     height: 'auto', // Set the height to your desired value
-};
+  };
+
+  const dragIndicatorStyle = {
+    position: 'absolute',
+    top: 10,
+    left: '-25px', // Adjust the left position as needed
+    cursor: 'grab',
+    zIndex: 1
+  };
+
 
   const style = {
     ...fixedSizedStyle,
@@ -29,7 +38,9 @@ export function Sortable(props) {
   return (
     <div className="list-row" ref={setNodeRef} style={style}>
       <div className="drag-indicator" {...attributes} {...listeners}>
-        <DragIndicator />
+        <div style={dragIndicatorStyle}>
+          <DragIndicator />
+        </div>
       </div>
       <div className="content-container">
         {elements.type === 'YoutubeEmbed' ? (

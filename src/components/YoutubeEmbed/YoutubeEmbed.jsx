@@ -27,8 +27,8 @@ const YoutubeEmbed = (props) => {
     }
     
     const options = {
-        height: '390',
-        width: '640',
+        height: '1080',
+        width: '720',
         playerVars: {
             autoplay: 0,
             controls: 1,
