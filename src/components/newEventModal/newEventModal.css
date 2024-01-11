@@ -1,11 +1,15 @@
-.createEvent{
-    padding: 10px 20px;
+.createEventBtn{
+    padding: 20px 30px;
     margin: 0 50px;
+    width: 100%;
     border: none;
     border-radius: 15px;
     color: white;
     background-color: #fd7c06;
     font-family:  'Inter', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
 .createEvent:hover{
@@ -88,8 +92,6 @@ body.active-modal {
 {
     display: flex;
     flex-direction: column;
-    align-self: flex-end;
-    align-items: center;
     font-family: 'Inter', sans-serif;
     padding: 10px;
 }
@@ -105,11 +107,11 @@ body.active-modal {
     background-color: #f1f1f1;
 }
 
-.dropboxContainer{
+.eventModalDropboxContainer{
     display: flex;
     align-self: center;
     margin-bottom: 20px;
-    border: red 1px solid;
+    /* border: red 1px solid; */
 }
 
 
@@ -139,3 +141,4 @@ body.active-modal {
     cursor: pointer;
     color:#054eae;
 }
+
