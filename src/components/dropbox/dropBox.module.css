@@ -1,6 +1,5 @@
-
 .imageContainer{
-  width: 1300px;
+  width: inherit;
   height: 250px;
   border: dashed 1px black;
   background-color: #c4c4c4;

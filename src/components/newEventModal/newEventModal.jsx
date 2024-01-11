@@ -86,7 +86,7 @@ export default function NewEventModal() {
                                     placeholder="Write a short description"
                                     multiline
                                     style={{ maxHeight: '250px' ,maxWidth:'1300px' ,width: '100%', border: 'rgb(241,241,241)', 
-                                      margin: "20px", backgroundColor:"rgb(241,241,241)", outline:'none'}}
+                                      margin: "15px 5px", backgroundColor:"rgb(241,241,241)", outline:'none'}}
                                     minRows={3}
                                     maxRows={5}
                                     // value={eventDescription}
