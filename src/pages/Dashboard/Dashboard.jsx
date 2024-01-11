@@ -3,7 +3,7 @@ import BlogCards from './blogCards';
 import EventCards from './EventCards';
 
 import NewEventModal from '../../components/newEventModal/newEventModal.jsx';
-import NewEntryModal from '../../components/NewEntryModal/NewEntryModal.jsx';
+import NewEntryModal from '../../components/newPostModal/newPostModal.jsx';
 import SideBar from '../../components/Sidebar/Sidebar.jsx';
 import Header from '../../components/header/Header';
 import styles from './Dashboard.module.css'
