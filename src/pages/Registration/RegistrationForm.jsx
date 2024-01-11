@@ -4,6 +4,8 @@ import  { useState } from 'react';
 import StyledToggleButton from '../../components/ToggleButton/ToggleButton';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import { Link } from 'react-router-dom';
+import Copyright from '../../components/Copyright/Copyright';
 
 function RegistrationForm() {
     
@@ -65,9 +67,13 @@ function RegistrationForm() {
                     <div>
                         <button className='registerButton' type="submit">Submit</button>
                     </div>
+                    <div style={{marginTop: "20px"}}>
+                        <Link to={'/'}>Already a member? Sign-in here</Link>
+                    </div>
                     
                 </form>
         </div>
+        <Copyright />
     </>
   )
 

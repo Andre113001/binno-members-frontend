@@ -117,6 +117,10 @@ const Login = () => {
             </Button>
             </Box>
             <Link sx={{mt: 3}} href="/forgot">Forgot Password?</Link>
+            
+            <div style={{marginTop: "20px"}}>
+                <Link sx={{mt: 3}} href="/registration">Sign-up for membership here</Link>
+            </div>
         </Box>
         <Copyright />
         </Container>
