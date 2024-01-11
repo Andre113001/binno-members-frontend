@@ -79,7 +79,7 @@ function BlogPage() {
                       value={blogData.title}
                       onChange={handleChange}
                       placeholder="Enter your title here..."
-                      style={{border: 'none', padding: '10px', fontSize: '40px', fontWeight: '600', width:'100%', outline:'none'}}
+                      style={{border: 'none', padding: '10px', fontSize: '40px', fontWeight: '700', width:'100%', outline:'none'}}
                     />
                   </div>
                   <div className={styles['UploadImage']}>

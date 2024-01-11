@@ -55,10 +55,14 @@ h1{
 }
 
 .actualButton{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 15px 20px;
-  border-radius: 15px;
+  padding: 20px 30px;
+  width: 1420px;
   border: none;
+  border-radius: 15px;
+  color: white;
+  background-color: #fd7c06;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
