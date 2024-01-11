@@ -125,7 +125,7 @@ function EnablerRegForm() {
                         </Box>
                     </div>
                         <div>
-                            <button className='registerButton' type="submit">Submit</button>
+                            <button className='registerButton' type="submit">Next</button>
                         </div>
                         <div style={{marginTop: "10px"}}>
                             <Link to={'/'}>Already a member? Sign-in here</Link>

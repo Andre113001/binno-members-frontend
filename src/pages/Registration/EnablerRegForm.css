@@ -3,20 +3,17 @@
 
 .formPage{
     padding: 20px;
-    height: 550px;
-    width: 700px;
     font-family:  'Inter', sans-serif;
     transition: 0.5s;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 0px 0px 8px rgba(0 ,0 ,0 , 0.25);
 }
 
 .formPage h1 {
     margin: 10px;
-    font-size: 50px;
+    font-size: 45px;
     font-weight: 700;
 }
 

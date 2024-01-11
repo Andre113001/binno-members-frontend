@@ -6,12 +6,13 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Link } from 'react-router-dom';
 import Copyright from '../../components/Copyright/Copyright';
+import axios from 'axios';
 
 function RegistrationForm() {
     
 
     const [formData, setFormData] = useState({
-      institute: '',
+      institution: '',
       email: '',
       address: '',
     });
@@ -24,10 +25,22 @@ function RegistrationForm() {
         }));
       };
 
-    const handleSubmit = (e) => {
+      const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form submitted with data:', formData);
+        try {
+            const checker = await axios.post(`/api/register/check`, formData);
+            const data = await checker.json();
+            console.log(data);
+        } catch (error) {
+          console.error('Error:', error.message);
+      
+          // Log more details from the error response if available
+          if (error.response) {
+            console.error('Error:', error.message);
+          }
+        }
       };
+      
 
 
   return (
@@ -75,7 +88,7 @@ function RegistrationForm() {
                                 </div>
                     </Box>
                     <div>
-                        <button className='registerButton' type="submit">Submit</button>
+                        <button className='registerButton' type="submit">Next</button>
                     </div>
                     <div style={{marginTop: "20px"}}>
                         <Link to={'/'}>Already a member? Sign-in here</Link>

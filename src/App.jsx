@@ -25,6 +25,7 @@ import Events from './pages/Events/Events';
 import AccountSettings from './pages/AccountSettings/AccountSettings';
 import Posts from './pages/Posts/Posts';
 import BlogPage from './pages/Blogs/BlogPage/BlogPage';
+import UploadDocuments from './pages/Registration/UploadDocuments/UploadDocuments';
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
           <Route path="/registration" element={<RegistrationPage />}>
             <Route path="" element={<RegistrationForm />} />
             <Route path="enabler" element={<EnablerRegForm />} />
+            <Route path="upload" element={<UploadDocuments />} />
           </Route>
         </Routes>
       </div>
