@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import styles from "./newEntryModal.module.css"
+import styles from "./newPostModal.module.css"
+import DropBox from '../dropbox/DropBox';
+import PostModalTextBox from './PostModalTextBox'
+import PostCategory from './Categories.jsx'
 
-export default function NewEntryModal() {
+export default function NewPostModal() {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(()=> { 
@@ -40,30 +43,27 @@ export default function NewEntryModal() {
             <div className={styles["modal"]}>
               <div onClick={toggleModal} className={styles["overlay"]}></div>
                 <div className={styles["modal-content"]}>
-                    <div className={styles["titleDateContainer"]}>
+                    <div className={styles["titleContainer"]}>
                         <input 
                           type="text"
                           className={styles["titleTextBox"]}
-                          placeholder='Create new entry' 
+                          placeholder='Create new post' 
                         />
-                        <p>{formatDateToText()}</p>
+                        <div className={styles["DateCategoryContainer"]}>
+                          <p>{formatDateToText()}</p>
+                        <PostCategory />
+                        </div>
                     </div>
 
                     <button className={styles["close-modal"]} onClick={toggleModal}>
                     <CloseRoundedIcon />
                     </button>
-                    <div className={styles["categoryTagContainer"]}>
-                      <button className={styles["categoryButton"]}>Add to Category
-                      </button>
+                    <div className={styles["textBoxContainer"]}>
+                      <PostModalTextBox />
                     </div>
-                    <input 
-                          type="text"
-                          className={styles["contentDetail"]}
-                          placeholder='Write a Short description...'
-                        />
-                    {/* <div className="dropboxContainer">
+                    <div className={styles["dropboxContainer"]}>
                       <DropBox />
-                    </div> */}
+                    </div>
                     <button className={styles["uploadButton"]} onClick={toggleModal}>  
                       Upload
                     </button>

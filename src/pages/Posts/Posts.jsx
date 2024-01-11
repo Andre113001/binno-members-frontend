@@ -10,7 +10,7 @@ import {
   TabPanel,
 } from "./Tabs";
 import PanelContent from './PanelContent';
-import { Category } from '@mui/icons-material'
+import NewPostModal from '../../components/newPostModal/newPostModal.jsx'
 
 const Posts = () => {
   
@@ -29,7 +29,10 @@ const Posts = () => {
             <Header />
           </div>
               <div className={styles["bodyContainer"]}>
-                <h1>Categories</h1>
+                <div className={styles["buttonContainer"]}>
+                  <h1>Categories</h1>
+                  <NewPostModal/>
+                </div>
                 <div className={styles["tabContainer"]}>
                 <StyledTabs value={value} onChange={handleChange} aria-label="basic tabs example">
                   <StyledTab label="All Posts" />

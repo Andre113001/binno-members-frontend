@@ -26,14 +26,11 @@ body.active-modal {
     right: 0;
     bottom: 0;
     position: fixed;
+    z-index: 1;
 }
 
 .overlay {
     background: rgba(49,49,49,0.8);
-}
-
-.titleDateContainer{
-    display: flex;
 }
 
 
@@ -49,13 +46,6 @@ body.active-modal {
     font-weight: 600;
 }
 
-.titleDateContainer p{
-    font-size: 20px;
-    font-weight: 500;
-    padding: 20px;
-}
-
-
 .modal-content {
     display: flex;
     flex-direction: column;
@@ -69,9 +59,25 @@ body.active-modal {
     width: 70%;
     height: auto;
     padding: 20px;
-    z-index: 2;
+    z-index: 1;
 }
 
+.titleContainer{
+    display: flex;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 10px;
+}
+
+.DateCategoryContainer{
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.textBoxContainer{
+    margin: 10px 0;
+}
 
 .categoryButton{
     background-color: #999999;
@@ -92,11 +98,15 @@ body.active-modal {
     background-color: #f1f1f1;
 }
 
+.dropboxContainer{
+    width: 99%;
+    margin: 0 0 20px 10px;
+}
 
 .uploadButton{
     background-color: #fd7c06;
     border-radius: 10px;
-    padding: 10px 20px;
+    padding: 20px;
     border: none;
     color: #f1f1f1;
     margin: 0 10px;
