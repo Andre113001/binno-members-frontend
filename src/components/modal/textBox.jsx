@@ -22,8 +22,8 @@ export default function TextBox() {
                 multiline
                 style={{ maxHeight: '250px' ,height: '250px',maxWidth:'1300px' ,width: '100%', border: 'white', 
                   margin: "20px", backgroundColor:"rgb(241,241,241)", outline:'none'}}
-                minRows={6}
-                maxRows={7}
+                minRows={3}
+                maxRows={4}
               />
             </div>
           </Box>
