@@ -8,8 +8,6 @@ import Coverphoto from '../../../../assets/Coverphoto.png';
 
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
-import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded'
-import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import { Link } from "react-router-dom";
 
 function AccountHeader(props) {
@@ -20,35 +18,27 @@ function AccountHeader(props) {
             <div className={styles["profileCoverImage"]}>
                         <img className={styles["coverPhoto"]} src={Coverphoto} alt="Cover Photo" />
                     </div>
-                <div className={styles["UserProfileContainer"]}>
+                <div className={styles["ProfileHeaderContainer"]}>
                     <div className={styles["userProfile"]}>
-                        <img src={profileImage} alt="User Profile" className={styles["profileImage"]}/>    
+                        <div className={styles["profileImageContainer"]}>
+                            <img src={profileImage} alt="User Profile" className={styles["profileImage"]}/>
+                        </div> 
+                                <div className={styles["UserInfoContainer"]}>
+                                    <p>{props.userType}</p>
+                                    <h2>{props.institution}</h2>
+                                </div>
                     </div>
-                        <div className={styles["UserInfoContainer"]}>
-                                <p>{props.userType}</p>
-                                <h2>{props.institution}</h2>
-                            </div>
+
+                        <div className={styles["HeaderButtons"]}>
+                            <Link to={'/settings'} style={{textDecoration: 'none'}}>
+                            <button className={styles["profileEditButton"]} >
+                                <EditRoundedIcon/><span style={{margin: '5px'}}>Edit Profile</span></button>
+                            </Link>
+                            <button className={styles["ViewPageButton"]}>
+                                <VisibilityRoundedIcon/><span style={{margin: '5px'}}>View Page</span></button>
                 </div>
-                    <div className={styles["HeaderButtons"]}>
-                        <button className={styles["profileEditButton"]}>
-                            <EditRoundedIcon/> Edit Profile</button>
-
-                        <button className={styles["ViewPageButton"]}>
-                            <VisibilityRoundedIcon/> View Page</button>
-
-                        <Link to={'/settings'}>
-                            <div className={styles["SettingsButton"]}>
-                                <SettingsRoundedIcon />
-                            </div>
-                        </Link>
-                        
-                        
-                        {/* <div className={styles["NotificationBell"]}>
-                            <NotificationsRoundedIcon />
-                        </div> */}
-                    </div>
-                        
             </div>
+        </div>
     </>
     );
 }
