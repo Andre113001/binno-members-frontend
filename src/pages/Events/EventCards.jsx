@@ -28,24 +28,26 @@ const Events = () => {
             <section className={styles['content']}>
                 <div className={styles["grid2"]}>
                     {events.map((event)=> (
-                    <div className={styles['boxItems']} key={event.event_id}> 
-                            <div className={styles['img']}>
-                                <img src='' alt='' />
-                            </div>
-                        <div className={styles["details"]}>
-                            <div className={styles['date']}>
-                                <h4>{event.event_date}</h4>
-                            </div>
-                            <h3>{event.event_title}</h3>
-                            <p>{event.event_description.slice(0,250)}...</p>
-                            <div className={styles["contentUserInfoContainer"]}>
-                                <div className={styles['userProfileImg']}>
+                    // <Link to={`/events/${eventId}`} key={eventId} style={{textDecoration: 'none', color: 'inherit'}}>
+                        <div className={styles['boxItems']} key={event.event_id}> 
+                                <div className={styles['img']}>
                                     <img src='' alt='' />
                                 </div>
-                                <p>{profileData.setting_institution}</p>
+                            <div className={styles["details"]}>
+                                <div className={styles['date']}>
+                                    <h4>{event.event_date}</h4>
+                                </div>
+                                <h3>{event.event_title}</h3>
+                                <p>{event.event_description.slice(0,250)}...</p>
+                                <div className={styles["contentUserInfoContainer"]}>
+                                    <div className={styles['userProfileImg']}>
+                                        <img src='' alt='' />
+                                    </div>
+                                    <p>{profileData.setting_institution}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    // </Link>
                     ))}
 
                 </div>

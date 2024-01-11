@@ -12,6 +12,7 @@ const PostCards = () => {
             </div>
             <div className={styles["content"]}>
                 {Posts.map((item)=> (
+                // Link
                 <div className={styles["boxItems"]} key={item.id}> 
                     <div className={styles["userInfoContainer"]}>
                         <img src={item.userProfile} alt='' style={{margin: '20px',width: '60px',height:'auto',borderRadius: '50%'}}/>

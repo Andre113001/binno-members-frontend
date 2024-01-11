@@ -39,9 +39,6 @@ const BlogCards = () => {
                                 <h4>{profileData.user_type}</h4>
                             </div>
                         <div className={styles["details"]}>
-                            {/* <div className="tag">
-                                <p>{item.category}</p>     //optional tag category
-                            </div> */}
                             <h3>{blog.blog_title}</h3>
                                 <p>{blog.blog_content.slice(0,250)}...</p>
                                 <div className={styles['date']}>

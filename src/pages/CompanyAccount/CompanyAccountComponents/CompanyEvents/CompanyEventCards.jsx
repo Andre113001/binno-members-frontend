@@ -2,6 +2,7 @@ import React from 'react'
 import { events } from '../../assets/data'
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 import styles from './CompanyEventCard.module.css'
+import { Link } from 'react-router-dom';
 
 const Events = () => {
   return (
@@ -15,6 +16,7 @@ const Events = () => {
             <hr />
             <div className={styles["content"]}>
                 {events.map((item)=> (
+                // Link
                 <div className={styles['boxItems']} key={item.id}> 
                     <div className={styles["details"]}>
                         <div className={styles["eventDateContainer"]}>
