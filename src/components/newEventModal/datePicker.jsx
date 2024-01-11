@@ -1,20 +1,36 @@
-import React, { useState } from "react";
-import DatePicker from "react-datepicker";
-import 'react-datepicker/dist/react-datepicker.css';
-import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
+import * as React from 'react';
+import { styled } from '@mui/material/styles';
+import Tooltip from '@mui/material/Tooltip';
+import Stack from '@mui/material/Stack';
+import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
-export default function PickDate(){
-    const [selectedDate, setSelectedDate] = useState(null);
+function Label({ componentName, valueType }) {
+  const content = (
+    <span>
+      <strong>{componentName}</strong>
+    </span>
+  )
 
+  return content;
+}
+
+export default function CommonlyUsedComponents() {
   return (
-    <>
-        <DatePicker
-            selected={selectedDate}
-            className="datepickerContainer"
-            onChange={(date) => setSelectedDate(date)}
-            dateFormat="MM/dd/yyyy"
-        />
-    </>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DemoContainer
+        components={[
+          'DateTimePicker',
+        ]}
+      >
+        <DemoItem
+          label={<Label componentName="Select a Date and Time"/>}
+        >
+          <DateTimePicker sx={{width:'250px'}}/>
+        </DemoItem>
+      </DemoContainer>
+    </LocalizationProvider>
   );
-  
-};
+}
