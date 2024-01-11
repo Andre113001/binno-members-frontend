@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styles from './Blog.module.css'
-import BlogCards from './blogCards.jsx';
+import BlogCards from './BlogCards.jsx';
 import { Link } from 'react-router-dom';
 
 // Components 
@@ -22,11 +22,11 @@ const Blogs = () => {
               <div className={styles["bodyContainer"]}>
                 <h1>My Entries</h1>
                   <div className={styles["blogButtons"]}> {/*create button container*/}
-                  <div className={styles["addButtonContainer"]}>
-                      <Link to="/blogs/blogPage" style={{textDecoration:'none'}}>
-                      <button className={styles["actualButton"]}><AddRoundedIcon />Create New Entry</button>
-                      </Link>
-                  </div>
+                    <div className={styles["addButtonContainer"]}>
+                        <Link to="/blogs/blogPage" style={{textDecoration:'none'}}>
+                        <button className={styles["actualButton"]}><AddRoundedIcon />Create New Entry</button>
+                        </Link>
+                    </div>
                   </div>
                     <div className={styles["contents"]}> {/*conntent section container*/}
                       <BlogCards />
