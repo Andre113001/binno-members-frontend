@@ -1,6 +1,5 @@
 .createEventBtn{
     padding: 20px 30px;
-    margin: 0 50px;
     width: 100%;
     border: none;
     border-radius: 15px;
@@ -10,6 +9,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
   }
   
 .createEvent:hover{
@@ -111,7 +111,6 @@ body.active-modal {
     display: flex;
     align-self: center;
     margin-bottom: 20px;
-    /* border: red 1px solid; */
 }
 
 
