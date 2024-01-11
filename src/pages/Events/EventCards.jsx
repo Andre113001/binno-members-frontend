@@ -45,13 +45,7 @@ const Events = () => {
                                 <p>{profileData.setting_institution}</p>
                             </div>
                         </div>
-                        <div className={styles["eventLinkContainer"]}>
-                                <a className={styles['eventLink']} href="#">Read Event
-                                    <ArrowForwardRoundedIcon/>
-                                </a>
-                            </div>
-                        </div>
-
+                    </div>
                     ))}
 
                 </div>
