@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;600;700;800&family=Nunito:wght@300;500&family=Roboto:wght@100;300;700;900&display=swap');
+
+.PostsPage {
+    height: 1000px;
+    width: 1000px;
+    transition: 0.5s;
+    border-radius: 10px; 
+    margin: 0 10px;
+    background-color: none;
+  }
+
+  .titleContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-style: italic;
+    margin: 0 20px;
+  }
+
+  .titleContainer h1{
+    flex: 1;
+    font-style: normal;
+  }
+
+  .content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .content .boxItems {
+    max-width: 95%;
+    transition: 0.5s;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    box-shadow: 5px 5px 5px 5px rgb(0 0 0 / 10%);
+  }
+  
+  .content .boxItems:hover {
+    box-shadow: 5px 5px 5px 5px rgb(0 0 0 / 30%);
+    cursor: pointer;
+    transform: translateY(-4px);
+  }
+
+  .content .userInfoContainer{
+    color: black;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: center;
+  }
+
+  .content .details{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .content img {
+    width: 577px;
+    height: 200px;
+    margin: 0;
+    object-fit: cover;
+  }
+
+  .content h3 {
+    color: black;
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    margin: 5px;
+    font-weight: 700;
+  }
+
+  .content p {
+    color: #575757;
+    font-family: 'Inter', sans-serif;
+    margin: 10px;
+    font-size: 15px;
+    line-height: 25px;
+    font-weight: 200;
+  }
+
+  .content .UserDateContainer p {
+    color: #575757;
+    font-family: 'Inter', sans-serif;
+    display: block;
+    margin: 0;
+  }
