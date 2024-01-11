@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'; 
 
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 import Header from '../../../components/header/Header'
-import ImageUpload from '../../../components/ImageUpload/ImageUpload.jsx'
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
-import Button from '@mui/material/Button';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import BlogImageUpload from '../../../components/blogImageUpload/blogImageUpload';
 
-import './BlogPage.css'
+import styles from './BlogPage.module.css'
 
 // const VisuallyHiddenInput = styled('input')({
 //   clip: 'rect(0 0 0 0)',
@@ -49,48 +49,56 @@ function BlogPage() {
 
   return (
     <>
-        <div className="BlogPageContainer">
+        <div className={styles['BlogPageContainer']}>
             <Header />
-            
-            <div className="contentContainer">
-                <div className="ButtonContainer">
-                  <div className="backButtonContainer">
+            <div className={styles['contentContainer']}>
+                <div className={styles['ButtonContainer']}>
+                  <div className={styles['backButtonContainer']}>
                     <Link to="/blogs" style={{textDecoration:'none'}}>
-                    <button className='backButton' ><ArrowBackRoundedIcon />
+                    <button className={styles['backButton']} ><ArrowBackRoundedIcon />
                       <span style={{margin:'5px'}}>Back</span>
                     </button>
                     </Link>
                   </div>
 
-                  <button className='publishBtn' type='submit'>
+                  <button className={styles['publishBtn']} type='submit'>
                     Publish
                   </button>
                   
                 </div>
-                <form onSubmit={handleSubmit}>
-                  <div className="titleContainer">
+                <form className={styles['formContainer']} onSubmit={handleSubmit}>
+                <Box
+                  component="form"
+                  sx={{
+                    '& .MuiTextField-root': { m: 1, width: '1000px' },
+                  }}
+                >
+                  <div className={styles['titleContainer']}>
                     <input
                       id='title'
-                      type="text"
                       value={blogData.title}
                       onChange={handleChange}
                       placeholder="Enter your title here..."
-                      style={{border: 'none', padding: '10px', fontSize: '30px', fontWeight: '600', width:'100%', outline:'none'}}
+                      style={{border: 'none', padding: '10px', fontSize: '40px', fontWeight: '600', width:'100%', outline:'none'}}
                     />
                   </div>
-                  <div className="UploadImage">
-                    <h1>Insert DND</h1>
+                  <div className={styles['UploadImage']}>
+                    <BlogImageUpload />
                   </div>
-                  <div className="descriptionContainer">
-                    <input
+                  <div className={styles['descriptionContainer']}>
+                    <TextField
                       id='description'
-                      type="text"
+
                       value={blogData.description}
                       onChange={handleChange}
+                      multiline
                       placeholder="What is it all about?"
-                      style={{border: 'none', padding: '10px', fontSize: '20px', width:'100%', outline:'none'}}
+                      style={{border: 'none', padding: '10px', fontSize: '18px', width:'98%', outline:'none'}}
+                      minRows={6}
+                      maxRows={7}
                     />
                   </div>
+                  </Box>
                 </form>
             </div>
         </div>
