@@ -28,6 +28,9 @@ function DropBox() {
 
         setUploadedFile(file)
         setUploadError(null)
+        
+        console.log('Uploaded File:', file);
+
 
         return []
     }

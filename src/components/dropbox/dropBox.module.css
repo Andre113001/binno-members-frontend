@@ -12,16 +12,16 @@
 
 .uploadedPreview{
   position: relative;
-    width: auto;
-    height: 200px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 4px;
-    object-fit: cover;
-
+  width: auto;
+  height: 250px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  object-fit: cover;
+  cursor: pointer;
 }
 
 .uploadedPreview img {
