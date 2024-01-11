@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import './modal.css'
+import styles from './modal.module.css'
 import DropBox from '../dropbox/DropBox.jsx'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import AddIcon from '@mui/icons-material/Add';
@@ -51,31 +51,31 @@ export default function Modal() {
   
     return (
     <>
-    <button onClick={toggleModal} className="createBlog">
+    <button onClick={toggleModal} className={styles['createBlog']}>
             <AddIcon/>Create a new Event
         </button>
 
         {modal && (
-            <div className="modal">
-              <div onClick={toggleModal} className="overlay"></div>
-                <div className="modal-content">
-                    <div className="titleDateContainer">
+            <div className={styles['modal']}>
+              <div onClick={toggleModal} className={styles['overlay']}></div>
+                <div className={styles['modal-content']}>
+                    <div className={styles['titleDateContainer']}>
                         <input 
                           type="text"
-                          className='titleTextBox'
+                          className={styles['titleTextBox']}
                           placeholder='Create new entry' 
                         />
                         <p>{formatDateToText()}</p>
                     </div>
 
-                    <button className="close-modal" onClick={toggleModal}>
+                    <button className={styles['close-modal']} onClick={toggleModal}>
                     <CloseRoundedIcon />
                     </button>
-                      <div className="categoryTagContainer">
-                        <button className='categoryButton'>Add to Category
+                      <div className={styles['categoryTagContainer']}>{styles['categoryButton']}
+                        <button className={styles['categoryButton']}>Add to Category
                         </button>
                     </div>
-                    <div className="texboxContainer">
+                    <div className={styles['texboxContainer']}>
                     <Box
                       component="form"
                       sx={{
@@ -98,10 +98,10 @@ export default function Modal() {
                         </div>
                     </Box>
                     </div>
-                    <div className="dropboxContainer">
+                    <div className={styles['dropboxContainer']}>
                       <DropBox />
                     </div>
-                    <button type="submit" className="uploadButton">  
+                    <button type="submit" className={styles['uploadButton']}>  
                       Upload
                     </button>
                 </div>
