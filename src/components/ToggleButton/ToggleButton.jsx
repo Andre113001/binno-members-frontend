@@ -24,7 +24,7 @@ export default function StyledToggleButton(props) {
       >
 
         {/* wag na po galawin */}
-        <ToggleButton value={'Company'}><Link to={{ pathname: "/registration/company", state: { page: '0' } }} style={{ textDecoration: 'none', color: 'black' }}>Start-up Company</Link></ToggleButton>
+        <ToggleButton value={'Company'}><Link to={{ pathname: "/registration", state: { page: '0' } }} style={{ textDecoration: 'none', color: 'black' }}>Start-up Company</Link></ToggleButton>
         <ToggleButton value={'Enabler'}><Link to={{ pathname: "/registration/enabler", state: { page: '1' } }} style={{ textDecoration: 'none', color: 'black' }}>Start-up Enabler</Link></ToggleButton>
       </ToggleButtonGroup>
     );

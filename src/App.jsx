@@ -56,7 +56,7 @@ function App() {
           <Route path="/account" element={<EnablerAccount />} />
             <Route path="settings" element={<AccountSettings />} />
           <Route path="/registration" element={<RegistrationPage />}>
-            <Route path="company" element={<RegistrationForm />} />
+            <Route path="" element={<RegistrationForm />} />
             <Route path="enabler" element={<EnablerRegForm />} />
           </Route>
         </Routes>

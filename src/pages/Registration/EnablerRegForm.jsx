@@ -4,7 +4,8 @@ import  { useState, useEffect, useRef } from 'react';
 import StyledToggleButton from '../../components/ToggleButton/ToggleButton';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-
+import { Link } from 'react-router-dom';
+import Copyright from '../../components/Copyright/Copyright';
 
 function EnablerRegForm() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -117,8 +118,12 @@ function EnablerRegForm() {
                         <div>
                             <button className='registerButton' type="submit">Submit</button>
                         </div>
+                        <div style={{marginTop: "10px"}}>
+                            <Link to={'/'}>Already a member? Sign-in here</Link>
+                        </div>
                 </form>
         </div>
+        <Copyright />
     </>
   )
 
