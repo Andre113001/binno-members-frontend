@@ -26,7 +26,6 @@
   width: 100%;
   height: inherit;
   object-fit: cover;
-  border: 1px solid red;
 }
 
 .uploadedPreview span {
