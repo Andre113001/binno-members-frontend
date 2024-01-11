@@ -32,9 +32,9 @@ function EnablerRegForm() {
         setSelectedOption(option);
         setFormData((prevFormData) => ({
           ...prevFormData,
-          typeofEnaber: option, // Assuming "typeofEnaber" corresponds to the selected option
+          typeofEnaber: option, 
         }));
-        toggleMenu(); // Close the dropdown after selecting an option
+        toggleMenu(); 
       };
 
     const handleClickOutside = (event) => {
