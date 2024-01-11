@@ -50,18 +50,28 @@ function RegistrationForm() {
                         >
                         <div>
                             <TextField id="institute" label="Name of Institution" 
-                            value={formData.institute} required onChange={handleChange}
+                            value={formData.institute} 
+                            required
+                            name='institute' 
+                            onChange={handleChange}
                             style={{width:'100%', borderRadius: '10px', boxShadow: "5px 5px 5px 5px rgb(0 0 0 / 10%)"}}/>
                         </div>
                             <div >
-                                <TextField id="email" label="E-mail" 
-                                value={formData.email} required onChange={handleChange}
+                                <TextField id="email" 
+                                label="E-mail" 
+                                value={formData.email} 
+                                required
+                                name='email'
+                                onChange={handleChange}
                                 style={{width:'100%', borderRadius: '10px', boxShadow: "5px 5px 5px 5px rgb(0 0 0 / 10%)"}}/>
                                 </div>
                                 <div >
                                     <TextField id="address" label="Address" 
-                                    value={formData.address} required onChange={handleChange}
-                            style={{width:'100%', borderRadius: '10px', boxShadow: "5px 5px 5px 5px rgb(0 0 0 / 10%)"}}/>
+                                    value={formData.address} 
+                                    required 
+                                    name='address'
+                                    onChange={handleChange}
+                                    style={{width:'100%', borderRadius: '10px', boxShadow: "5px 5px 5px 5px rgb(0 0 0 / 10%)"}}/>
                                 </div>
                     </Box>
                     <div>
