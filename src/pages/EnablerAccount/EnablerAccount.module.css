@@ -27,17 +27,61 @@
   border-radius: 15px;
 }
 
-.contentHeaderContainter{
+.HeaderButtons{
+  display: flex;
+  align-items: center; 
+  justify-content: end;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.profileEditButton{
+  padding: 8px 20px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  background-color: #05ae51;
+  font-family:  'Inter', sans-serif;
   display: flex;
   align-items: center;
 }
 
+.profileEditButton:hover{
+  cursor: pointer;
+  background-color: #054eae;
+  transition: 0.5ms;
+}
+
+.ViewPageButton{
+  padding: 8px 20px;
+  margin: 0 20px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  background-color: #9e9e9e;
+  font-family:  'Inter', sans-serif;
+  display: flex;
+  align-items: center;
+}
+
+.ViewPageButton:hover{
+  cursor: pointer;
+  background-color: #fd7c06;
+  transition: 0.5ms;
+}
+
+.contentHeaderContainter{
+  display: flex;
+  align-items: center;
+}
 
 .layoutContainer {
   display: flex;
   flex-direction: column;
   height: 100vh;
   overflow-y: scroll;
+  width: 100%;
 }
 
 
