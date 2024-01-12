@@ -3,17 +3,22 @@ import styles from './GuidesCards.module.css'
 import useLoadProfile from '../../hooks/useLoadProfile.jsx';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
-
+import useAccessToken from '../../hooks/useAccessToken.jsx';
 
 const GuideCards = () => {
     const [guides, setGuides] = useState([]);
     const { profileData } = useLoadProfile();
+    const accessToken = useAccessToken();
 
     useEffect(() => {
         const loadHeadingData = async () => {
             if (profileData) {
                 const profile = await profileData;
-                const fetchGuides = await fetch(`/api/program/all/${profile.member_id}`);
+                const fetchGuides = await fetch(`/api/program/all/${profile.member_id}`,{
+                    headers: {
+                      Authorization: `Bearer ${accessToken}`
+                    }
+                  });
                 fetchGuides.json().then(result => {
                     setGuides(result)
                 })

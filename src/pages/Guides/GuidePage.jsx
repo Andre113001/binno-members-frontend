@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import Header from '../../components/header/Header';
 import Back from '../../components/Back/Back';
+import useAccessToken from '../../hooks/useAccessToken';
 
 import { Link, useParams } from 'react-router-dom';
 import GuideElements from './GuideElements';
@@ -25,11 +26,15 @@ const GuidePage = () => {
     const [backgroundImage, setBackgroundImage] = useState(
         'https://variety.com/wp-content/uploads/2023/06/MCDSPMA_SP062.jpg?w=1000&h=563&crop=1&resize=1000%2C563'
       );
-    
+    const accessToken = useAccessToken();
     useEffect(() =>  {
         try {
             const loadPageData = async () => {
-                const response = await fetch(`/api/program/${program_id}`)
+                const response = await fetch(`/api/program/${program_id}`,{
+                    headers: {
+                      Authorization: `Bearer ${accessToken}`
+                    }
+                });
                 const data = await response.json();
                 
                 console.log(data);

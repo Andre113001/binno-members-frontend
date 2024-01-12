@@ -3,16 +3,22 @@ import styles from './BlogCard.module.css'
 import { blog } from '../../assets/data'
 import useLoadProfile from '../../hooks/useLoadProfile'
 import { Link } from 'react-router-dom'
+import useAccessToken from '../../hooks/useAccessToken'
 
 const BlogCards = () => {
     const [blogs, setBlogs] = useState([]);
     const { profileData } = useLoadProfile();
+    const accessToken = useAccessToken();
 
-    useEffect(() => {
+    useEffect(() => {   
         const loadHeadingData = async () => {
             if (profileData) {
                 const profile = await profileData;
-                const fetchGuides = await fetch(`/api/blog/all/${profile.member_id}`);
+                const fetchGuides = await fetch(`/api/blog/all/${profile.member_id}`,{
+                    headers: {
+                      Authorization: `Bearer ${accessToken}`
+                    }
+                  });
                 fetchGuides.json().then(result => {
                     setBlogs(result)
                 })
