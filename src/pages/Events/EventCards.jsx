@@ -2,16 +2,22 @@ import React, { useState, useEffect } from 'react'
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 import styles from './EventCard.module.css'
 import useLoadProfile from '../../hooks/useLoadProfile';
+import useAccessToken from '../../hooks/useAccessToken';
 
 const Events = () => {
     const [events, setEvents] = useState([]);
     const { profileData } = useLoadProfile();
+    const accessToken = useAccessToken();
 
     useEffect(() => {
         const loadHeadingData = async () => {
             if (profileData) {
                 const profile = await profileData;
-                const fetchGuides = await fetch(`/api/event/all/${profile.member_id}`);
+                const fetchGuides = await fetch(`/api/event/all/${profile.member_id}`,{
+                    headers: {
+                      Authorization: `Bearer ${accessToken}`
+                    }
+                  });
                 fetchGuides.json().then(result => {
                     setEvents(result)
                 })

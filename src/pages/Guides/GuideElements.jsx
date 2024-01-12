@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { Sortable } from '../../components/DND/Sortable';
 import AddElement from './GuideComponents/AddElement';
+import useAccessToken from '../../hooks/useAccessToken';
 
 import {
     DndContext,
@@ -41,11 +42,16 @@ const GuideElements = (props) => {
     const [elementOption, setElementOption] = useState(null);
     const [isDragging, setIsDragging] = useState(false);
     const [editingElementId, setEditingElementId] = useState(null);
+    const accessToken = useAccessToken();
 
     useEffect(() =>  {
         try {
             const loadPageData = async () => {
-                const response = await fetch(`/api/program/page/${page}`)
+                const response = await fetch(`/api/program/page/${page}`,{
+                    headers: {
+                      Authorization: `Bearer ${accessToken}`
+                    }
+                });
                 const data = await response.json()
                 // console.log({"Elements": data[0], "PageData": data[1]});
                 setElements(data[0]);

@@ -12,7 +12,11 @@ const useLoadProfile = () => {
       // Check if accessToken is truthy before proceeding
       if (accessToken) {
         try {
-          const results = await fetch(`/api/member/profile/${accessToken}`);
+          const results = await fetch(`/api/member/profile/${accessToken}`,{
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            }
+          });
           const data = await results.json();
           // Save the fetched data to the state
           setProfileData(data[0]);
