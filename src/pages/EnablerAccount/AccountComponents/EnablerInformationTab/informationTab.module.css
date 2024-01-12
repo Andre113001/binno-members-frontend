@@ -14,22 +14,34 @@
     margin: 10px 0;
 }
 
-.companyContent p{
+.enablerContent p{
     margin: 20px 0;
 }
 
-.companyLocation {
+.enablerLocation {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.companyContact {
+.enablerContact {
     display: flex;
     flex-direction: column;
 }
 
-.companyContact p{
+.enablerContact p{
     display: flex;
     align-items: center;
+}
+
+.editingContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    margin: 0 60px;
+    border-radius: 15px;
+    border: none;
+    background-color: #fff;
 }
