@@ -3,7 +3,9 @@ import styles from './GuideMain.module.css';
 import GuideCards from './GuidesCards.jsx';
 import SideBar from '../../components/Sidebar/Sidebar.jsx';
 import Header from '../../components/header/Header.jsx';
-import Modal from '../../components/modal/modal.jsx';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+
+import { Link } from 'react-router-dom';
 // import useAccessToken from '../../hooks/useAccessToken.jsx';
 // import useLoadProfile from '../../hooks/useLoadProfile.jsx';
 // import sha256 from 'sha256';
@@ -21,8 +23,10 @@ const GuideMain = () => {
           <div className={styles["bodyContainer"]}>
             <h1>My Guides</h1>
             <div className={styles["blogButtons"]}>
-              <div className={styles["modalButton"]}>
-                <Modal />
+              <div className={styles["CreateGuideContainer"]}>
+                  <Link to='#' style={{textDecoration:'none'}}>
+                    <button className={styles["CreateButton"]}><AddRoundedIcon />Create New Guide</button>
+                  </Link>
               </div>
             </div>
             <div className={styles["contents"]}>

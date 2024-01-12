@@ -25,6 +25,9 @@ body {
   flex-direction: column;
   height: 100vh;
   overflow-y: scroll;
+  overflow-x: hidden;
+  width: 100%;
+
 }
 
 
@@ -49,10 +52,27 @@ h1{
   margin: 0 50px;
 }
 
-.modalButton{
-  flex: 1;
+.CreateGuideContainer{
+  width: 100%;
 }
 
+.CreateButton{
+  padding: 20px 30px;
+  width: 100%;
+  border: none;
+  border-radius: 15px;
+  color: white;
+  background-color: #fd7c06;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.CreateButton:hover{
+  cursor: pointer;
+  background-color: #054eae;
+  transition: 0.5ms;
+}
 
 .grid2 {
   display: grid;
