@@ -6,9 +6,6 @@ import { companyInformation } from '../../../../assets/companyInfo'
 import profileImage from '../../../../assets/siliDeli.svg';
 import Coverphoto from '../../../../assets/Coverphoto.png';
 
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
-import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
-import { Link } from "react-router-dom";
 
 function AccountHeader(props) {
 
@@ -28,15 +25,6 @@ function AccountHeader(props) {
                                     <h2>{props.institution}</h2>
                                 </div>
                     </div>
-
-                        <div className={styles["HeaderButtons"]}>
-                            <Link to={'/settings'} style={{textDecoration: 'none'}}>
-                                <button className={styles["profileEditButton"]} >
-                                <EditRoundedIcon/><span style={{margin: '5px'}}>Edit Profile</span></button>
-                            </Link>
-                            <button className={styles["ViewPageButton"]}>
-                                <VisibilityRoundedIcon/><span style={{margin: '5px'}}>View Page</span></button>
-                </div>
             </div>
         </div>
     </>

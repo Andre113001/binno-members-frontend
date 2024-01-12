@@ -101,24 +101,3 @@
     transition: 0.5ms;
 }
 
-
-.SettingsButton {
-    margin: 20px;
-    border-radius: 40%;
-}
-
-.SettingsButton:hover{
-    cursor: pointer;
-    color: #fd7c06;
-}
-
-.NotificationBell {
-    margin: 0;
-    border-radius: 40%;
-}
-
-.NotificationBell:hover{
-    cursor: pointer;
-    color: #fd7c06;
-}
-
