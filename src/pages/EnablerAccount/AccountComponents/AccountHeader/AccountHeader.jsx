@@ -31,7 +31,7 @@ function AccountHeader(props) {
 
                         <div className={styles["HeaderButtons"]}>
                             <Link to={'/settings'} style={{textDecoration: 'none'}}>
-                            <button className={styles["profileEditButton"]} >
+                                <button className={styles["profileEditButton"]} >
                                 <EditRoundedIcon/><span style={{margin: '5px'}}>Edit Profile</span></button>
                             </Link>
                             <button className={styles["ViewPageButton"]}>
