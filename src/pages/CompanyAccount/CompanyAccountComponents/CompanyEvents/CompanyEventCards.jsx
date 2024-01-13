@@ -1,5 +1,5 @@
 import React from 'react'
-import { events } from '../../assets/data'
+// import { events } from '../../assets/data'
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 import styles from './CompanyEventCard.module.css'
 import { Link } from 'react-router-dom';

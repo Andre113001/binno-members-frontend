@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './CompanyPostCards.module.css'
-import { Posts } from '../../assets/data'
+// import { Posts } from '../../assets/data'
 
 const PostCards = () => {
   return (

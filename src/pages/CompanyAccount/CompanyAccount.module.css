@@ -56,3 +56,166 @@
   max-height: 450px;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;600;700;800&family=Nunito:wght@300;500&family=Roboto:wght@100;300;700;900&display=swap');
+
+
+* {
+  font-family: 'Inter', sans-serif;
+}
+
+.EnablerAccountPage {
+  width: 100vw;
+  height: 100vh;
+  background-color: #f4f4f4;
+  display: flex;
+}
+
+.logo {
+  width: 300px;
+  height: 100px;
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.Headline{
+  width: 90%;
+  padding: 10px 20px;
+  margin: 0 40px;
+  border-radius: 15px;
+}
+
+.HeaderButtons{
+  display: flex;
+  align-items: center; 
+  justify-content: end;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.profileEditButton{
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  background-color: #05ae51;
+  font-family:  'Inter', sans-serif;
+  display: flex;
+  align-items: center;
+}
+
+.profileEditButton:hover{
+  cursor: pointer;
+  background-color: #054eae;
+  transition: 0.5ms;
+}
+
+.ViewPageButton{
+  padding: 10px 20px;
+  margin: 0 20px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  background-color: #9e9e9e;
+  font-family:  'Inter', sans-serif;
+  display: flex;
+  align-items: center;
+}
+
+.ViewPageButton:hover{
+  cursor: pointer;
+  background-color: #fd7c06;
+  transition: 0.5ms;
+}
+
+.contentHeaderContainter{
+  display: flex;
+  align-items: center;
+}
+
+.layoutContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: scroll;
+  width: 100%;
+}
+
+
+.bodyContainer{
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin: 0 60px;
+  border-radius: 15px;
+}
+
+.CompanyInfoGuidesContainer{
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  height: auto;
+}
+
+
+.AccountEditPage{
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  margin: 0 40px;
+  border-radius: 15px;
+  height: auto;
+}
+
+.profileImageContainer img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover; 
+}
+
+.AccountEditSave{
+  padding: 0px 10px;
+  margin: 30px 10px;
+  border: none;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.profileSaveButton{
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  background-color: #05ae51;
+  font-family:  'Inter', sans-serif;
+  display: flex;
+  align-items: center;
+}
+
+.profileSaveButton:hover{
+  cursor: pointer;
+  background-color: #054eae;
+  transition: 0.5ms;
+}
+
+.discardButton{
+  padding: 14px 20px;
+  margin: 0 20px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  background-color: #9e9e9e;
+  font-family:  'Inter', sans-serif;
+  display: flex;
+  align-items: center;
+}
+
+.discardButton:hover{
+  cursor: pointer;
+  background-color: rgb(252, 74, 74);
+  transition: 0.5ms;
+}

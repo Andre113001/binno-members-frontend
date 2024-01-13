@@ -1,5 +1,5 @@
 import React from 'react'
-import { companyInformation } from '../../assets/companyInfo'
+// import { companyInformation } from '../../assets/companyInfo'
 import styles from './CompanyinformationTab.module.css'
 
 import FmdGoodRoundedIcon from '@mui/icons-material/FmdGoodRounded';

@@ -1,13 +1,13 @@
 import React from "react";
 import styles from './CompanyAccountHeader.module.css'
-import { companyInformation } from '../../assets/companyInfo'
+// import { companyInformation } from '../../assets/companyInfo'
 
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded'
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 
-function Header() {
+function AccountHeader() {
     return (
     <>
         <div className={styles['CompanyAccountHeader']}>
@@ -36,4 +36,4 @@ function Header() {
     );
 }
 
-export default Header; 
+export default AccountHeader; 
