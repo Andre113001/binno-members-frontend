@@ -36,7 +36,7 @@ export default function NewPostModal() {
     return (
     <>
     <button onClick={toggleModal} className={styles["createBlog"]}>
-            Create new blog
+            Create new post
         </button>
 
         {modal && (

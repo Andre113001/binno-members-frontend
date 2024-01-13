@@ -1,10 +1,10 @@
 import { useRef, useState } from "react"
 import React from 'react'
-import styles from './dropBox.module.css'
+import styles from './MultiImageUpload.module.css'
 import ImageRoundedIcon from '@mui/icons-material/ImageRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
-function DropBox() {
+function MultiImageUpaload() {
     const [uploadedFile, setUploadedFile] = useState([])
     const [uploadError, setUploadError] = useState(null)
     const fileRef = useRef()
@@ -101,4 +101,4 @@ function DropBox() {
   )
 }
 
-export default DropBox
+export default MultiImageUpaload
