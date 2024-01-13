@@ -64,7 +64,7 @@ function RegistrationForm() {
                         autoComplete="off"
                         >
                         <div>
-                            <TextField id="institute" label="Name of Institution" 
+                          <TextField id="institute" label="Name of Institution" 
                             value={formData.institute} 
                             required
                             name='institute' 
@@ -81,13 +81,13 @@ function RegistrationForm() {
                                 style={{width:'100%', borderRadius: '10px', boxShadow: "5px 5px 5px 5px rgb(0 0 0 / 10%)"}}/>
                                 </div>
                                 <div >
-                                    <TextField id="address" label="Address" 
-                                    value={formData.address} 
-                                    required 
-                                    name='address'
-                                    onChange={handleChange}
-                                    style={{width:'100%', borderRadius: '10px', boxShadow: "5px 5px 5px 5px rgb(0 0 0 / 10%)"}}/>
-                                </div>
+                                <TextField id="address" label="Address" 
+                                  value={formData.address} 
+                                  required 
+                                  name='address'
+                                  onChange={handleChange}
+                                  style={{width:'100%', borderRadius: '10px', boxShadow: "5px 5px 5px 5px rgb(0 0 0 / 10%)"}}/>
+                            </div>
                     </Box>
                     <div>
                         <button className='registerButton' type="submit">Next</button>

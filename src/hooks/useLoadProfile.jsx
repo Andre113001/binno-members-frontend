@@ -1,36 +1,39 @@
-import { useState, useEffect } from 'react';
-import useAccessToken from './useAccessToken';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react'
+import useAccessToken from './useAccessToken'
+import { useNavigate } from 'react-router-dom'
 
 const useLoadProfile = () => {
-  const accessToken = useAccessToken();
-  const [profileData, setProfileData] = useState(null); // Initialize state with null
-  const navigate = useNavigate();
+    const accessToken = useAccessToken()
+    const [profileData, setProfileData] = useState(null)
+    const navigate = useNavigate()
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      // Check if accessToken is truthy before proceeding
-      if (accessToken) {
-        try {
-          const results = await fetch(`/api/member/profile/${accessToken}`,{
-            headers: {
-              Authorization: `Bearer ${accessToken}`
+    useEffect(() => {
+        const fetchProfile = async () => {
+            // Check if accessToken is truthy before proceeding
+            if (accessToken) {
+                try {
+                    const results = await fetch(
+                        `https://binno-members-repo-production-b8c4.up.railway.app/api/members/profile/${accessToken}`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        }
+                    )
+                    const data = await results.json()
+                    // Save the fetched data to the state
+                    setProfileData(data[0])
+                } catch (error) {
+                    console.error('Error:', error)
+                }
             }
-          });
-          const data = await results.json();
-          // Save the fetched data to the state
-          setProfileData(data[0]);
-        } catch (error) {
-          console.error('Error:', error);
         }
-      }
-    };
 
-    fetchProfile();
-  }, [accessToken]);
+        fetchProfile()
+    }, [accessToken])
 
-  // Return the profileData, so it can be used by the component using this hook
-  return { profileData };
-};
+    // Return the profileData, so it can be used by the component using this hook
+    return { profileData }
+}
 
-export default useLoadProfile;
+export default useLoadProfile

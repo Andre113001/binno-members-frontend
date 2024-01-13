@@ -82,7 +82,7 @@ function MultiImageUpaload() {
                                 <CloseRoundedIcon />
                             </button>
                             <span className={styles['imageIndex']}>
-                                {index}
+                                {index +  1}
                             </span>
                         </div>
                         ))}
