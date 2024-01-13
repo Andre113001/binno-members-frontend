@@ -80,5 +80,6 @@
   border-radius: 50%;
   position: absolute;
   bottom: 10px;
-  z-index: 1000;
+  z-index: 1;
 }
+
