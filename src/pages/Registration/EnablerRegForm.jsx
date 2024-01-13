@@ -6,11 +6,13 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Link } from 'react-router-dom';
 import Copyright from '../../components/Copyright/Copyright';
+import { useNavigate } from 'react-router-dom';
 
 function EnablerRegForm() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState('');
     const dropdownRef = useRef();
+    const navigate = useNavigate();
 
 
     const [formData, setFormData] = useState({
@@ -62,6 +64,7 @@ function EnablerRegForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Form submitted with data:', formData);
+        navigate('/registration/upload');
       };
 
   return (

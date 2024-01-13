@@ -6,10 +6,11 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Link } from 'react-router-dom';
 import Copyright from '../../components/Copyright/Copyright';
-import axios from 'axios';
+import axios from 'axios';import { useNavigate } from 'react-router-dom';
+
 
 function RegistrationForm() {
-    
+  const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
       institution: '',
@@ -28,9 +29,10 @@ function RegistrationForm() {
       const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const checker = await axios.post(`/api/register/check`, formData);
-            const data = await checker.json();
-            console.log(data);
+            // const checker = await axios.post(`/api/register/check`, formData);
+            // const data = await checker.json();
+            // console.log(data);
+            navigate('/registration/upload');
         } catch (error) {
           console.error('Error:', error.message);
       

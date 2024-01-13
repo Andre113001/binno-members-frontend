@@ -1,0 +1,42 @@
+.upload-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.fileInput {
+    outline: none;
+    margin: -4px;
+    padding: 4px;
+}
+
+.fileSelectionContainer {
+    max-height: 200px; /* Set your desired maximum height */
+    overflow-y: auto;
+    margin-top: 10px;
+}
+
+.fileSelection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid black;
+    margin: 4px;
+    margin-bottom: 8px; /* Add margin for better spacing between file entries */
+    border-radius: 10px;
+}
+
+.fileName {
+    /* border: 1px solid black; */
+    flex: 1;
+    padding: 8px; /* Add padding for better styling */
+}
+
+.fileDelete {
+    /* border: 1px solid black; */
+    margin-left: 1px;
+    margin-right: 10px; /* Add margin to separate delete button from file name */
+    cursor: pointer; /* Add cursor pointer for better UX */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
