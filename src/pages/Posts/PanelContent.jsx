@@ -7,12 +7,15 @@ import Stack from '@mui/material/Stack';
 import { Link } from 'react-router-dom';
 
 function PanelContent(props) {
-    const {filteredPosts}=props
+    const {filteredPosts} = props
 
-  return (
+    // const handleShare = (postId) => {
+    //     alert(postId)
+    // }
+
+    return (
     <>
         {filteredPosts?.map((post) => {
-
             return (
             <div className={styles['PostContent']}>
                 <Link to={'#'} style={{textDecoration: 'none', color: 'inherit'}}>
@@ -37,7 +40,7 @@ function PanelContent(props) {
                             </div>
                             <Stack direction="row" alignItems="center">
                                 <IconButton size="medium">
-                                    <ShareIcon/>
+                                    <ShareIcon />
                                 </IconButton>
                             </Stack>
                         </div>
@@ -65,7 +68,7 @@ function PanelContent(props) {
             )
         })}
     </>
-  )
+    )
 }
 
 export default PanelContent

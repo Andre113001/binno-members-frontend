@@ -58,8 +58,6 @@ const UploadDocuments = () => {
         }
     };
       
-      
-    
     const handleFileChange = (files) => {
         // Ensure files is an array
         const fileList = Array.isArray(files) ? files : [files];
@@ -137,14 +135,8 @@ const UploadDocuments = () => {
                             handleChange={handleFileChange}
                             label={`Upload your files here${sizeError ? ` - ${sizeError}` : ''}`}
                             name="files"
-                            types={fileTypes} />
-                        {/* <Input
-                            className='fileInput'
-                            type="file"
-                            inputProps={{ accept: '.png, .jpg, .pdf' }}
-                            onChange={handleFileChange}
-                            multiple
-                        /> */}
+                            types={fileTypes} 
+                        />
                         <div className='fileSelectionContainer'>
                             {selectedFiles.map((file, index)=> (
                                 <div key={index} className='fileSelection'>

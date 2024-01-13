@@ -1,0 +1,28 @@
+.share-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(74, 76, 86, 0.8); /* Use rgba for transparency */
+    padding: 50px;
+    border-radius: 10px;
+    backdrop-filter: blur(30px); /* This adds the blur effect to the background */
+    z-index: 1000; /* Make sure it's on top of other elements */
+}
+
+.blur-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999; /* Make sure it's behind the share-container */
+}
+
+.social-media {
+    margin: 20px 0px 20px 0px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}

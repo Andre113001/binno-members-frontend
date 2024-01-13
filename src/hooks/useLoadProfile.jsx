@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const useLoadProfile = () => {
   const accessToken = useAccessToken();
-  const [profileData, setProfileData] = useState(null); // Initialize state with null
+  const [profileData, setProfileData] = useState(null); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,6 +25,8 @@ const useLoadProfile = () => {
         }
       }
     };
+
+    
 
     fetchProfile();
   }, [accessToken]);

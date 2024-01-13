@@ -11,6 +11,7 @@ import {
 } from "./Tabs";
 import PanelContent from './PanelContent';
 import NewPostModal from '../../components/newPostModal/newPostModal.jsx'
+import SocialMediaShare from '../../components/SocialMediaShare/SocialMediaShare.jsx'
 
 const Posts = () => {
   
@@ -18,7 +19,7 @@ const Posts = () => {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-};
+  };
 
   return (
     <>
