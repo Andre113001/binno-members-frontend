@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import styles from "./newPostModal.module.css"
-import DropBox from '../dropbox/DropBox';
+import MultiImageUpload from '../multiImageUpload/MultiImageUpload.jsx'
 import PostModalTextBox from './PostModalTextBox'
 import PostCategory from './Categories.jsx'
 
@@ -36,7 +36,7 @@ export default function NewPostModal() {
     return (
     <>
     <button onClick={toggleModal} className={styles["createBlog"]}>
-            Create new blog
+            Create new post
         </button>
 
         {modal && (
@@ -62,7 +62,7 @@ export default function NewPostModal() {
                       <PostModalTextBox />
                     </div>
                     <div className={styles["dropboxContainer"]}>
-                      <DropBox />
+                      <MultiImageUpload />
                     </div>
                     <button className={styles["uploadButton"]} onClick={toggleModal}>  
                       Upload

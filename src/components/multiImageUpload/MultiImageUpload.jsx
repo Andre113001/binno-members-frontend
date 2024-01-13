@@ -1,6 +1,6 @@
 import { useRef, useState } from "react"
 import React from 'react'
-import styles from './dropBox.module.css'
+import styles from './MultiImageUpload.module.css'
 import ImageRoundedIcon from '@mui/icons-material/ImageRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
@@ -82,7 +82,7 @@ function DropBox() {
                                 <CloseRoundedIcon />
                             </button>
                             <span className={styles['imageIndex']}>
-                                {index}
+                                {index +  1}
                             </span>
                         </div>
                         ))}
