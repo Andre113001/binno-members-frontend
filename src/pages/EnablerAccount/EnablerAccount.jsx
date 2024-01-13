@@ -46,17 +46,17 @@ function EnablerAccount() {
           <div className={styles["Headline"]}>
             <div className={styles["UserProfile"]}>
               <AccountHeader userType={data.user_type} institution={data.setting_institution}/>
-            </div>
-              <div className={styles["HeaderButtons"]}>
-                  <button className={styles["profileEditButton"]} onClick={toggleEdit}>
-                    <EditRoundedIcon/> {isEditActive ? '⠀Edit Profile' : '⠀Save Edit'}
-                  </button>
-                  <Link to='#' style={{textDecoration: 'none'}}>
-                    <button className={styles["ViewPageButton"]}>
-                      <VisibilityRoundedIcon/>{isEditActive ? '⠀View Page' : 'Discard Change'}
-                      </button>
-                  </Link>
-                </div>
+                <div className={styles["HeaderButtons"]}>
+                    <button className={styles["profileEditButton"]} onClick={toggleEdit}>
+                      <EditRoundedIcon/> {isEditActive ? '⠀Edit Profile' : '⠀Save Edit'}
+                    </button>
+                    <Link to='#' style={{textDecoration: 'none'}}>
+                      <button className={styles["ViewPageButton"]}>
+                        <VisibilityRoundedIcon/>{isEditActive ? '⠀View Page' : 'Discard Change'}
+                        </button>
+                    </Link>
+                  </div>
+              </div>
             </div>
           
             <div className={styles["bodyContainer"]}>

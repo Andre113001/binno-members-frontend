@@ -22,7 +22,7 @@
 
 .Headline{
   width: 90%;
-  padding: 20px;
+  padding: 10px 20px;
   margin: 0 40px;
   border-radius: 15px;
 }
@@ -111,9 +111,12 @@
 
 .AccountEditPage{
   width: 90%;
+  display: flex;
+  flex-direction: column;
   padding: 20px;
   margin: 0 40px;
   border-radius: 15px;
+  height: auto;
 }
 
 .profileImageContainer img {
