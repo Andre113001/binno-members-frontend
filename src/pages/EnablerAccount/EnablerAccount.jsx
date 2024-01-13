@@ -12,6 +12,8 @@ import AccountHeader from './AccountComponents/AccountHeader/AccountHeader'
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import useLoadProfile from '../../hooks/useLoadProfile'
+import AccountEdit from './AccountComponents/AccountEdit/AccountEdit'
+
 
 function EnablerAccount() {
   const {profileData} = useLoadProfile();
@@ -47,15 +49,15 @@ function EnablerAccount() {
             </div>
               <div className={styles["HeaderButtons"]}>
                   <button className={styles["profileEditButton"]} onClick={toggleEdit}>
-                    <EditRoundedIcon/> {isEditActive ? '⠀Edit Profile' : '⠀Editing'}
+                    <EditRoundedIcon/> {isEditActive ? '⠀Edit Profile' : '⠀Save Edit'}
                   </button>
-                  <Link to='#' style={{textDecoration: 'non'}}>
+                  <Link to='#' style={{textDecoration: 'none'}}>
                     <button className={styles["ViewPageButton"]}>
-                      <VisibilityRoundedIcon/><span style={{margin: '5px'}}>View Page</span>
+                      <VisibilityRoundedIcon/>{isEditActive ? '⠀View Page' : 'Discard Change'}
                       </button>
                   </Link>
-                  </div>
-          </div>
+                </div>
+            </div>
           
             <div className={styles["bodyContainer"]}>
               <div className={styles["CompanyInfoGuidesContainer"]}>
@@ -78,17 +80,34 @@ function EnablerAccount() {
             </div>
             </>
            ) : (
-            
-              <div className={styles['EditProfile']}>
-                <InformationTab
-                    isEditing={true}
-                    description={data.setting_bio}
-                    address={data.setting_address}
-                    email={data.email_address}
-                    phone={data.contact_number}
-                    fb={data.contact_facebook}
-                  />
-            </div>
+                <div className={styles["AccountEditPage"]}>
+                    <AccountEdit
+                      isEditing={true}
+                    
+                    />
+                    <div className={styles["AccountEditSave"]}>
+                        <button className={styles["profileSaveButton"]} onClick={toggleEdit}>
+                          <EditRoundedIcon/> {isEditActive ? '⠀Edit Profile' : '⠀Save Edit'}
+                        </button>
+                        <Link to='/account' style={{textDecoration: 'none'}}>
+                          <button className={styles["discardButton"]} onClick={toggleEdit}>
+                            {isEditActive ? '⠀View Page' : 'Discard Change'}
+                            </button>
+                        </Link>
+                    </div>
+
+                    <div className={styles['EditAccountDescription']}>
+                      <InformationTab
+                          isEditing={true}
+                          description={data.setting_bio}
+                          address={data.setting_address}
+                          email={data.email_address}
+                          phone={data.contact_number}
+                          fb={data.contact_facebook}
+                        />
+                    </div>
+                </div>
+                
           )}
         </div>        
       </div>
