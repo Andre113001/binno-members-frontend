@@ -5,7 +5,5 @@ import './index.css'
 import { AccountContextProvider } from './context/accountContext.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-    <AccountContextProvider>
     <App />
-    </AccountContextProvider>,
 )
