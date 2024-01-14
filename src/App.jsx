@@ -9,8 +9,6 @@ import Login from './pages/Login/Login';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Blogs from './pages/Blogs/Blogs';
 import GuideMain from './pages/Guides/GuideMain';
-import EnablerAccount from './pages/EnablerAccount/EnablerAccount';
-import CompanyAccount from './pages/CompanyAccount/CompanyAccount'
 import GuidePage from './pages/Guides/GuidePage';
 import RegistrationPage from './pages/Registration/registrationPage';
 import RegistrationForm from './pages/Registration/RegistrationForm';
@@ -22,6 +20,7 @@ import MessagePassword from './pages/ForgotPassword/MessagePassword';
 import TokenInvalid from './pages/ForgotPassword/TokenInvalid';
 import PasswordChanged from './pages/ForgotPassword/PasswordChanged';
 import TwoAuth from './pages/Login/TwoAuth';
+import AccountPage from './pages/EnablerAccount/AccountPage';
 import Events from './pages/Events/Events';
 import AccountSettings from './pages/AccountSettings/AccountSettings';
 import Posts from './pages/Posts/Posts';
@@ -56,7 +55,7 @@ function App() {
             <Route path=":program_id" element={<GuidePage/>}/>
           </Route>  
           <Route path="/guides/:pageId" element={<GuidePage />} />
-          <Route path="/account" element={<CompanyAccount />} />
+          <Route path="/account" element={<AccountPage />} />
             <Route path="" element={<AccountSettings />} />
           <Route path="/registration" element={<RegistrationPage />}>
             <Route path="" element={<RegistrationForm />} />
