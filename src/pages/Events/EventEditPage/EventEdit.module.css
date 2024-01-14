@@ -1,0 +1,70 @@
+.EventPageContainer{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.contentContainer{
+    display: flex;
+    flex-direction: column;
+    margin: 20px 80px;
+}
+
+.ButtonContainer{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin: 20px;
+}
+
+.backButtonContainer{
+    flex: 1;
+}
+
+.backButton{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color:   rgb(252, 74, 74);
+    border: none;
+    color: white;   
+    border-radius: 10px;
+    padding: 5px 20px;
+}
+
+.backButton:hover{
+    cursor: pointer;
+    transition: 0.5ms;
+}
+
+
+.ImageContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+    width: 97.5%;
+}
+
+.publishBtn{
+    padding: 10px 40px;
+    border: none;
+    margin: 0 30px;
+    border-radius: 15px;
+    background-color: #fd7c06;
+    color: white;
+}
+
+.publishBtn:hover{
+    cursor: pointer;
+}
+
+.titleContainer{
+    margin: 20px;
+} 
+
+.descriptionContainer{
+    margin: 20px;
+}
