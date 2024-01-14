@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Outlet, useNavigate } from 'react-router-dom';
 
 // Hooks
 import { AuthProvider } from './hooks/AuthContext';
@@ -22,14 +22,23 @@ import PasswordChanged from './pages/ForgotPassword/PasswordChanged';
 import TwoAuth from './pages/Login/TwoAuth';
 import AccountPage from './pages/EnablerAccount/AccountPage';
 import Events from './pages/Events/Events';
-import AccountSettings from './pages/AccountSettings/AccountSettings';
+import EventEdit from './pages/Events/EventEditPage/EventEdit';
 import Posts from './pages/Posts/Posts';
 import BlogPage from './pages/Blogs/BlogPage/BlogPage';
+import BlogEdit from './pages/Blogs/BlogEdit/BlogEdit';
 import UploadDocuments from './pages/Registration/UploadDocuments/UploadDocuments';
 import Testing from './pages/Testing/testing';
+import AccountContext from './context/accountContext';
+import useLoadProfile from './hooks/useLoadProfile';
+import PostEdit from './pages/Posts/PostEditPage/PostEdit';
 
 function App() {
+  const {profileData, isLoading} = useLoadProfile()
   return (
+    
+    <AccountContext.Provider value={{
+      profileData: profileData,
+    }}>
    <AuthProvider>
     <Router>
       <div className="w-screen">
@@ -44,19 +53,25 @@ function App() {
           <Route path="/invalid-token" element={<TokenInvalid />} />
           <Route path="/password-changed" element={<PasswordChanged />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/events" element={<Events />} />
+          <Route path="/events" element={<><Outlet/></>} >
+            <Route path="" element={<Events />}/>
+            <Route path=":eventId" element={<EventEdit />}/>
+          </Route>
           <Route path="/blogs" element={<><Outlet/></>} >
             <Route path="" element={<Blogs />}/>
-            <Route path=":blogId" element={<BlogPage />}/>
+            <Route path="create" element={<BlogPage />}/>
+            <Route path=":blogId" element={<BlogEdit />}/>
           </Route>
-          <Route path="/posts" element={<Posts />} />
+          <Route path="/posts" element={<><Outlet/></>}>
+            <Route path="" element={<Posts />}/>
+            <Route path=":post_id" element={<PostEdit />}/>
+          </Route>  
           <Route path="/guides" element={<><Outlet/></>}>
             <Route path="" element={<GuideMain/>}/>
             <Route path=":program_id" element={<GuidePage/>}/>
           </Route>  
           <Route path="/guides/:pageId" element={<GuidePage />} />
           <Route path="/account" element={<AccountPage />} />
-            <Route path="" element={<AccountSettings />} />
           <Route path="/registration" element={<RegistrationPage />}>
             <Route path="" element={<RegistrationForm />} />
             <Route path="enabler" element={<EnablerRegForm />} />
@@ -66,7 +81,7 @@ function App() {
         </Routes>
       </div>
     </Router>
-    </AuthProvider>
+    </AuthProvider></AccountContext.Provider>
   );
 }
 
