@@ -69,6 +69,8 @@ body.active-modal {
     font-size: 40px;
     background-color: #f1f1f1;
     font-weight: 600;
+    max-width: 90%;
+    max-height: 100px;
 }
 
 .titleDateContainer p{
@@ -90,9 +92,11 @@ body.active-modal {
 .datepickerContainer
 {
     display: flex;
+    align-items: flex-end;
     flex-direction: column;
     font-family: 'Inter', sans-serif;
     padding: 10px;
+    margin: 0 15px;
 }
 
 
