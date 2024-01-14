@@ -56,7 +56,7 @@ function App() {
             <Route path=":program_id" element={<GuidePage/>}/>
           </Route>  
           <Route path="/guides/:pageId" element={<GuidePage />} />
-          <Route path="/account" element={<EnablerAccount />} />
+          <Route path="/account" element={<CompanyAccount />} />
             <Route path="" element={<AccountSettings />} />
           <Route path="/registration" element={<RegistrationPage />}>
             <Route path="" element={<RegistrationForm />} />
