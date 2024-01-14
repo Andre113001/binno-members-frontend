@@ -43,7 +43,7 @@ function AccountPage() {
 
   return (
     <>
-    <div className={styles["AccountPagePage"]}>
+    <div className={styles["AccountPage"]}>
       <SideBar />
       <div className={styles["layoutContainer"]}>
         {isEditActive ? (
