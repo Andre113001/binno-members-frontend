@@ -9,9 +9,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
+    }
   
-.createEvent:hover{
+.createEventBtn:hover{
     cursor: pointer;
     background-color: #054eae;
     transition: 0.5ms;
