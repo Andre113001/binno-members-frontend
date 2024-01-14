@@ -7,21 +7,59 @@ import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import ErrorIcon from '@mui/icons-material/Error'
 import axios from 'axios';
 
-import { useNavigate } from 'react-router-dom'
-import { Fragment } from 'react';
+import { json, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/AuthContext';
-import useCustomModal from '../../hooks/useCustomModal';
+import useHttp from '../../hooks/http-hook';
 
 // Components
 import Copyright from '../../components/Copyright/Copyright';
+import { MuiOtpInput } from 'mui-one-time-password-input'
 
 const Login = () => {
-    const { handleOpen, handleClose, CustomModal } = useCustomModal(); 
     const navigate = useNavigate();
     const { login, setMemberId } = useAuth();
+    const [ currentSection, setCurrentSection ]  = useState(1);
+    const [ otp, setOtp ] = useState('');
+    const [ accesskey, setAccessKey ] = useState();
+    const { sendRequest, isLoading } = useHttp();
+    
+
+    const handleOtpChange = (newValue) => {
+        setOtp(newValue)
+    };
+
+    const handleOtpComplete = async (value) => {
+        console.log("New OTP: ", value, "AccessKey: ", accesskey);
+        const requestDataOtp = {
+            accesskey: accesskey,
+            otp: value
+        }
+        const res = await sendRequest({url: '/api/login/verify', 
+            method: 'POST',
+            body: JSON.stringify(requestDataOtp)
+        })
+
+        if (res.auth === true) {
+            localStorage.setItem('access', res.token);
+            navigate('/account');
+        }
+    };
+
+    const matchIsString = (text) => {
+        return typeof text === 'string';
+    };
+
+    const matchIsNumeric = (text) => {
+        const isNumber = typeof text === 'number'
+        const isString = matchIsString(text)
+        return (isNumber || (isString && text !== '')) && !isNaN(Number(text))
+    }
+      
+    const validateChar = (value, index) => {
+        return matchIsNumeric(value)
+    }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -35,16 +73,24 @@ const Login = () => {
 
 
         try {
-            const response = await axios.post('/api/login', requestData);
-            const data = response.data;  // Axios automatically parses the JSON response
-            console.log(data.token);
+            const res = await sendRequest({url: '/api/login', 
+                method: 'POST',
+                body: JSON.stringify(requestData)
+            })
+            console.log(res);
+            // const response = await axios.post('/api/login', requestData);
+            // const data = response.data;  // Axios automatically parses the JSON response
+            // console.log(data.auth);
     
-            if (data.token) {
-                localStorage.setItem('access', data.token);
-                login(); // Set authenticated to true
-                navigate('/account');
+            if (res.twoAuth) {
+                setCurrentSection(2);
+                setAccessKey(requestData.accessKey);
+                // localStorage.setItem('access', data.token);
+                // login(); // Set authenticated to true
+                // navigate('/account');
+                console.log("Auth: ", requestData.accessKey);
             } else {
-                handleOpen();
+                console.log(false);
             }
         } catch (err) {
             console.error(err);
@@ -52,23 +98,11 @@ const Login = () => {
         
     };
 
+    console.log("Current OTP: ", otp);
+
     return (
         <Container component="main" maxWidth="xs">
         <CssBaseline />
-        {open && (<CustomModal 
-            open={open}
-            handleClose={handleClose}
-            content = {
-                <Fragment> 
-                    <ErrorIcon/>
-                    <h1 className='heading-1'>I'm from Login</h1>
-                    <p>This is a paragraph from Login</p>
-                </Fragment>
-            }
-            additions={
-            <button className='btn-blue'>Button from test</button>
-            }
-        />)}
         <Box
             sx={{
             marginTop: 8,
@@ -78,49 +112,76 @@ const Login = () => {
             }}
         >
             <img src="../../../public/img/binno-logo.png" alt="" />
-            <Typography className='sm:text-sm' component="h1" variant="h5">
-            Members Login
-            </Typography>
-            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="access-key"
-                    label="Access Key"
-                    name="access-key"
-                    autoComplete="off"
-                    autoFocus
-                />
-                <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                    sx={{ mt: 1, mb: 2, }}
-
-                />
-            <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 1, mb: 2, p: 1.5}}
-                style={{
-                    backgroundColor: "#ff7a00",
-                }}
-            >
-                Sign-in
-            </Button>
-            </Box>
-            <Link sx={{mt: 3}} href="/forgot">Forgot Password?</Link>
-            
-            <div style={{marginTop: "20px"}}>
-                <Link sx={{mt: 3}} href="/registration">Sign-up for membership here</Link>
-            </div>
+            {currentSection === 1 && (
+                <>
+                    <Typography fontWeight={'bold'} className='sm:text-sm' component="h1" variant="h5">
+                        Members Login
+                    </Typography>
+                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="access-key"
+                        label="Access Key"
+                        name="access-key"
+                        autoComplete="off"
+                        autoFocus
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                        sx={{ mt: 1, mb: 2, }}
+                    />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 1, mb: 2, p: 1.5}}
+                        style={{
+                            backgroundColor: "#ff7a00",
+                        }}
+                    >
+                        Sign-in
+                    </Button>
+                    </Box>
+                    <Link sx={{mt: 3}} href="/forgot">Forgot Password?</Link>
+                    
+                    <div style={{marginTop: "20px"}}>
+                        <Link sx={{mt: 3}} href="/registration">Sign-up for membership here</Link>
+                    </div>
+                </>
+            )}
+            {currentSection === 2 && (
+                <>
+                    <Box sx={{ mt: 1 }}> 
+                        <Typography textAlign={'center'} fontWeight={'bold'} variant="h5">
+                            Two-factor Athentication
+                        </Typography>
+                        <Typography textAlign={'center'}>
+                            To verify your login, we've sent a one-time-pin to your email address, kindly input your OTP below.
+                        </Typography>
+                        <MuiOtpInput TextFieldsProps={{ placeholder: '#' }} style={{marginTop: 20}} onComplete={handleOtpComplete} length={6} value={otp} onChange={handleOtpChange} validateChar={validateChar}/>
+                        {/* <Button
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 1, mb: 2, p: 1.5}}
+                            style={{
+                                backgroundColor: "#ff7a00",
+                            }}
+                            onClick={handleOtp}
+                         >
+                        Submit
+                        </Button> */}
+                    </Box>
+                </>
+            )}
         </Box>
         <Copyright />
         </Container>
