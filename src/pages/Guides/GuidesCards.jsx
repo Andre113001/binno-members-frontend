@@ -44,7 +44,6 @@ const GuideCards = () => {
                             style={{ textDecoration: 'none', color: 'inherit' }}
                         >
                             <div className={styles['guideContent']}>
-                                {/* <Link to={`/`}></Link> */}
                                 <div className={styles['guideImage']}>
                                     <img src="" alt="" />
                                 </div>
