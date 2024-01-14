@@ -1,23 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded'
 import profileImage from '../../siliDeli.svg'
 import './Header.css'
 import useLoadProfile from "../../hooks/useLoadProfile";
+import AccountContext from "../../context/accountContext";
 
 function Header() {
+    const accountContext = useContext(AccountContext)
     const [headingData, setHeadingData] = useState([]);
     const { profileData } = useLoadProfile();
 
-    useEffect(() => {
-        const loadHeadingData = async () => {
-            if (profileData) {
-                const result = await profileData;
-                setHeadingData(result)
-            }
-        }
+    // useEffect(() => {
+    //     const loadHeadingData = async () => {
+    //         if (profileData) {
+    //             const result = await profileData;
+    //             setHeadingData(result)
+    //         }
+    //     }
 
-        loadHeadingData();
-    }, [profileData])
+    //     loadHeadingData();
+    // }, [profileData])
 
     return (
         <div className="Header">
@@ -26,8 +28,8 @@ function Header() {
                     <img src={profileImage} alt="User Profile" className="profileImage"/>    
                 </div>
                 <div className="UserInfoContainer">
-                        <p>{headingData.user_type}</p>
-                        <h2>{headingData.setting_institution}</h2>
+                        <p id="userType">{accountContext.profileData?.user_type}</p>
+                        <h2 id="username">{accountContext.profileData?.setting_institution}</h2>
                     </div>
             </div>
 

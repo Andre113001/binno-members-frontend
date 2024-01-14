@@ -1,28 +1,22 @@
 import { useState, useEffect } from 'react'
 import useAccessToken from './useAccessToken'
-import { useNavigate } from 'react-router-dom'
+import useHttp from './http-hook'
 
 const useLoadProfile = () => {
     const accessToken = useAccessToken()
     const [profileData, setProfileData] = useState(null)
-    const navigate = useNavigate()
+    const { sendRequest, isLoading } = useHttp();
 
     useEffect(() => {
         const fetchProfile = async () => {
             // Check if accessToken is truthy before proceeding
             if (accessToken) {
                 try {
-                    const results = await fetch(
-                        `https://binno-members-repo-production-b8c4.up.railway.app/api/members/profile/${accessToken}`,
-                        {
-                            headers: {
-                                Authorization: `Bearer ${accessToken}`,
-                            },
-                        }
-                    )
-                    const data = await results.json()
-                    // Save the fetched data to the state
-                    setProfileData(data[0])
+                    const results = await sendRequest({ 
+                        url: `https://binno-members-repo-production-b8c4.up.railway.app/api/members/profile/${accessToken}`,
+                        headers: {Authorization: `Bearer ${accessToken}`,},
+                    })
+                    setProfileData(results[0])
                 } catch (error) {
                     console.error('Error:', error)
                 }
@@ -33,7 +27,7 @@ const useLoadProfile = () => {
     }, [accessToken])
 
     // Return the profileData, so it can be used by the component using this hook
-    return { profileData }
+    return { profileData , isLoading}
 }
 
 export default useLoadProfile
