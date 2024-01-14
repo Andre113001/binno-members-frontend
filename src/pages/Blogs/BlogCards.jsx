@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react'
 import styles from './BlogCard.module.css'
 import { blog } from '../../assets/data'
 import useLoadProfile from '../../hooks/useLoadProfile'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import useAccessToken from '../../hooks/useAccessToken'
 
 const BlogCards = () => {
     const [blogs, setBlogs] = useState([])
     const { profileData } = useLoadProfile()
     const accessToken = useAccessToken()
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         const loadHeadingData = async () => {
@@ -38,7 +40,16 @@ const BlogCards = () => {
             <section className={styles['content']}>
                 <div className={styles['grid2']}>
                     {blogs.map((blog) => (
-                        <Link to="/blogs" style={{ textDecoration: 'none' }}>
+                        <Link to={`/blogs/${blog.blog_id}`} 
+                            onClick={(e)=>{
+                                e.preventDefault()
+                                navigate(`/blogs/${blog.blog_id}`,
+                                {state: {
+                                    blog
+                                }})
+                        }}
+                        key={blog.blog_id}
+                        style={{ textDecoration: 'none', color: 'inherit'}}>
                             <div
                                 className={styles['boxItems']}
                                 key={blog.blog_id}
