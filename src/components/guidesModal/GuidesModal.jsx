@@ -47,8 +47,8 @@ export default function GuideModal() {
                           <input 
                             type="text"
                             className='titleTextBox'
-                            placeholder='Create new guide' 
-                            style={{height: '80px', margin: '10px'}}
+                            placeholder='Title' 
+                            style={{height: '80px', margin: '10px', outline: 'none'}}
                             // value={guideTitle}
                             // onChange={(e) => setGuideTitle(e.target.value)}
                           />

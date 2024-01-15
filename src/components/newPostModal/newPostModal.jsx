@@ -48,6 +48,7 @@ export default function NewPostModal() {
                           type="text"
                           className={styles["titleTextBox"]}
                           placeholder='Create new post' 
+                          style={{margin: '10px', outline: 'none'}}
                         />
                         <div className={styles["DateCategoryContainer"]}>
                           <p>{formatDateToText()}</p>
