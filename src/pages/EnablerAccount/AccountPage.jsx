@@ -55,7 +55,7 @@ function AccountPage() {
                     <button className={styles["profileEditButton"]} onClick={toggleEdit}>
                       <EditRoundedIcon/> {isEditActive ? '⠀Edit Profile' : '⠀Save Edit'}
                     </button>
-                    <Link to='#' style={{textDecoration: 'none'}}>
+                    <Link to='#' style={{textDecoration: 'none'}}> {/*link san viewer side sa profile*/}
                       <button className={styles["ViewPageButton"]}>
                         <VisibilityRoundedIcon/>{isEditActive ? '⠀View Page' : 'Discard Change'}
                         </button>
