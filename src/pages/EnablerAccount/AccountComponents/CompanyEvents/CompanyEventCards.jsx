@@ -10,7 +10,7 @@ const CompanyEvents = () => {
         <section className={styles['EventPage']}>
             <div className={styles["PageHeaderContainer"]}>
                 <h2>Current & Upcoming Events</h2>
-                <a href="">View all Events...</a>
+                <Link to="/events">View all Events...</Link>
             </div>
             
             <hr />

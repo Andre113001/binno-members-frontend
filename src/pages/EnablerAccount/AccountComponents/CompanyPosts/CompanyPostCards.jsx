@@ -11,7 +11,7 @@ return (
         <section className={styles["PostsPage"]}>     
             <div className={styles["titleContainer"]}>
                 <h1>Recent Posts</h1>
-                <a href="">View all posts...</a>
+                <Link to="/posts">View all posts...</Link>
             </div>
             <div className={styles["content"]}>
                 {posts?.map((item)=> (
