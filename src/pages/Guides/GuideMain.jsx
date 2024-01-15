@@ -4,6 +4,7 @@ import GuideCards from './GuidesCards.jsx';
 import SideBar from '../../components/Sidebar/Sidebar.jsx';
 import Header from '../../components/header/Header.jsx';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import GuideModal from '../../components/guidesModal/GuidesModal.jsx';
 
 import { Link } from 'react-router-dom';
 // import useAccessToken from '../../hooks/useAccessToken.jsx';
@@ -24,9 +25,7 @@ const GuideMain = () => {
             <h1>My Guides</h1>
             <div className={styles["blogButtons"]}>
               <div className={styles["CreateGuideContainer"]}>
-                  <Link to='#' style={{textDecoration:'none'}}>
-                    <button className={styles["CreateButton"]}><AddRoundedIcon />Create New Guide</button>
-                  </Link>
+                  <GuideModal />
               </div>
             </div>
             <div className={styles["contents"]}>
