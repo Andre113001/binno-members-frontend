@@ -15,13 +15,16 @@ import SocialMediaShare from '../../components/SocialMediaShare/SocialMediaShare
 import useHttp from '../../hooks/http-hook.js';
 import AccountContext from '../../context/accountContexsst.jsx';
 
+import { fetchImage } from '../../hooks/image-hook.js';
+
 const Posts = () => {
   const accContext = useContext(AccountContext)
   const [value, setValue] = useState(0);
   const { sendRequest, isLoading} = useHttp();
-
+  const [imageSrc, setImageSrc] = useState()
+  
   const [posts, setPosts] = useState([])
-
+  
 
   useEffect(() => {
       const loadData = async () => {

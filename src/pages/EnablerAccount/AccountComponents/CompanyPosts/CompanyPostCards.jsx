@@ -13,7 +13,7 @@ const PostCards = () => {
     const { profileData } = useLoadProfile()
     const accessToken = useAccessToken()
 
-    const fullDate = new Date(dateWithTime);
+    const fullDate = new Date();
     const dateOnly = fullDate.toISOString().split('T')[0];
 
     const navigate = useNavigate()

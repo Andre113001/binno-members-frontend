@@ -59,9 +59,9 @@ function AccountPage() {
                         <VisibilityRoundedIcon/>{isEditActive ? '⠀View Page' : 'Discard Change'}
                         </button>
                     </Link>
-                  </div>
-              </div>
+                </div>
             </div>
+          </div>
             {profileData?.user_type === "Startup Enabler" ? (
               <div className={styles["bodyContainer"]}>
               <div className={styles["CompanyInfoGuidesContainer"]}>

@@ -5,10 +5,13 @@ import useLoadProfile from '../../hooks/useLoadProfile'
 import { Link, useNavigate } from 'react-router-dom'
 import useAccessToken from '../../hooks/useAccessToken'
 
+import { fetchImage } from '../../hooks/image-hook'
+
 const BlogCards = () => {
     const [blogs, setBlogs] = useState([])
     const { profileData } = useLoadProfile()
     const accessToken = useAccessToken()
+    const [imageSrc, setImageSrc] = useState()
 
     const navigate = useNavigate()
 
@@ -16,17 +19,30 @@ const BlogCards = () => {
         const loadHeadingData = async () => {
             if (profileData) {
                 const profile = await profileData
-                const fetchGuides = await fetch(
-                    `${import.meta.env.VITE_BACKEND_DOMAIN}/blogs/user/${profile.member_id}`,
+                const guidesQuery = await fetch(
+                    `https://binno-members-repo-production-b8c4.up.railway.app/api/blogs/user/${profile.member_id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
                     }
                 )
-                fetchGuides.json().then((result) => {
-                    setBlogs(result)
-                })
+                
+                const guidesResult = await guidesQuery.json()
+                
+                const promises = guidesResult.map(async (guide) => {
+                    console.log(guide);
+                    const blogPic = await fetchImage(guide.blog_img)
+                    console.log(guide.blog_img)
+                    const newBlob = new Blob([blogPic], { type: 'image/jpeg' });
+
+                    return {...guide, blogPic: newBlob};
+                });
+                
+                const results = await Promise.all(promises);
+
+                setBlogs(results)
+
             }
         }
 
@@ -55,7 +71,7 @@ const BlogCards = () => {
                                 key={blog.blog_id}
                             >
                                 <div className={styles['img']}>
-                                    <img src="" alt="" />
+                                    <img src={URL.createObjectURL(blog.blogPic)} alt="" />
                                 </div>
                                 <div
                                     className={
