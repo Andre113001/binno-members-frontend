@@ -1,19 +1,63 @@
-import React from 'react'
+import React, { useState , useEffect} from 'react'
 import styles from './PanelContent.module.css'
 import IconButton from '@mui/material/IconButton';
 import ShareIcon from '@mui/icons-material/Share';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
+import useLoadProfile from '../../hooks/useLoadProfile'
+import useAccessToken from '../../hooks/useAccessToken'
 import { Link, useNavigate } from 'react-router-dom';
+
+import { fetchImage } from '../../hooks/image-hook'
+
 
 function PanelContent(props) {
     const {filteredPosts}=props
-    const [posts, setPosts] = ([])
+    const [posts, setPosts] = useState(filteredPosts)
     const navigate = useNavigate()
+    const accessToken = useAccessToken()
+    const { profileData } = useLoadProfile()
+    const [imageSrc, setImageSrc] = useState()
+    
+    useEffect(() => {
+        const loadData = async () => {
+            const pic = await fetchImage(profileData.setting_profilepic)
+            setImageSrc(URL.createObjectURL(pic))
+
+            if (profileData) {
+                const profile = await profileData
+                const guidesQuery = await fetch(
+                    `https://binno-members-repo-production-b8c4.up.railway.app/api/events/user/${profile.member_id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    }
+                )
+
+                const guidesResult = await guidesQuery.json()
+                
+                
+                const promises = guidesResult.map(async (guide) => {
+                    const postPic = await fetchImage(guide.post_img)
+                    const profilePic = await fetchImage(profileData.setting_profilepic)
+                    
+                    console.log(postPic, profilePic);
+                return {...guide, postPic: postPic, profilePic: profilePic};
+              });
+            
+              const results = await Promise.all(promises);
+
+              setPosts(results)
+            }
+        }
+
+        loadData()
+    }, [profileData])
+
   return (
     <>
-        {filteredPosts?.map((post, index) => {
-
+        {posts?.map((post, index) => {
             return (
             <div className={styles['PostContent']} key={index}>
                 <Link to={`/posts/${post.post_id}`} 
@@ -29,7 +73,7 @@ function PanelContent(props) {
                 >
                 <div className={styles['PostCards']}>
                     <div className={styles['titleImageContainer']}>
-                        <img src={post.postImage} alt="" />
+                        <img src={URL.createObjectURL(post.post_img)} alt="" />
                     </div>
                         
                     <div className={styles['contentDetail']}>
@@ -61,7 +105,7 @@ function PanelContent(props) {
                     <p>{post.post_bodytext}</p>
                         <div className={styles['contentFooter']}>
                                 <div className={styles["PostUserProfile"]}>
-                                    <img src={post.profileImage} alt="User Profile"/>
+                                    <img src={post.profilePic} alt="User Profile"/>
                                     <h2>{post.post_author}</h2>
                                 </div>
                             <div >

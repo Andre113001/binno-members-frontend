@@ -4,18 +4,22 @@ import useLoadProfile from '../../hooks/useLoadProfile'
 import useAccessToken from '../../hooks/useAccessToken'
 import { Link, useNavigate } from 'react-router-dom'
 
+import { fetchImage } from '../../hooks/image-hook'
+
 const Events = () => {
     const [events, setEvents] = useState([])
     const { profileData } = useLoadProfile()
     const accessToken = useAccessToken()
+    const [imageSrc, setImageSrc] = useState()
 
     const navigate = useNavigate()
+
 
     useEffect(() => {
         const loadHeadingData = async () => {
             if (profileData) {
                 const profile = await profileData
-                const fetchGuides = await fetch(
+                const guidesQuery = await fetch(
                     `https://binno-members-repo-production-b8c4.up.railway.app/api/events/user/${profile.member_id}`,
                     {
                         headers: {
@@ -23,14 +27,26 @@ const Events = () => {
                         },
                     }
                 )
-                fetchGuides.json().then((result) => {
-                    setEvents(result)
-                })
+
+                const guidesResult = await guidesQuery.json()
+                
+                
+                const promises = guidesResult.map(async (guide) => {
+                    const eventPic = await fetchImage(guide.event_img)
+                    const profilePic = await fetchImage(profileData.setting_profilepic)
+            
+                return {...guide, eventPic: eventPic, profilePic: profilePic};
+              });
+            
+              const results = await Promise.all(promises);
+
+              setEvents(results)
             }
         }
 
         loadHeadingData()
     }, [profileData])
+    
 
     console.log(events)
 
@@ -55,7 +71,7 @@ const Events = () => {
                                 key={event.event_id}
                             >
                                 <div className={styles['img']}>
-                                    <img src="" alt="" />
+                                    <img src={URL.createObjectURL(event.eventPic)} alt="" />
                                 </div>
                                 <div className={styles['details']}>
                                     <div className={styles['date']}>
@@ -71,7 +87,7 @@ const Events = () => {
                                         }
                                     >
                                         <div className={styles['userProfileImg']}>
-                                            <img src="" alt="" />
+                                            <img src={URL.createObjectURL(event.profilePic)} alt="" />
                                         </div>
                                         <p>{profileData.setting_institution}</p>
                                     </div>
