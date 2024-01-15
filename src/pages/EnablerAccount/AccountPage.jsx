@@ -13,7 +13,6 @@ import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import useLoadProfile from '../../hooks/useLoadProfile'
 import AccountEdit from './AccountComponents/AccountEdit/AccountEdit'
-import CompanyInformationTab from './AccountComponents/CompanyInformationTab/CompanyInformationTab'
 import PostCards from './AccountComponents/CompanyPosts/CompanyPostCards'
 import CompanyEvents from './AccountComponents/CompanyEvents/CompanyEventCards'
 
