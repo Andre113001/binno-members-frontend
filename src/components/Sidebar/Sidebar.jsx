@@ -15,6 +15,15 @@ function SideBar() {
     const [data, setData] = useState([]);
     const { profileData, isLoading } = useLoadProfile();
     const [userType, setUserType] = useState()
+   
+    useEffect(() => {
+        const loadData = () => {
+            setUserType(accCtx.profileData?.user_type)
+        } 
+        console.log(accCtx);
+        loadData()
+
+    },[])
 
 
     const enablerSelections = () => {
@@ -54,8 +63,9 @@ function SideBar() {
     const navigate = useNavigate();
 
     function handleDestroyToken() {
-        localStorage.removeItem('access');
-        console.log('Token Destroyed');
+        // localStorage.removeItem('access');
+        // console.log('Token Destroyed');
+        accCtx.handleLogout
         navigate('/')
     }
 
@@ -65,7 +75,7 @@ function SideBar() {
             <img src={logo} alt="BiNNO" className='logo'/>
             {/* insert type of user */}
             <ul className='SideBarList'>
-                {accCtx.profileData?.user_type === "Startup Company" ? companySelections() : enablerSelections()}
+                {accCtx.profileData?.user_type === "Startup Company" ? (companySelections()) : (accCtx.profileData?.user_type === "Startup Enabler") ? (enablerSelections()):(isLoading)}
             </ul>
         </div>
         <div className="logout" onClick={handleDestroyToken}>
