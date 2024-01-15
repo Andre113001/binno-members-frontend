@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 function PanelContent(props) {
     const {filteredPosts}=props
-    console.log('asd: ', filteredPosts);
+    const [posts, setPosts] = ([])
 
   return (
     <>
@@ -16,7 +16,17 @@ function PanelContent(props) {
 
             return (
             <div className={styles['PostContent']} key={index}>
-                <Link to={'#'} style={{textDecoration: 'none', color: 'inherit'}}>
+                <Link to={`/posts/${post.post_id}`} 
+                    onClick={(e)=>{
+                        e.preventDefault()
+                        navigate(`/posts/${post.post_id}`,
+                        {state: {
+                            post, index
+                        }})
+                }}
+                key={post.post_id}
+                style={{textDecoration: 'none', color: 'inherit'}}
+                >
                 <div className={styles['PostCards']}>
                     <div className={styles['titleImageContainer']}>
                         <img src={post.postImage} alt="" />

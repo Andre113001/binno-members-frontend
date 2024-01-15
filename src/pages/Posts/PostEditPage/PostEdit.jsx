@@ -35,6 +35,8 @@
     const handleTitleChange = (event) => {
       setTitleInput(event.target.value)
     };
+    
+    // image
 
     const handleDescriptionChange = (event) => {
       setDescription(event.target.value)
