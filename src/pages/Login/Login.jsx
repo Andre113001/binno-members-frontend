@@ -26,6 +26,7 @@ const Login = () => {
     const [ otp, setOtp ] = useState('');
     const [ accesskey, setAccessKey ] = useState();
     const { sendRequest, isLoading } = useHttp();
+    const domain = import.meta.env.VITE_BACKEND_DOMAIN;
     
 
     const handleOtpChange = (newValue) => {
@@ -38,7 +39,7 @@ const Login = () => {
             accesskey: accesskey,
             otp: value
         }
-        const res = await sendRequest({url: `${import.meta.env.VITE_BACKEND_DOMAIN}/login/verify`, 
+        const res = await sendRequest({url: `${domain}/login/verify`, 
             method: 'POST',
             body: JSON.stringify(requestDataOtp)
         })
@@ -75,7 +76,7 @@ const Login = () => {
 
 
         try {
-            const res = await sendRequest({url: `${import.meta.env.VITE_BACKEND_DOMAIN}/login`, 
+            const res = await sendRequest({url: `${domain}/login`, 
                 method: 'POST',
                 body: JSON.stringify(requestData)
             })
