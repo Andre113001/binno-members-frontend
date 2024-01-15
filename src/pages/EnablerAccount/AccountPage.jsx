@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import styles from './AccountPage.module.css'
 import { Link } from 'react-router-dom'
-import InformationTab from './AccountComponents/EnablerInformationTab/InformationTab'
+import InformationTab from './AccountComponents/InformationTab/InformationTab'
 import GuideCards from './AccountComponents/EnablerGuides/GuidesCards'
 import BlogCards from './AccountComponents/EnablerBlog/BlogCards'
 import EventCards from './AccountComponents/EnablerEvents/EventCards'
@@ -86,7 +86,15 @@ function AccountPage() {
             ) : profileData?.user_type === "Startup Company" ? (
               <div className={styles['bodyContainer']}>
                 <div className={styles['AccountContent']}>
-                  <CompanyInformationTab />
+                  <div className={styles["informationTabContainer "]}>
+                    <InformationTab
+                        description={data.setting_bio}
+                        address={data.setting_address}
+                        email={data.email_address}
+                        phone={data.contact_number}
+                        fb={data.contact_facebook}
+                    />
+                  </div>
                   <PostCards />
                   <CompanyEvents />
                 </div>
