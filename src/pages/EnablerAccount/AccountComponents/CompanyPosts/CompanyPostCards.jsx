@@ -1,9 +1,39 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import useLoadProfile from '../../../../hooks/useLoadProfile'
+import useAccessToken from '../../../../hooks/useAccessToken';
+import { Link, useNavigate} from 'react-router-dom';
+
 import styles from './CompanyPostCards.module.css'
-import { posts } from '../../../../assets/posts'
-import { Link } from 'react-router-dom'
+
 
 const PostCards = () => {
+    const [posts, setPosts] = useState([])
+    const { profileData } = useLoadProfile()
+    const accessToken = useAccessToken()
+
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        const loadHeadingData = async () => {
+            if (profileData) {
+                const profile = await profileData
+                const fetchGuides = await fetch(
+                    `https://binno-members-repo-production-b8c4.up.railway.app/api/posts/user/${profile.member_id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    }
+                )
+                fetchGuides.json().then((result) => {
+                    setPosts(result)
+                })
+            }
+        }
+
+        loadHeadingData()
+    }, [profileData])
+
 
     console.log(posts)
 return (
@@ -14,23 +44,33 @@ return (
                 <Link to="/posts">View all posts...</Link>
             </div>
             <div className={styles["content"]}>
-                {posts?.map((item)=> (
-                <Link to='#' key={item.id} style={{textDecoration: 'none'}}>
+                {posts?.map((post)=> (
+                    <Link to={`/posts/${post.post_id}`} 
+                        onClick={(e)=>{
+                            e.preventDefault()
+                            navigate(`/posts/${post.post_id}`,
+                            {state: {
+                                post
+                            }})
+                        }}
+                        key={post.post_id}
+                        style={{ textDecoration: 'none', color: 'inherit'}}
+                    >
                     <div className={styles["boxItems"]} > 
                         <div className={styles["userInfoContainer"]}>
-                            <img src={item.userProfile} alt='' style={{margin: '20px',width: '60px',height:'auto',borderRadius: '50%'}}/>
+                            <img src={post.userProfile} alt='' style={{margin: '20px',width: '60px',height:'auto',borderRadius: '50%'}}/>
 
                                 <div className={styles["UserDateContainer"]}>
-                                    <h3>{item.user}</h3>
-                                    <p>{item.date}</p>
+                                    <h3>{post.post_author}</h3>
+                                    <p>{post.post_dateadded}</p>
                                 </div>
                         </div>
                             <div className={styles["img"]}>
-                                <img src={item.cover} alt='' />
+                                <img src={post.cover} alt='' />
                             </div>
                         <div className={styles["details"]}>
-                            <h3>{item.title}</h3>
-                            <p>{item.description.slice(0,150)}...</p>    
+                            <h3>{post.post_heading}</h3>
+                            <p>{post.post_bodytext.slice(0,150)}...</p>    
                         </div>
                     </div>
                 </Link>

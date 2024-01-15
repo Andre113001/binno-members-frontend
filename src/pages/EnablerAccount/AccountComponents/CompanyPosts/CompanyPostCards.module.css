@@ -32,7 +32,7 @@
   }
 
   .content .boxItems {
-    max-width: 95%;
+    width: 95%;
     transition: 0.5s;
     background-color: white;
     border-radius: 10px;
