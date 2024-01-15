@@ -18,10 +18,9 @@ function EnablerRegForm() {
 
 
     const [formData, setFormData] = useState({
-        typeofEnaber: '',
-        institute: '',
+        institution: '',
         email: '',
-        address: '',
+        address: ''
     });
 
     const toggleMenu = () => {
@@ -37,7 +36,8 @@ function EnablerRegForm() {
         setSelectedOption(option);
         setFormData((prevFormData) => ({
           ...prevFormData,
-          typeofEnaber: option, 
+          type: "Enabler",
+          classification: option.short, 
         }));
         toggleMenu(); 
       };
@@ -63,11 +63,33 @@ function EnablerRegForm() {
         }));
       };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Form submitted with data:', formData);
-        // navigate('/registration/upload');
-      };
+        try {
+            const res = await sendRequest({url: '/api/register/', 
+                method: 'POST',
+                body: JSON.stringify(formData)
+            })
+
+            if (res.appId) {
+              console.log(res.appId);
+              console.log(formData);
+              localStorage.setItem("app_id", res.appId);
+              localStorage.setItem("form_info", JSON.stringify(formData));
+              navigate('/registration/upload');
+            } else {
+              console.log(res);
+            }
+        } catch (error) {
+          console.error('Error:', error.message);
+      
+          // Log more details from the error response if available
+          if (error.response) {
+            console.error('Error:', error.message);
+          }
+        }
+      };    
 
   return (
     <>
@@ -82,13 +104,13 @@ function EnablerRegForm() {
 
                     <div className="enablerTypeButton" ref={dropdownRef}>
                         <button className="dropdown-button" onClick={toggleMenu} onSubmit={handleSubmit}>
-                            {selectedOption || 'Select what type of Startup Enbabler'}
+                            {selectedOption.long || 'Select what type of Startup Enbabler'}
                         </button> 
                         {isMenuOpen && (
                             <div className="EnablerTypes">
-                                <p onClick={() => handleOptionClick('Technology Business Incubation')}>Technology Business Incubation</p>
-                                <p onClick={() => handleOptionClick('Local Government Unit')}>Local Government Unit</p>
-                                <p onClick={() => handleOptionClick('State Universities and Colleges')}>State Universities and Colleges</p>
+                                <p onClick={() => {handleOptionClick({short: 'TBI', long: 'Technology Business Incubation'})}}>Technology Business Incubation</p>
+                                <p onClick={() => handleOptionClick({short: 'LGU', long: 'Local Government Unit'})}>Local Government Unit</p>
+                                <p onClick={() => handleOptionClick({short: 'SUC', long: 'State Universities and Colleges'})}>State Universities and Colleges</p>
                             </div>
                         )}
                     </div>    
@@ -104,10 +126,10 @@ function EnablerRegForm() {
                             autoComplete="off"
                             >
                         <div>
-                            <TextField id="institute" label="Name of Institution" 
-                                value={formData.institute} 
+                            <TextField id="institution" label="Name of Institution" 
+                                value={formData.institution} 
                                 required 
-                                name='institute'
+                                name='institution'
                                 onChange={handleChange}
                                 style={{width:'100%', borderRadius: '10px', boxShadow: "5px 5px 5px 5px rgb(0 0 0 / 10%)"}}/>
                         </div>

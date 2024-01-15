@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './RegistrationForm.css'
 import  { useState } from 'react';
 import StyledToggleButton from '../../components/ToggleButton/ToggleButton';
@@ -12,13 +12,22 @@ import useHttp from '../../hooks/http-hook';
 
 
 function RegistrationForm() {
-  const navigate = useNavigate();
-  const { sendRequest, isLoading } = useHttp();
+    const navigate = useNavigate();
+    const { sendRequest, isLoading } = useHttp();
+
+    useEffect(() => {
+      const destroyToken = () => {
+        localStorage.clear();
+        setFormData('');
+      }
+
+      destroyToken();
+    }, [])
 
     const [formData, setFormData] = useState({
-      institute: '',
+      institution: '',
       email: '',
-      address: '',
+      address: ''
     });
 
     const handleChange = (e) => {
@@ -26,20 +35,28 @@ function RegistrationForm() {
         setFormData((prevData) => ({
           ...prevData,
           [name]: value,
+          type: "Company",
+          classification: null,
         }));
-      };
+    };
 
-      const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const res = await sendRequest({url: '/api/register/', 
                 method: 'POST',
                 body: JSON.stringify(formData)
             })
-            localStorage.setItem("app_id", res.appId);
-            localStorage.setItem("form_info", formData);
-            
-            // navigate('/registration/upload');
+
+            if (res.appId) {
+              console.log(res.appId);
+              console.log(formData);
+              localStorage.setItem("app_id", res.appId);
+              localStorage.setItem("form_info", JSON.stringify(formData));
+              navigate('/registration/upload');
+            } else {
+              console.log(res);
+            }
         } catch (error) {
           console.error('Error:', error.message);
       
@@ -72,9 +89,9 @@ function RegistrationForm() {
                         >
                         <div>
                           <TextField id="institute" label="Name of Institution" 
-                            value={formData.institute} 
+                            value={formData.institution} 
                             required
-                            name='institute' 
+                            name='institution' 
                             onChange={handleChange}
                             style={{width:'100%', borderRadius: '10px', boxShadow: "5px 5px 5px 5px rgb(0 0 0 / 10%)"}}/>
                         </div>

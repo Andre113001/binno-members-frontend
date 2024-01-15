@@ -30,7 +30,7 @@ import UploadDocuments from './pages/Registration/UploadDocuments/UploadDocument
 import Testing from './pages/Testing/testing';
 import AccountContext from './context/accountContext';
 import useLoadProfile from './hooks/useLoadProfile';
-import PostEdit from './pages/Posts/PostEditPage/PostEdit';
+// import PostEdit from './pages/Posts/PostEditPage/PostEdit';
 
 function App() {
   const {profileData, isLoading} = useLoadProfile()
@@ -64,7 +64,7 @@ function App() {
           </Route>
           <Route path="/posts" element={<><Outlet/></>}>
             <Route path="" element={<Posts />}/>
-            <Route path=":post_id" element={<PostEdit />}/>
+            {/* <Route path=":post_id" element={<PostEdit />}/> */}
           </Route>  
           <Route path="/guides" element={<><Outlet/></>}>
             <Route path="" element={<GuideMain/>}/>

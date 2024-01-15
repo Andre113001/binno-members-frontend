@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -9,6 +9,8 @@ import Input from '@mui/material/Input';
 import { FileUploader } from "react-drag-drop-files";
 import './UploadDocuments.css';
 import { Link } from 'react-router-dom';
+import useHttp from '../../../hooks/http-hook';
+import axios from 'axios';
 
 import {
     AssignmentOutlined,
@@ -22,29 +24,78 @@ const UploadDocuments = () => {
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [sizeError, setSizeError] = useState('');
     const [uploadSuccess, setUploadSuccess] = useState(false);
+    const [ appId, setAppId ] = useState();
+    const [ formInfo, setFormInfo ] = useState();
     const fileTypes = ["JPG", "PNG", "PDF"];
+    const { sendRequest, isLoading } = useHttp();
+
+    useEffect(() => {
+        const loadData = () => {
+            setAppId(localStorage.getItem('app_id'));
+            setFormInfo(JSON.parse(localStorage.getItem('form_info')));
+        };
+
+        loadData();
+    }, []);
+
 
     const handleFilesSubmit = async () => {
         try {
+            const data = { ...formInfo, id: appId, files: selectedFiles };
             const formData = new FormData();
+
+            console.log("Form Info: ", formInfo);
+
+            formData.append('email', formInfo.email);
+            formData.append('institution', formInfo.institution);
+            formData.append('type', formInfo.type);
+            formData.append('classification', formInfo.classification);
+            formData.append('address', formInfo.address);
+            formData.append('id', appId);
+
     
-            // Convert FileList to array
-            Array.from(selectedFiles).forEach((file) => {
-                formData.append('files', file);
+            // Append each file to the FormData
+            selectedFiles.forEach((file, index) => {
+                formData.append(`files`, file);
             });
+
+            // console.log("hhh:", formData);
     
-            console.log(formData);
-            // You might want to replace the URL with your actual endpoint
-            // await axios.post('/api/application/documentsUpload', formData);
+            // const res = await sendRequest('/api/register/upload', {
+            //     method: 'POST',
+            //     body: JSON.stringify(formData),  // Pass FormData directly
+            //     // Set the Content-Type header for FormData
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data',
+            //     },
+            // });
+
+
+
+            // console.log(res);
     
-            // Handle success or show a success message
-            console.log('Files uploaded successfully');
-            setUploadSuccess(true)
+            // // Handle the response as needed
+            // const result = await res.json();
+            // console.log(result);
+    
+            // Further logic based on the response
+            // if (result.result) {
+            //     setUploadSuccess(true);
+            //     localStorage.clear();
+            // }
+            const res = await axios.post('http://localhost:3200/api/register/upload', formData);
+
+            if (res.data.result === true) {
+                setUploadSuccess(true);
+                localStorage.clear();
+            };
+    
         } catch (error) {
             // Handle error or show an error message
             console.error('Error uploading files:', error.message);
         }
     };
+    
 
     const truncateFileName = (fileName) => {
         const maxLength = 20; // Set your desired maximum length
@@ -65,7 +116,7 @@ const UploadDocuments = () => {
         // Check if the total number of files is within the limit
         if (selectedFiles.length + fileList.length > 5) {
           console.log('Maximum file limit reached (5 files)');
-          return;
+        return; 
         }
       
         // Check the size of each file
