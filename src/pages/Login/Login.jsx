@@ -75,7 +75,7 @@ const Login = () => {
 
 
         try {
-            const res = await sendRequest({url: 'https://binno-members-repo-production-b8c4.up.railway.app/api/login', 
+            const res = await sendRequest({url: `${import.meta.env.VITE_BACKEND_DOMAIN}/api/login`, 
                 method: 'POST',
                 body: JSON.stringify(requestData)
             })
