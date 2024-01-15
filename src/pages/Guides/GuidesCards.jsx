@@ -15,7 +15,7 @@ const GuideCards = () => {
             if (profileData) {
                 const profile = await profileData
                 const fetchGuides = await fetch(
-                    `/api/programs/user/${profile.member_id}`,
+                    `${import.meta.env.VITE_BACKEND_DOMAIN}/programs/user/${profile.member_id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,

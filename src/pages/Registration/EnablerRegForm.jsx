@@ -67,7 +67,7 @@ function EnablerRegForm() {
         e.preventDefault();
         console.log('Form submitted with data:', formData);
         try {
-            const res = await sendRequest({url: '/api/register/', 
+            const res = await sendRequest({url: `${import.meta.env.VITE_BACKEND_DOMAIN}/register/`, 
                 method: 'POST',
                 body: JSON.stringify(formData)
             })

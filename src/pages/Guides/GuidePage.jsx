@@ -30,7 +30,7 @@ const GuidePage = () => {
     useEffect(() => {
         try {
             const loadPageData = async () => {
-                const res = await sendRequest({ url: `/api/programs/${program_id}`, 
+                const res = await sendRequest({ url: `${import.meta.env.VITE_BACKEND_DOMAIN}/programs/${program_id}`, 
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },

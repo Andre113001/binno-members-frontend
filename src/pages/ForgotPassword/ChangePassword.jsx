@@ -32,7 +32,7 @@ const ChangePassword = () => {
     const token = queryParams.get("token");
 
     useEffect(() => {
-        axios.post(`/api/password/resetTokenChecker`, {
+        axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/password/resetTokenChecker`, {
             token: token
         })
         .then(response => {
@@ -58,7 +58,7 @@ const ChangePassword = () => {
         if (newPassword !== passwordCheck) {
             console.log("Not Same");
         } else {
-            axios.post(`/api/password/changePassword`, {
+            axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/password/changePassword`, {
                 token: token,
                 newPassword: newPassword
             })

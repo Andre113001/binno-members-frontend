@@ -17,7 +17,7 @@ const BlogCards = () => {
             if (profileData) {
                 const profile = await profileData
                 const fetchGuides = await fetch(
-                    `https://binno-members-repo-production-b8c4.up.railway.app/api/blogs/user/${profile.member_id}`,
+                    `${import.meta.env.VITE_BACKEND_DOMAIN}/blogs/user/${profile.member_id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,

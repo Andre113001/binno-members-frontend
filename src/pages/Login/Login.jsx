@@ -38,7 +38,7 @@ const Login = () => {
             accesskey: accesskey,
             otp: value
         }
-        const res = await sendRequest({url: '/api/login/verify', 
+        const res = await sendRequest({url: `${import.meta.env.VITE_BACKEND_DOMAIN}/login/verify`, 
             method: 'POST',
             body: JSON.stringify(requestDataOtp)
         })

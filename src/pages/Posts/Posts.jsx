@@ -13,7 +13,7 @@ import PanelContent from './PanelContent';
 import NewPostModal from '../../components/newPostModal/newPostModal.jsx'
 import SocialMediaShare from '../../components/SocialMediaShare/SocialMediaShare.jsx'
 import useHttp from '../../hooks/http-hook.js';
-import AccountContext from '../../context/accountContext.jsx';
+import AccountContext from '../../context/accountContexsst.jsx';
 
 const Posts = () => {
   const accContext = useContext(AccountContext)
@@ -26,7 +26,7 @@ const Posts = () => {
   useEffect(() => {
       const loadData = async () => {
         const res = await sendRequest({
-          url: `https://binno-members-repo-production-b8c4.up.railway.app/api/posts/user/${accContext.profileData.member_id}`
+          url: `${import.meta.env.VITE_BACKEND_DOMAIN}/posts/user/${accContext.profileData.member_id}`
           
         })
         setPosts(res)

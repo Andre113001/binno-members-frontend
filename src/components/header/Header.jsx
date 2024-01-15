@@ -3,7 +3,7 @@ import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded'
 import profileImage from '../../siliDeli.svg'
 import './Header.css'
 import useLoadProfile from "../../hooks/useLoadProfile";
-import AccountContext from "../../context/accountContext";
+import AccountContext from "../../context/accountContexsst";
 
 function Header() {
     const accountContext = useContext(AccountContext)

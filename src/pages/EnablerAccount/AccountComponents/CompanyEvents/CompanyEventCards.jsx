@@ -18,7 +18,7 @@ const CompanyEvents = () => {
             if (profileData) {
                 const profile = await profileData
                 const fetchGuides = await fetch(
-                    `https://binno-members-repo-production-b8c4.up.railway.app/api/events/user/${profile.member_id}`,
+                    `${import.meta.env.VITE_BACKEND_DOMAIN}/events/user/${profile.member_id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,

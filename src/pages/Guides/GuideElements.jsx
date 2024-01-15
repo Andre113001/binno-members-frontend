@@ -52,7 +52,7 @@ const GuideElements = (props) => {
     useEffect(() =>  {
         try {
             const loadPageData = async () => {
-                const res = await sendRequest({ url: `/api/programs/page/${page}`,
+                const res = await sendRequest({ url: `${import.meta.env.VITE_BACKEND_DOMAIN}/programs/page/${page}`,
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
@@ -88,7 +88,7 @@ const GuideElements = (props) => {
                 return;
             }
     
-            const response = await fetch(`/api/programs/page/save/${page}`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_DOMAIN}/programs/page/save/${page}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

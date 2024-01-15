@@ -59,7 +59,7 @@ const UploadDocuments = () => {
                 formData.append(`files`, file);
             });
 
-            const res = await axios.post('/api/register/upload', formData, {
+            const res = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/register/upload`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',}
                 });

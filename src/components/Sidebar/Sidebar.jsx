@@ -7,7 +7,7 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { Link, useNavigate } from 'react-router-dom';
 import useLoadProfile from "../../hooks/useLoadProfile";
 
-import AccountContext from '../../context/accountContext';
+import AccountContext from '../../context/accountContexsst';
 
 function SideBar() {
     const accCtx = useContext(AccountContext)

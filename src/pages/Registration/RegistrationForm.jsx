@@ -43,7 +43,7 @@ function RegistrationForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await sendRequest({url: '/api/register/', 
+            const res = await sendRequest({url: `${import.meta.env.VITE_BACKEND_DOMAIN}/register/`, 
                 method: 'POST',
                 body: JSON.stringify(formData)
             })

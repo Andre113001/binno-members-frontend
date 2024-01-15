@@ -27,7 +27,7 @@ const ForgotPassword = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        axios.post(`/api/member/verifyChangePassword`, {
+        axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/member/verifyChangePassword`, {
             accesskey: accessKey
         })
         .then(response => {
