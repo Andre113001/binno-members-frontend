@@ -8,13 +8,14 @@ import { Link } from 'react-router-dom';
 
 function PanelContent(props) {
     const {filteredPosts}=props
+    console.log('asd: ', filteredPosts);
 
   return (
     <>
-        {filteredPosts?.map((post) => {
+        {filteredPosts?.map((post, index) => {
 
             return (
-            <div className={styles['PostContent']}>
+            <div className={styles['PostContent']} key={index}>
                 <Link to={'#'} style={{textDecoration: 'none', color: 'inherit'}}>
                 <div className={styles['PostCards']}>
                     <div className={styles['titleImageContainer']}>
@@ -26,9 +27,9 @@ function PanelContent(props) {
                             <div className={styles['ChipsContiner']}>
                             <Stack direction="row" >
                                 <Chip
-                                    label={post.category}
+                                    label={post.post_category}
                                     sx={{
-                                        backgroundColor: post.category === 'Milestone' ? '#fd7c06' : '#054eae',
+                                        backgroundColor: post.post_category === 'Milestone' ? '#fd7c06' : '#054eae',
                                         color: '#fff',
                                         padding: '5px',
                                     }}
@@ -43,15 +44,15 @@ function PanelContent(props) {
                         </div>
                         <div className={styles['contentHeading']}>
                             <div className={styles['titleContainer']}>
-                                <h2>{post.title}</h2>
+                                <h2>{post.post_heading}</h2>
                             </div>
-                            <p>{post.date}</p>
+                            <p>{post.post_dateadded}</p>
                         </div>
-                    <p>{post.description}</p>
+                    <p>{post.post_bodytext}</p>
                         <div className={styles['contentFooter']}>
                                 <div className={styles["PostUserProfile"]}>
                                     <img src={post.profileImage} alt="User Profile"/>
-                                    <h2>{post.user}</h2>
+                                    <h2>{post.post_author}</h2>
                                 </div>
                             <div >
                                 <p>Click to View and Edit</p>

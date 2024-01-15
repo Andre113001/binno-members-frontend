@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import {posts} from '../../assets/posts.js'
+import React, { useContext, useEffect, useState } from 'react'
+// import {posts} from '../../assets/posts.js'
 
 import SideBar from '../../components/Sidebar/Sidebar'
 import Header from '../../components/header/Header'
@@ -12,10 +12,27 @@ import {
 import PanelContent from './PanelContent';
 import NewPostModal from '../../components/newPostModal/newPostModal.jsx'
 import SocialMediaShare from '../../components/SocialMediaShare/SocialMediaShare.jsx'
+import useHttp from '../../hooks/http-hook.js';
+import AccountContext from '../../context/accountContext.jsx';
 
 const Posts = () => {
-  
+  const accContext = useContext(AccountContext)
   const [value, setValue] = useState(0);
+  const { sendRequest, isLoading} = useHttp();
+
+  const [posts, setPosts] = useState([])
+
+
+  useEffect(() => {
+      const loadData = async () => {
+        const res = await sendRequest({
+          url: `https://binno-members-repo-production-b8c4.up.railway.app/api/posts/user/${accContext.profileData.member_id}`
+          
+        })
+        setPosts(res)
+      }
+      if(accContext.profileData) loadData()
+    },[accContext])
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -45,12 +62,12 @@ const Posts = () => {
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                   <PanelContent filteredPosts={posts.filter((post) => {
-                    return post.category === 'Milestone';
+                    return post.post_category === 'Milestone';
                     })}/>
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                   <PanelContent filteredPosts={posts.filter((post) => {
-                    return post.category === 'Promotions';
+                    return post.post_category === 'Promotions';
                     })}/>
                 </TabPanel>
                 </div>
