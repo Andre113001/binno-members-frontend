@@ -9,34 +9,35 @@ import GuideElements from './GuideElements'
 import { AddPhotoAlternateOutlined } from '@mui/icons-material'
 
 import { Chip, styled, Button } from '@mui/material'
+import useHttp from '../../hooks/http-hook'
+
 
 import './Guides.css'
 
 const GuidePage = () => {
     const { program_id } = useParams()
-    const [pageContents, setPageContents] = useState()
+    const [pageContents, setPageContents] = useState([])
     const [currentPage, setCurrentPage] = useState('')
-    const [isSaved, setIsSaved] = useState(false)
+
+    const [isSaved, setIsSaved] = useState(true)
+    
     const [backgroundImage, setBackgroundImage] = useState(
         'https://variety.com/wp-content/uploads/2023/06/MCDSPMA_SP062.jpg?w=1000&h=563&crop=1&resize=1000%2C563'
     )
     const accessToken = useAccessToken()
+    const { sendRequest, isLoading } = useHttp();
+
     useEffect(() => {
         try {
             const loadPageData = async () => {
-                const response = await fetch(
-                    `https://binno-members-repo-production-b8c4.up.railway.app/api/programs/${program_id}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    }
-                )
-                const data = await response.json()
-
-                console.log(data)
-                setPageContents(data)
-                setCurrentPage(data[0]?.program_pages_id)
+                const res = await sendRequest({ url: `/api/programs/${program_id}`, 
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                
+                setPageContents(res)
+                setCurrentPage(res.program_pages[0].program_pages_id);
             }
 
             loadPageData()
@@ -77,6 +78,9 @@ const GuidePage = () => {
         width: 1,
     })
 
+    // console.log("Page Contents: ", pageContents);
+    // console.log("Current Page: ", currentPage);
+
     return (
         <div>
             {pageContents ? (
@@ -97,7 +101,7 @@ const GuidePage = () => {
                                         + Add Page
                                     </button>
                                     <ul>
-                                        {pageContents?.map((content, index) => (
+                                        {pageContents.program_pages?.map((content, index) => (
                                             <li
                                                 key={content.program_pages_id}
                                                 className="pages"
@@ -127,7 +131,7 @@ const GuidePage = () => {
                                 <div className="page-edit">
                                     <div className="page-title-sm">
                                         <p>
-                                            {pageContents[0]?.program_heading}
+                                            {pageContents.program_heading}
                                         </p>
                                     </div>
                                     <div
@@ -174,7 +178,6 @@ const GuidePage = () => {
                     <h1>Loading...</h1>
                 </div>
             )}
-            {console.log(isSaved)}
         </div>
     )
 }

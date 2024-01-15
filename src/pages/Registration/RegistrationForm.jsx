@@ -6,14 +6,17 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Link } from 'react-router-dom';
 import Copyright from '../../components/Copyright/Copyright';
-import axios from 'axios';import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import useHttp from '../../hooks/http-hook';
 
 
 function RegistrationForm() {
   const navigate = useNavigate();
+  const { sendRequest, isLoading } = useHttp();
 
     const [formData, setFormData] = useState({
-      institution: '',
+      institute: '',
       email: '',
       address: '',
     });
@@ -29,10 +32,14 @@ function RegistrationForm() {
       const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // const checker = await axios.post(`/api/register/check`, formData);
-            // const data = await checker.json();
-            // console.log(data);
-            navigate('/registration/upload');
+            const res = await sendRequest({url: '/api/register/', 
+                method: 'POST',
+                body: JSON.stringify(formData)
+            })
+            localStorage.setItem("app_id", res.appId);
+            localStorage.setItem("form_info", formData);
+            
+            // navigate('/registration/upload');
         } catch (error) {
           console.error('Error:', error.message);
       

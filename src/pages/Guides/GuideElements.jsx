@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Sortable } from '../../components/DND/Sortable';
 import AddElement from './GuideComponents/AddElement';
 import useAccessToken from '../../hooks/useAccessToken';
+import useHttp from '../../hooks/http-hook';
 
 import {
     DndContext,
@@ -41,23 +42,26 @@ const GuideElements = (props) => {
     const [elements, setElements] = useState();
     const [elementOption, setElementOption] = useState(null);
     const [isDragging, setIsDragging] = useState(false);
-    const [editingElementId, setEditingElementId] = useState(null);
+
+    const [editingElementId, setEditingElementId] = useState(null);    
+    const [editMode, setEditMode] = useState(false)
+
     const accessToken = useAccessToken();
+    const { sendRequest, isLoading } = useHttp();
 
     useEffect(() =>  {
         try {
             const loadPageData = async () => {
-                const response = await fetch(`/api/program/page/${page}`,{
+                const res = await sendRequest({ url: `/api/programs/page/${page}`,
                     headers: {
-                      Authorization: `Bearer ${accessToken}`
+                        Authorization: `Bearer ${accessToken}`
                     }
-                });
-                const data = await response.json()
-                // console.log({"Elements": data[0], "PageData": data[1]});
-                setElements(data[0]);
-                setPageDetail(data[1][0]);
-            }
+                })
+                // console.log("Elements: ", res);
 
+                setPageDetail(res);
+                setElements(res.elements);
+            }
             loadPageData();
         } catch (error) {   
             console.log('Error Fetching Data: ', error.message);
@@ -84,7 +88,7 @@ const GuideElements = (props) => {
                 return;
             }
     
-            const response = await fetch(`/api/program/page/save/${page}`, {
+            const response = await fetch(`/api/programs/page/save/${page}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -111,11 +115,10 @@ const GuideElements = (props) => {
         const newElement = {
             id: uuidv4(), 
             type: option.type,
-            attribute: option.attribute,
+            attributes: option.attributes,
             content: option.content
         };
 
-        console.log(newElement.attribute);
         setElements((prevElements) => [newElement, ...prevElements]);
         updateSaveStatus(false);
     };
@@ -129,11 +132,11 @@ const GuideElements = (props) => {
         }
       };
           
-
-
     const handleEditElement = (id) => {
-        alert("Edit:" + id);
-      };
+        setEditMode(true);
+        setEditingElementId(id);
+        console.log(id);
+    };
     
     return (
         <div>
@@ -173,13 +176,20 @@ const GuideElements = (props) => {
                 >
                     {elements?.map((element) => (
                         <div className='sortable' key={element.id}>
-                            <Sortable id={element.id} elements={element} />
-                            <div className={`edit-button${isDragging ? ' hidden' : ''}`} onClick={() => handleEditElement(element.id)}>
+                            <Sortable id={element.id} 
+                                editingId = {editingElementId}
+                                elements={element} 
+                                editMode={handleEditElement} // Pass the editing function
+                                setEditingElementId = {setEditingElementId}
+                                setElements = {setElements}
+                                allElements = {elements}
+                              />
+                              <div className={`edit-button${isDragging ? ' hidden' : ''}`} onClick={() => handleEditElement(element.id)}>
                                 <EditOutlined />
-                            </div>
-                            <div className={`delete-button${isDragging ? ' hidden' : ''}`} onClick={() => handleDeleteElement(element.id)}>
+                              </div>
+                              <div className={`delete-button${isDragging ? ' hidden' : ''}`} onClick={() => handleDeleteElement(element.id)}>
                                 <DeleteOutline />
-                            </div>
+                              </div>
                         </div>
                     ))}
                 </SortableContext>

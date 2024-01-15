@@ -1,51 +1,42 @@
-import React from 'react'
-import Youtube from 'react-youtube'
+import React from 'react';
 
 function extractVideoCode(link) {
-    if (typeof link !== 'string') {
-      // Handle invalid input
-      return null;
-    }
-    
-    const regex = /(?:\?v=|\/embed\/|\/watch\?v=|youtu.be\/|\/v\/|\/e\/|\?v%3D|\/videos\/)([a-zA-Z0-9_-]{11})/;
-    const match = link.match(regex);
-  
-    if (match && match[1]) {
-      return match[1];
-    } else {
-      // Handle invalid or unsupported links
-      return null;
-    }
+  if (typeof link !== 'string') {
+    // Handle invalid input
+    return null;
   }
 
-const YoutubeEmbed = (props) => {
+  const regex = /(?:\?v=|\/embed\/|\/watch\?v=|youtu.be\/|\/v\/|\/e\/|\?v%3D|\/videos\/)([a-zA-Z0-9_-]{11})/;
+  const match = link.match(regex);
 
-    const videoCode = extractVideoCode(props.videoLink);
-
-    if (!videoCode) {
-      return <div>Invalid or unsupported YouTube link</div>;
-    }
-    
-    const options = {
-        height: '1080',
-        width: '720',
-        playerVars: {
-            autoplay: 0,
-            controls: 1,
-        },
-    };
-
-    return (
-    <div>
-        <Youtube videoId={videoCode} options={options} onReady={_onReady} id='video'/>
-    </div>
-  )
-
-  function _onReady(event) {
-    event.target.pauseVideo();
+  if (match && match[1]) {
+    return match[1];
+  } else {
+    // Handle invalid or unsupported links
+    return null;
   }
-
-  
 }
 
-export default YoutubeEmbed
+const YoutubeEmbed = (props) => {
+  const videoCode = extractVideoCode(props.videoLink);
+
+  if (!videoCode) {
+    return <div>Invalid or unsupported YouTube link</div>;
+  }
+
+  return (
+    <div>
+      <iframe
+        title="YouTube Video"
+        width="1400"
+        height="720"
+        src={`https://www.youtube.com/embed/${videoCode}`}
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      ></iframe>
+    </div>
+  );
+};
+
+export default YoutubeEmbed;

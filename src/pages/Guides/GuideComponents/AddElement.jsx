@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import { styled, alpha } from '@mui/material/styles';
-import { Button, Menu, MenuItem } from '@mui/material';
+import { Button, Menu, MenuItem, TextField, Typography, Divider } from '@mui/material';
 import { 
     Add,
     Title,
@@ -8,7 +8,10 @@ import {
     Image,
     InsertLink,
     YouTube
- } from '@mui/icons-material';
+} from '@mui/icons-material';
+
+import { FileUploader } from 'react-drag-drop-files';
+import useCustomModal  from '../../../hooks/useCustomModal';
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -52,17 +55,34 @@ const StyledMenu = styled((props) => (
 }));
 
 export default function AddElement({ onSelectOption }) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const { handleClose, handleOpen, CustomModal } = useCustomModal();
+  const [passContent, setPassContent] = useState();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+
+  const handleCloseAdd = () => {
     setAnchorEl(null);
   };
 
   return (
     <div>
+      {
+        <CustomModal
+          handleOpen={handleOpen}
+          handleClose={handleClose}
+          content = {
+            <>
+              <h1>{passContent}</h1>
+              <Button fullWidth variant='contained' sx={{p: 2.5, borderRadius: 2}} style={{backgroundColor: "#ff7a00"}}>Submit</Button>
+            </>
+          }
+        />
+      }
       <Button
         id="demo-customized-button"
         aria-controls={open ? 'demo-customized-menu' : undefined}
@@ -82,46 +102,122 @@ export default function AddElement({ onSelectOption }) {
         }}
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClose}
+        onClose={handleCloseAdd}
       >
         <MenuItem onClick={() => { onSelectOption({ 
             type: 'h1', 
             attributes: "class=\"element_h1\"", 
             content: "New Added"
-          }); handleClose(); }} disableRipple>
+          }); handleCloseAdd(); }} disableRipple>
           <Title />
           Heading
         </MenuItem>
-        <MenuItem onClick={() => { onSelectOption({ 
-          type: 'p',
-          attributes: "class=\"element_p\"",
-          content: "New Paragraph"
-          }); handleClose(); }} disableRipple>
+        <MenuItem 
+          onClick={() => {
+            onSelectOption({ 
+              type: 'p',
+              attributes: "class=\"element_p\"",
+              content: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi vel quas magni id perferendis tenetur, nisi expedita, vitae voluptates a beatae pariatur neque sunt repudiandae labore ratione! Nemo libero quis quia nostrum distinctio tenetur eum odio consequuntur fuga impedit officiis quod non itaque mollitia repudiandae nam officia, tempore error obcaecati!"
+            });
+            handleCloseAdd();
+          }} 
+          disableRipple
+        >
           <Notes />
           Paragraph
         </MenuItem>
         {/* <Divider sx={{ my: 0.5 }} /> */}
-        <MenuItem onClick={() => { onSelectOption({ 
-          type: 'img',
-          attributes: "src=\"https://variety.com/wp-content/uploads/2023/06/MCDSPMA_SP062.jpg?w=1000&h=563&crop=1&resize=1000%2C563\"",
-          content: ""
-          }); handleClose(); }} disableRipple>
+        <MenuItem onClick={() => {
+          handleOpen();
+          setPassContent(
+            <>
+              <center>
+              <Typography variant='h3'>Upload an image</Typography>
+              {/* <TextField
+                margin="normal"
+                fullWidth
+                id="image-link"
+                label="Image Link"
+                name="access-key"
+                autoComplete="off"
+                autoFocus
+              />
+              <Typography fontSize={30}>or</Typography> */}
+              <FileUploader
+                  required
+                  maxSize={20}
+                  minSize={0.002}
+                  onSizeError={(file) => alert(`File ${file.name} exceeds the allowed size.`)}
+                  label={`Upload your files here`}
+                  types={['JPG', 'PNG']}
+                  handleChange={(file) => handleCoverPhotoFileChange(file)}
+              /></center>
+            </>
+          );
+        // { onSelectOption({ 
+        //   type: 'img',
+        //   attributes: "src=\"https://variety.com/wp-content/uploads/2023/06/MCDSPMA_SP062.jpg?w=1000&h=563&crop=1&resize=1000%2C563\" class=\"element_img\"",
+        //   content: ""
+        //   }
+          handleCloseAdd(); }} disableRipple>
           <Image />
           Image
         </MenuItem>
-        <MenuItem onClick={() => { onSelectOption({ 
-          type: 'a',
-          attributes: "href='https://www.youtube.com/watch?v=mwKJfNYwvm8' class='element_a'",
-          content: "Click me"
-          }); handleClose(); }} disableRipple>
+        <MenuItem onClick={() => { 
+          handleOpen();
+          setPassContent(
+            <>
+              <center><Typography variant='h4'>Your text</Typography>
+              <TextField
+                margin="normal"
+                fullWidth
+                name="link-text"
+                autoComplete="off"
+                autoFocus
+                placeholder='Example: Click Me, Press me to access page'
+              />
+              <Typography variant='h4' >Hyperlink</Typography>
+              <TextField
+                margin="normal"
+                fullWidth
+                name="link-link"
+                autoComplete="off"
+                autoFocus
+                placeholder='https://'
+              />
+              </center>
+            </>
+          );
+          // onSelectOption({ 
+          //   type: 'a',
+          //   attributes: "href='https://www.youtube.com/watch?v=mwKJfNYwvm8' class='element_a'",
+          //   content: "Click me"
+          handleCloseAdd(); }} disableRipple>
           <InsertLink />
           Link
         </MenuItem>
-        <MenuItem onClick={() => { onSelectOption({ 
-          type: "YoutubeEmbed",
-          attribute: "videoLink='https://www.youtube.com/watch?v=FTsuS3Opf1s'", 
-          content: ''
-          }); handleClose(); }} disableRipple>
+        <MenuItem onClick={() => { 
+          handleOpen();
+          setPassContent(
+            <>
+              <center><Typography variant='h4' fontWeight={"bold"}>Youtube Embed</Typography>
+              <TextField
+                margin="normal"
+                fullWidth
+                name="yt-link"
+                autoComplete="off"
+                autoFocus
+                placeholder='https://www.youtube.com/watch?v=FTsuS3Opf1s'
+              />
+              </center>
+            </>
+          );
+          // onSelectOption({ 
+          // type: "iframe",
+          // attributes: `title="YouTube Video" width="1300" height="720" src="https://www.youtube.com/embed/FTsuS3Opf1s" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen`, 
+          // content: ''
+          // }); 
+          handleCloseAdd(); }} disableRipple>
           <YouTube />
           Youtube Embed
         </MenuItem>

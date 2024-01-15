@@ -163,6 +163,7 @@ Link {
     display: flex;
     width: 100%;
     flex-wrap: wrap;
+    position: relative;
 }
 .title h1{
     width: 100%;
@@ -212,7 +213,7 @@ Link {
 
 .edit-button {
     position: absolute;
-    top: 10px;
+    top: 18px;
     right: -50px; /* Adjust the right offset as needed */
     cursor: pointer;
     background-color: #f2e698;
@@ -249,4 +250,7 @@ Link {
     line-height: 35px;
 }
 
+.element_a {
+    font-size: 25px;
+}
 

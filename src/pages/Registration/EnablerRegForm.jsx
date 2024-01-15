@@ -7,8 +7,10 @@ import TextField from '@mui/material/TextField';
 import { Link } from 'react-router-dom';
 import Copyright from '../../components/Copyright/Copyright';
 import { useNavigate } from 'react-router-dom';
+import useHttp from '../../hooks/http-hook';
 
 function EnablerRegForm() {
+    const { sendRequest, isLoading }  = useHttp()
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState('');
     const dropdownRef = useRef();
@@ -64,7 +66,7 @@ function EnablerRegForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Form submitted with data:', formData);
-        navigate('/registration/upload');
+        // navigate('/registration/upload');
       };
 
   return (

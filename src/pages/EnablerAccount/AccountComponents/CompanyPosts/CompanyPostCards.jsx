@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 const PostCards = () => {
 
     console.log(posts)
-  return (
+return (
     <>
         <section className={styles["PostsPage"]}>     
             <div className={styles["titleContainer"]}>
@@ -15,8 +15,8 @@ const PostCards = () => {
             </div>
             <div className={styles["content"]}>
                 {posts?.map((item)=> (
-                <Link to='#' style={{textDecoration: 'none'}}>
-                    <div className={styles["boxItems"]} key={item.id}> 
+                <Link to='#' key={item.id} style={{textDecoration: 'none'}}>
+                    <div className={styles["boxItems"]} > 
                         <div className={styles["userInfoContainer"]}>
                             <img src={item.userProfile} alt='' style={{margin: '20px',width: '60px',height:'auto',borderRadius: '50%'}}/>
 
