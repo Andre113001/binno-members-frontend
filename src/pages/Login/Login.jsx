@@ -147,6 +147,7 @@ const Login = () => {
                         style={{
                             backgroundColor: "#ff7a00",
                         }}
+                        disabled={isLoading}
                     >
                         Sign-in
                     </Button>

@@ -23,7 +23,7 @@ const Blogs = () => {
                 <h1>My Entries</h1>
                   <div className={styles["blogButtons"]}> {/*create button container*/}
                     <div className={styles["addButtonContainer"]}>
-                        <Link to="/blogs/blogPage" style={{textDecoration:'none'}}>
+                        <Link to="/blogs/create" style={{textDecoration:'none'}}>
                         <button className={styles["actualButton"]}><AddRoundedIcon />Create New Entry</button>
                         </Link>
                     </div>

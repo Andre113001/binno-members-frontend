@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import './SideBar.css'
 import  SideBarData_Enabler  from './SideBarData_Enabler';
 import SideBarData_Company from './SideBarData_Company';
@@ -7,10 +7,15 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { Link, useNavigate } from 'react-router-dom';
 import useLoadProfile from "../../hooks/useLoadProfile";
 
+import AccountContext from '../../context/accountContext';
 
 function SideBar() {
+    const accCtx = useContext(AccountContext)
+
     const [data, setData] = useState([]);
-    const { profileData } = useLoadProfile();
+    const { profileData, isLoading } = useLoadProfile();
+    const [userType, setUserType] = useState()
+
 
     const enablerSelections = () => {
         return SideBarData_Enabler.map((val, key)=>{
@@ -45,17 +50,6 @@ function SideBar() {
             );   
         });
     };    
-
-    useEffect(() => {
-        const loadHeadingData = async () => {
-            if (profileData) {
-                const result = await profileData;
-                setData(result)
-            }
-        }
-
-        loadHeadingData();
-    }, [profileData])
     
     const navigate = useNavigate();
 
@@ -65,19 +59,21 @@ function SideBar() {
         navigate('/')
     }
 
-    return <div className='SideBar'>
-    <div className="sideBarContent">
-        <img src={logo} alt="BiNNO" className='logo'/>
-        {/* insert type of user */}
-        <ul className='SideBarList'>
-            {data.user_type === "Startup Company" ? companySelections() : enablerSelections()}
-        </ul>
+    return  (
+    <div className='SideBar'>
+        <div className="sideBarContent">
+            <img src={logo} alt="BiNNO" className='logo'/>
+            {/* insert type of user */}
+            <ul className='SideBarList'>
+                {accCtx.profileData?.user_type === "Startup Company" ? companySelections() : enablerSelections()}
+            </ul>
+        </div>
+        <div className="logout" onClick={handleDestroyToken}>
+            <LogoutRoundedIcon />
+            <p>Logout</p>
+        </div>
     </div>
-    <div className="logout" onClick={handleDestroyToken}>
-        <LogoutRoundedIcon />
-        <p>Logout</p>
-    </div>
-    </div>;
+    )
 }
 
 export default SideBar

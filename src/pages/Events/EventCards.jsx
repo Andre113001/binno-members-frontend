@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded'
 import styles from './EventCard.module.css'
 import useLoadProfile from '../../hooks/useLoadProfile'
 import useAccessToken from '../../hooks/useAccessToken'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Events = () => {
     const [events, setEvents] = useState([])
     const { profileData } = useLoadProfile()
     const accessToken = useAccessToken()
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         const loadHeadingData = async () => {
@@ -37,35 +39,45 @@ const Events = () => {
             <section className={styles['content']}>
                 <div className={styles['grid2']}>
                     {events.map((event) => (
-                        // <Link to={`/events/${eventId}`} key={eventId} style={{textDecoration: 'none', color: 'inherit'}}>
-                        <div
-                            className={styles['boxItems']}
-                            key={event.event_id}
+                        <Link to={`/events/${event.event_id}`} 
+                            onClick={(e)=>{
+                                e.preventDefault()
+                                navigate(`/events/${event.event_id}`,
+                                {state: {
+                                    event
+                                }})
+                        }}
+                        key={event.event_id}
+                        style={{ textDecoration: 'none', color: 'inherit'}}
                         >
-                            <div className={styles['img']}>
-                                <img src="" alt="" />
-                            </div>
-                            <div className={styles['details']}>
-                                <div className={styles['date']}>
-                                    <h4>{event.event_date}</h4>
+                            <div
+                                className={styles['boxItems']}
+                                key={event.event_id}
+                            >
+                                <div className={styles['img']}>
+                                    <img src="" alt="" />
                                 </div>
-                                <h3>{event.event_title}</h3>
-                                <p>
-                                    {event.event_description.slice(0, 250)}...
-                                </p>
-                                <div
-                                    className={
-                                        styles['contentUserInfoContainer']
-                                    }
-                                >
-                                    <div className={styles['userProfileImg']}>
-                                        <img src="" alt="" />
+                                <div className={styles['details']}>
+                                    <div className={styles['date']}>
+                                        <h4>{event.event_date}</h4>
                                     </div>
-                                    <p>{profileData.setting_institution}</p>
+                                    <h3>{event.event_title}</h3>
+                                    <p>
+                                        {event.event_description.slice(0, 250)}...
+                                    </p>
+                                    <div
+                                        className={
+                                            styles['contentUserInfoContainer']
+                                        }
+                                    >
+                                        <div className={styles['userProfileImg']}>
+                                            <img src="" alt="" />
+                                        </div>
+                                        <p>{profileData.setting_institution}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        // </Link>
+                        </Link>
                     ))}
                 </div>
             </section>
