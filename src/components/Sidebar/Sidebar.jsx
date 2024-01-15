@@ -14,16 +14,17 @@ function SideBar() {
 
     const [data, setData] = useState([]);
     const { profileData, isLoading } = useLoadProfile();
-    const [userType, setUserType] = useState()
+    const [userType, setUserType] = useState(null)
    
-    useEffect(() => {
-        const loadData = () => {
-            setUserType(accCtx.profileData?.user_type)
-        } 
-        console.log(accCtx);
-        loadData()
+    // useEffect(() => {
+    //     const loadData = () => {
+    //         setUserType(accCtx.profileData.user_type)
+    //     } 
+    //     console.log(accCtx);
+    //     if(accCtx.profileData)loadData()
+    // },[accCtx])
 
-    },[])
+    // console.log('aaaaa', accCtx);
 
 
     const enablerSelections = () => {
@@ -75,7 +76,7 @@ function SideBar() {
             <img src={logo} alt="BiNNO" className='logo'/>
             {/* insert type of user */}
             <ul className='SideBarList'>
-                {accCtx.profileData?.user_type === "Startup Company" ? (companySelections()) : (accCtx.profileData?.user_type === "Startup Enabler") ? (enablerSelections()):(isLoading)}
+                {profileData?.user_type === "Startup Company" ? (companySelections()) : (profileData?.user_type === "Startup Enabler") ? (enablerSelections()):(<></>)}
             </ul>
         </div>
         <div className="logout" onClick={handleDestroyToken}>
