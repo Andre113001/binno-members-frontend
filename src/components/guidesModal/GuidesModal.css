@@ -79,26 +79,6 @@ body.active-modal {
     padding: 20px;
 }
 
-.categoryButton{
-    background-color: #999999;
-    border-radius: 10px;
-    padding: 10px 20px;
-    border: none;
-    color: #f1f1f1;
-    margin: 0 10px ;
-}
-
-.datepickerContainer
-{
-    display: flex;
-    align-items: flex-end;
-    flex-direction: column;
-    font-family: 'Inter', sans-serif;
-    padding: 10px;
-    margin: 0 15px;
-}
-
-
 .contentDetail{
     height: 200px;
     display: inline-block;
