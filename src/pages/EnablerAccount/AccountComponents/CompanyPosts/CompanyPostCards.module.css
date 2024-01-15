@@ -9,6 +9,9 @@
     border-radius: 10px; 
     margin: 0 10px;
     background-color: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .titleContainer{
@@ -19,7 +22,7 @@
     margin: 0 20px;
   }
 
-  .titleContainer h1, .boxItems a  {
+  .titleContainer h1{
     flex: 1;
     font-style: normal;
     margin: 10px;
@@ -31,14 +34,16 @@
     align-items: center;
   }
 
-  .content .boxItems {
-    max-width: 95%;
+  .content .boxItems {  
+    max-height: 600px;  
+    min-width: 300px;
+    padding: 10px;
     transition: 0.5s;
     background-color: white;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    margin: 10px;
+    margin: 10px 0;
   }
   
   .content .boxItems:hover {
@@ -84,6 +89,10 @@
     font-weight: 200;
   }
 
+  .ChipsContiner{
+    display: flex;
+    margin: 5px;
+  }
 
   .content .UserDateContainer p {
     color: #575757;

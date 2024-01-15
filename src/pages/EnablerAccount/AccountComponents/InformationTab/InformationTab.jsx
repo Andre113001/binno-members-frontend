@@ -90,11 +90,11 @@ function InformationTab(props) {
                   <hr />
                   <div className={styles["enablerContent"]}>
                       <p className={styles["enablerDescription"]}>{props.description}</p>
-                      <p className={styles["enablerLocation"]}><FmdGoodRoundedIcon /> {props.address}</p>
+                      <p className={styles["enablerLocation"]}><FmdGoodRoundedIcon />⠀{props.address}</p>
                       <div className={styles["enablerContact"]} >
-                          <p><EmailRoundedIcon />{props.email}</p>
-                          <p><CallRoundedIcon />{props.phone}</p>
-                          <p><FacebookRoundedIcon/>@{props.fb}</p>
+                          <p><EmailRoundedIcon />⠀{props.email}</p>
+                          <p><CallRoundedIcon />⠀{props.phone}</p>
+                          <p><FacebookRoundedIcon/>⠀@{props.fb}</p>
                       </div>
                   </div>
                </div>

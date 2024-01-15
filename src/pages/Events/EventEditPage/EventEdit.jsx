@@ -51,14 +51,8 @@
       }
       loadData()
     }, [receivedData])
-    
-    // const handleChange = (e) => {
-    //   setEventData((prevData) => ({
-    //     ...prevData,
-    //     [e.target.id]: e.target.value,
-    //   }));
-    // };
 
+    
     const handleSubmit = (e) => {
       e.preDefault();
       const title = e.target.elements.title.value;

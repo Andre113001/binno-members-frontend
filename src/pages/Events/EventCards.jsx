@@ -59,7 +59,7 @@ const Events = () => {
                                 </div>
                                 <div className={styles['details']}>
                                     <div className={styles['date']}>
-                                        <h4>{event.event_date}</h4>
+                                        <h4>{event.event_datecreated}</h4>
                                     </div>
                                     <h3>{event.event_title}</h3>
                                     <p>
