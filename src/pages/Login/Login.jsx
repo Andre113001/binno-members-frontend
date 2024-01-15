@@ -75,7 +75,7 @@ const Login = () => {
 
 
         try {
-            const res = await sendRequest({url: `${import.meta.env.VITE_BACKEND_DOMAIN}/api/login`, 
+            const res = await sendRequest({url: `${import.meta.env.VITE_BACKEND_DOMAIN}/login`, 
                 method: 'POST',
                 body: JSON.stringify(requestData)
             })
