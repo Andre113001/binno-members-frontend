@@ -83,7 +83,7 @@ function AccountPage() {
                     <EventCards />
                 </div>
             </div>
-            ) : (
+            ) : profileData?.user_type === "Startup Company" ? (
               <div className={styles['bodyContainer']}>
                 <div className={styles['AccountContent']}>
                   <CompanyInformationTab />
@@ -91,7 +91,10 @@ function AccountPage() {
                   <CompanyEvents />
                 </div>
              </div>
-            )}
+            ) : (
+              <></>
+            )
+          }
             
             </>
            ) : (

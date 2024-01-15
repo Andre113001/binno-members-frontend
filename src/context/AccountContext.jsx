@@ -1,4 +1,4 @@
-import React , {useContext, useEffect, } from 'react'
+import React , {useContext, useEffect, useState, } from 'react'
 import useLoadProfile from '../hooks/useLoadProfile'
 import { useNavigate } from 'react-router-dom'
 
@@ -8,10 +8,16 @@ const AccountContext = React.createContext({
 })
 
 export const AccountContextProvider = (props) => {
-    const {profileData, isLoading, handleDestroyToken} = useLoadProfile()
-    // const navigate = useNavigate()
+    const {profileData: profile, isLoading, handleDestroyToken} = useLoadProfile()
+    // const navigate = useNavigate()'
+    const [profileData, setProfileData] = useState(profile)
 
-
+    useEffect(() => {
+        const fetchData = async () => {
+            setProfileData(profile)
+        }
+        fetchData()
+    }, [profile])
 
     return <AccountContext.Provider 
     value={{
