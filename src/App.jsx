@@ -28,7 +28,7 @@ import BlogPage from './pages/Blogs/BlogPage/BlogPage';
 import BlogEdit from './pages/Blogs/BlogEdit/BlogEdit';
 import UploadDocuments from './pages/Registration/UploadDocuments/UploadDocuments';
 import Testing from './pages/Testing/testing';
-import AccountContext from './context/accountContexsst';
+import AccountContext from './context/accountContext';
 import useLoadProfile from './hooks/useLoadProfile';
 import PostEdit from './pages/Posts/PostEditPage/PostEdit';
 // import PostEdit from './pages/Posts/PostEditPage/PostEdit';

@@ -13,7 +13,7 @@ import PanelContent from './PanelContent';
 import NewPostModal from '../../components/newPostModal/newPostModal.jsx'
 import SocialMediaShare from '../../components/SocialMediaShare/SocialMediaShare.jsx'
 import useHttp from '../../hooks/http-hook.js';
-import AccountContext from '../../context/accountContexsst.jsx';
+import AccountContext from '../../context/accountContext.jsx';
 
 import { fetchImage } from '../../hooks/image-hook.js';
 

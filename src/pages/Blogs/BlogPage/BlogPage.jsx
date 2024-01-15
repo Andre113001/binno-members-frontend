@@ -10,7 +10,7 @@ import BlogImageUpload from '../../../components/blogImageUpload/blogImageUpload
 import styles from './BlogPage.module.css'
 import axios from 'axios';
 import useLoadProfile from '../../../hooks/useLoadProfile';
-import AccountContext from '../../../context/accountContexsst';
+import AccountContext from '../../../context/accountContext';
 
 // const VisuallyHiddenInput = styled('input')({
 //   clip: 'rect(0 0 0 0)',

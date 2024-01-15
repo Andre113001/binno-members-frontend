@@ -17,11 +17,14 @@ function AccountHeader(props) {
     useEffect(() => {
         const loadData = async () => {
             const pic = await fetchImage(profileData.setting_profilepic)
-            setImageSrc(URL.createObjectURL(pic))
+            console.log(profileData.setting_profilepic)
+            const newBlob = new Blob([pic], { type: 'image/jpeg' });
+            console.log(newBlob)
+            setImageSrc(URL.createObjectURL(newBlob))
         }
 
-        loadData()
-    }, [])
+        if(profileData) loadData()
+    }, [profileData])
 
     return (
     <>
