@@ -14,7 +14,6 @@ export const AccountContextProvider = (props) => {
     
     const handleLogout = () => {
         handleDestroyToken()
-        console.log('sd')
     }
     useEffect(() => {
         const fetchData = async () => {

@@ -17,6 +17,8 @@ import useHttp from '../../hooks/http-hook';
 import Copyright from '../../components/Copyright/Copyright';
 import { MuiOtpInput } from 'mui-one-time-password-input'
 
+import logo from '../../../public/img/binno-logo.png'
+
 const Login = () => {
     const navigate = useNavigate();
     const { login, setMemberId } = useAuth();
@@ -73,7 +75,7 @@ const Login = () => {
 
 
         try {
-            const res = await sendRequest({url: '/api/login', 
+            const res = await sendRequest({url: `${import.meta.env.VITE_BACKEND_DOMAIN}/login`, 
                 method: 'POST',
                 body: JSON.stringify(requestData)
             })
@@ -111,7 +113,7 @@ const Login = () => {
             alignItems: 'center',
             }}
         >
-            <img src="../../../public/img/binno-logo.png" alt="" />
+            <img src={logo} alt="" />
             {currentSection === 1 && (
                 <>
                     <Typography fontWeight={'bold'} className='sm:text-sm' component="h1" variant="h5">
