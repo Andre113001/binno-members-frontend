@@ -92,11 +92,10 @@ body.active-modal {
 .datepickerContainer
 {
     display: flex;
-    align-items: flex-end;
-    flex-direction: column;
+    flex-direction: row;
+    width: 96%;
     font-family: 'Inter', sans-serif;
     padding: 10px;
-    margin: 0 15px;
 }
 
 

@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
+
 export default function NewEventModal() {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [isEditActive, setIsEditActive] = useState(true)
@@ -49,7 +50,8 @@ export default function NewEventModal() {
                           <input 
                             type="text"
                             className='titleTextBox'
-                            placeholder='Create new event' 
+                            placeholder='Title' 
+                          style={{margin: '10px', outline: 'none'}}
                             // value={eventTitle}
                             // onChange={(e) => setEventTitle(e.target.value)}
                           />

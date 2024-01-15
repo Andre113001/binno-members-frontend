@@ -5,7 +5,9 @@ import Stack from '@mui/material/Stack';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+
 
 function Label({ componentName, valueType }) {
   const content = (
@@ -22,14 +24,16 @@ export default function CommonlyUsedComponents() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer
         components={[
-          'DateTimePicker',
+          'DatePicker',
+          'TimePicker',
         ]}
       >
-        <DemoItem
-          label={<Label componentName="Select a Date and Time"/>}
-        >
-          <DateTimePicker sx={{width:'250px'}}/>
-        </DemoItem>
+            <DemoItem label={<Label componentName="DatePicker" valueType="date" />}>
+              <DatePicker />
+            </DemoItem>
+          <DemoItem label={<Label componentName="TimePicker" valueType="time" />}>
+            <TimePicker />
+          </DemoItem>
       </DemoContainer>
     </LocalizationProvider>
   );
