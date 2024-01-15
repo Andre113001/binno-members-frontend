@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'; 
 
 import Box from '@mui/material/Box';
@@ -8,6 +8,9 @@ import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import BlogImageUpload from '../../../components/blogImageUpload/blogImageUpload';
 
 import styles from './BlogPage.module.css'
+import axios from 'axios';
+import useLoadProfile from '../../../hooks/useLoadProfile';
+import AccountContext from '../../../context/accountContext';
 
 // const VisuallyHiddenInput = styled('input')({
 //   clip: 'rect(0 0 0 0)',
@@ -23,11 +26,16 @@ import styles from './BlogPage.module.css'
 
 
 function BlogPage() {
+  const accountCtx = useContext(AccountContext);
+  const [uploadedFile, setUploadedFile] = useState()
+  const { profileData } = useLoadProfile();
 
   const [blogData, setBlogData] = useState({
-    title: '',
-    description: '',
+    blogTitle: '',
+    blogContent: '',
   });
+
+  console.log(accountCtx.profileData);
 
   
   const handleChange = (e) => {
@@ -37,13 +45,21 @@ function BlogPage() {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preDefault();
-    const title = e.target.elements.title.value;
-    // const category = e.target.elements.category.value;
-    const description = e.target.elements.description.value;
-    console.log('Form submitted:', { title, description});
-    toggleModal();
+  const handleSubmit = async (e) => {
+    try {
+      // const formData = new FormData();
+      // // const data = {...blogData, file: uploadedFile }
+
+      // formData.append('blogTitle', blogData.blogTitle);
+      // formData.append('blogContent', blogData.blogContent);
+      // formData.append('file', uploadedFile);
+
+      // console.log(formData);
+
+      // const res = await axios('/api/blogs/post')
+    } catch (error) {
+      console.log(error);
+    }
   };
 
 
@@ -60,13 +76,11 @@ function BlogPage() {
                     </button>
                     </Link>
                   </div>
-
-                  <button className={styles['publishBtn']} type='submit'>
-                    Publish
-                  </button>
-                  
                 </div>
                 <form className={styles['formContainer']} onSubmit={handleSubmit}>
+                <button className={styles['publishBtn']} type='submit'>
+                    Publish
+                </button>
                 <Box
                   component="form"
                   sx={{
@@ -75,24 +89,27 @@ function BlogPage() {
                 >
                   <div className={styles['titleContainer']}>
                     <input
-                      id='title'
-                      value={blogData.title}
+                      id='blogTitle'
+                      value={blogData.blogTitle}
                       onChange={handleChange}
                       placeholder="Enter your title here..."
                       style={{border: 'none', padding: '10px', fontSize: '40px', fontWeight: '700', width:'100%', outline:'none'}}
                     />
                   </div>
                   <div className={styles['UploadImage']}>
-                    <BlogImageUpload />
+                    <BlogImageUpload
+                      uploadedFile={uploadedFile}
+                      setUploadedFile={setUploadedFile}
+                    />
                   </div>
                   <div className={styles['descriptionContainer']}>
                     <TextField
-                      id='description'
+                      id='blogContent'
 
-                      value={blogData.description}
+                      value={blogData.blogContent}
                       onChange={handleChange}
                       multiline
-                      placeholder="What is it all about?"
+                      placeholder="Tell us about it..."
                       style={{border: 'none', padding: '10px', fontSize: '18px', width:'98%', outline:'none'}}
                       minRows={6}
                       maxRows={7}

@@ -111,6 +111,25 @@ const GuideElements = (props) => {
         }
     };
 
+
+    const handleCoverPhotoFileChange = async (file) => {
+        // console.log(file)
+        // Convert File to Blob
+        const blob = file.slice(0, file.size, file.type);
+
+// Now 'blob' is a Blob object that you can use as needed
+        const newElement = {
+            id: uuidv4(), 
+            type: "img",
+            attributes: `src=\"${URL.createObjectURL(blob)}\" style=\"max-width: '400px'\"`,
+            content: ''
+        };
+
+
+        setElements((prevElements) => [newElement, ...prevElements]);
+        console.log('ds');
+        updateSaveStatus(false);
+    }
     const handleAddElement = async (option) => {
         const newElement = {
             id: uuidv4(), 
@@ -137,6 +156,11 @@ const GuideElements = (props) => {
         setEditingElementId(id);
         console.log(id);
     };
+
+    useEffect(()=>{
+        console.log('hi');
+        console.log(elements);
+    },[elements])
     
     return (
         <div>
@@ -156,7 +180,7 @@ const GuideElements = (props) => {
                     </div>
                     <div className="page-add-btn"> {/* THIS SHOULD BE A DROP-DOWN */}
                         {/* <button>Add Element</button> */}
-                        <AddElement onSelectOption={handleAddElement}/>
+                        <AddElement onSelectOption={handleAddElement} onHandleImage={handleCoverPhotoFileChange}/>
                     </div>
                 </Stack>
             </div>

@@ -6,11 +6,15 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import useLoadProfile from '../../hooks/useLoadProfile';
 
 
 export default function NewEventModal() {
     const [currentDate, setCurrentDate] = useState(new Date());
-    const [isEditActive, setIsEditActive] = useState(true)
+    const [isEditActive, setIsEditActive] = useState(true);
+    const { profileData } = useLoadProfile();
+
+    console.log(profileData);
 
     const toggleEdit = () => {
       setIsEditActive((prev) => !prev);

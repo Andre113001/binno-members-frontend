@@ -64,9 +64,9 @@ function SideBar() {
     const navigate = useNavigate();
 
     function handleDestroyToken() {
-        // localStorage.removeItem('access');
+        localStorage.removeItem('access');
         // console.log('Token Destroyed');
-        accCtx.handleLogout
+        // console.log(accCtx)()|
         navigate('/')
     }
 

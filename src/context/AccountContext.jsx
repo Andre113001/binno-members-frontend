@@ -11,7 +11,11 @@ export const AccountContextProvider = (props) => {
     const {profileData: profile, isLoading, handleDestroyToken} = useLoadProfile()
     // const navigate = useNavigate()'
     const [profileData, setProfileData] = useState(profile)
-
+    
+    const handleLogout = () => {
+        handleDestroyToken()
+        console.log('sd')
+    }
     useEffect(() => {
         const fetchData = async () => {
             setProfileData(profile)
@@ -21,7 +25,7 @@ export const AccountContextProvider = (props) => {
 
     return <AccountContext.Provider 
     value={{
-        profileData: profileData, handleLogout: handleDestroyToken
+        profileData: profileData, handleLogout: () => {handleLogout()}
     }}>
         {props.children}
         

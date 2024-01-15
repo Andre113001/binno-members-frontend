@@ -4,8 +4,8 @@ import styles from './blogImageUpload.module.css'
 import ImageRoundedIcon from '@mui/icons-material/ImageRounded';
 
 
-function BlogImageUpload() {
-    const [uploadedFile, setUploadedFile] = useState()
+function BlogImageUpload(props) {
+    const { uploadedFile, setUploadedFile } = props;
     const [uploadError, setUploadError] = useState(null)
     const fileRef = useRef()
 
@@ -28,9 +28,6 @@ function BlogImageUpload() {
 
         setUploadedFile(file)
         setUploadError(null)
-        
-        console.log('Uploaded File:', file);
-
 
         return []
     }

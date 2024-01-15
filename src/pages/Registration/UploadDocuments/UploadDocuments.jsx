@@ -59,31 +59,10 @@ const UploadDocuments = () => {
                 formData.append(`files`, file);
             });
 
-            // console.log("hhh:", formData);
-    
-            // const res = await sendRequest('/api/register/upload', {
-            //     method: 'POST',
-            //     body: JSON.stringify(formData),  // Pass FormData directly
-            //     // Set the Content-Type header for FormData
-            //     headers: {
-            //         'Content-Type': 'multipart/form-data',
-            //     },
-            // });
-
-
-
-            // console.log(res);
-    
-            // // Handle the response as needed
-            // const result = await res.json();
-            // console.log(result);
-    
-            // Further logic based on the response
-            // if (result.result) {
-            //     setUploadSuccess(true);
-            //     localStorage.clear();
-            // }
-            const res = await axios.post('http://localhost:3200/api/register/upload', formData);
+            const res = await axios.post('/api/register/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',}
+                });
 
             if (res.data.result === true) {
                 setUploadSuccess(true);

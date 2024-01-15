@@ -54,11 +54,12 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function AddElement({ onSelectOption }) {
+export default function AddElement({ onSelectOption,onHandleImage }) {
   const { handleClose, handleOpen, CustomModal } = useCustomModal();
   const [passContent, setPassContent] = useState();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const [image, setImage] = useState()
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -78,7 +79,7 @@ export default function AddElement({ onSelectOption }) {
           content = {
             <>
               <h1>{passContent}</h1>
-              <Button fullWidth variant='contained' sx={{p: 2.5, borderRadius: 2}} style={{backgroundColor: "#ff7a00"}}>Submit</Button>
+              <Button fullWidth variant='contained' sx={{p: 2.5, borderRadius: 2}} style={{backgroundColor: "#ff7a00"}} onClick={handleClose}>Submit</Button>
             </>
           }
         />
@@ -150,8 +151,10 @@ export default function AddElement({ onSelectOption }) {
                   onSizeError={(file) => alert(`File ${file.name} exceeds the allowed size.`)}
                   label={`Upload your files here`}
                   types={['JPG', 'PNG']}
-                  handleChange={(file) => handleCoverPhotoFileChange(file)}
-              /></center>
+                  handleChange={(file) => {onHandleImage(file);}}
+              />
+              
+              </center>
             </>
           );
         // { onSelectOption({ 

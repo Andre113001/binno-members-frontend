@@ -30,10 +30,11 @@ const useLoadProfile = () => {
     
 
     function handleDestroyToken() {
+        console.log("destroyed token");
         localStorage.removeItem('access');
         console.log('Token Destroyed');
         setProfileData(null)
-        // navigate('/')
+        navigate('/')
     }
 
     // Return the profileData, so it can be used by the component using this hook
