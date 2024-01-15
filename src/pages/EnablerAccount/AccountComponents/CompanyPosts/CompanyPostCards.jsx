@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import useLoadProfile from '../../../../hooks/useLoadProfile'
 import useAccessToken from '../../../../hooks/useAccessToken';
 import { Link, useNavigate} from 'react-router-dom';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
 
 import styles from './CompanyPostCards.module.css'
 
@@ -10,6 +12,9 @@ const PostCards = () => {
     const [posts, setPosts] = useState([])
     const { profileData } = useLoadProfile()
     const accessToken = useAccessToken()
+
+    const fullDate = new Date(dateWithTime);
+    const dateOnly = fullDate.toISOString().split('T')[0];
 
     const navigate = useNavigate()
 
@@ -70,6 +75,18 @@ return (
                             </div>
                         <div className={styles["details"]}>
                             <h3>{post.post_heading}</h3>
+                            <div className={styles['ChipsContiner']}>
+                                <Stack direction="row" >
+                                    <Chip
+                                        label={post.post_category}
+                                        sx={{
+                                            backgroundColor: post.post_category === 'Milestone' ? '#fd7c06' : '#054eae',
+                                            color: '#fff',
+                                            padding: '5px',
+                                        }}
+                                    />
+                                </Stack>
+                            </div>
                             <p>{post.post_bodytext.slice(0,150)}...</p>    
                         </div>
                     </div>

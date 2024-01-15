@@ -4,12 +4,12 @@ import IconButton from '@mui/material/IconButton';
 import ShareIcon from '@mui/icons-material/Share';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function PanelContent(props) {
     const {filteredPosts}=props
     const [posts, setPosts] = ([])
-
+    const navigate = useNavigate()
   return (
     <>
         {filteredPosts?.map((post, index) => {
@@ -21,7 +21,7 @@ function PanelContent(props) {
                         e.preventDefault()
                         navigate(`/posts/${post.post_id}`,
                         {state: {
-                            post, index
+                            post
                         }})
                 }}
                 key={post.post_id}

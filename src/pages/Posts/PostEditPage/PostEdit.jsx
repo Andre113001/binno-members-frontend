@@ -27,7 +27,7 @@
       const receivedData = location.state
       const [titleInput, setTitleInput] = useState()
       const [titleDescription, setDescription] = useState()
-    const [eventData, setEventData] = useState({
+    const [postData, setPostData] = useState({
       title: '',
       description: '',
     });
@@ -46,9 +46,9 @@
     useEffect(() => {
       const loadData = () => {
           if(receivedData){ 
-            setEventData(receivedData.event)
-             setTitleInput(receivedData.event.event_title)
-             setDescription(receivedData.event.event_description)
+            setPostData(receivedData.post)
+             setTitleInput(receivedData.post.post_heading)
+             setDescription(receivedData.post.post_bodytext)
             }
       }
       loadData()
@@ -69,7 +69,6 @@
       console.log('Form submitted:', { title, description});
     };
 
-    console.log(eventData)
 
     return (
       <>
@@ -78,7 +77,7 @@
               <div className={styles['contentContainer']}>
                   <div className={styles['ButtonContainer']}>
                     <div className={styles['backButtonContainer']}>
-                      <Link to="/events" style={{textDecoration:'none'}}>
+                      <Link to="/posts" style={{textDecoration:'none'}}>
                       <button className={styles['backButton']} ><ArrowBackRoundedIcon />
                         <span style={{margin:'5px'}}>Discard Changes</span>
                       </button>
