@@ -15,7 +15,7 @@ const GuideCards = () => {
             if (profileData) {
                 const profile = await profileData
                 const fetchGuides = await fetch(
-                    `https://binno-members-repo-production-b8c4.up.railway.app/api/programs/user/${profile.member_id}`,
+                    `/api/programs/user/${profile.member_id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,

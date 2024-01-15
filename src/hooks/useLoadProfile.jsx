@@ -13,7 +13,7 @@ const useLoadProfile = () => {
             if (accessToken) {
                 try {
                     const results = await fetch(
-                        `https://binno-members-repo-production-b8c4.up.railway.app/api/members/profile/${accessToken}`,
+                        `api/members/profile/${accessToken}`,
                         {
                             headers: {
                                 Authorization: `Bearer ${accessToken}`,
