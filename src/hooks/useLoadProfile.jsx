@@ -14,12 +14,7 @@ const useLoadProfile = () => {
             if (accessToken) {
                 try {
                     const results = await fetch(
-                        `api/members/profile/${accessToken}`,
-                        {
-                            headers: {
-                                Authorization: `Bearer ${accessToken}`,
-                            },
-                        }
+                        `api/members/profile/${accessToken}`
                     )
                     const data = await results.json()
                     // Save the fetched data to the state
