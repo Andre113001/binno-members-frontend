@@ -2,8 +2,8 @@
 
 .BlogPage {
     padding: 10px;
-    height: 500px;
-    width: 630px;
+    height: auto;
+    width: auto;
     transition: 0.5s;
     border-radius: 10px; 
     margin: 20px 0;

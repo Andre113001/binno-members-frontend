@@ -2,6 +2,8 @@
 
 .GuidePage {
     margin: 0;
+    height: auto;
+    width: auto;
     padding: 20px;
     border-radius: 10px;
     background-color: #fff;

@@ -9,7 +9,7 @@ const GuideCards = () => {
     <>
         <section className={styles["GuidePage"]}>
             <div className={styles["titleContainer"]}>
-                <h1>Recent Guides</h1>
+                <h1>Recent Guide</h1>
                 <a href="/guides">View all Guides...</a>
             </div>
             <div className={styles["grid2"]}>

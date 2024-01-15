@@ -1,8 +1,9 @@
 
 .AboutTabContainer{
     padding: 10px;
-    height: 430px;
-    width: 500px;
+    height: auto;
+    width: auto;
+    max-width: 550px;
     transition: 0.5s;
     border-radius: 10px; 
     margin-right: 10px;
