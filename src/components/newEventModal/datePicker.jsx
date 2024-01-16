@@ -9,17 +9,33 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 
 
-function Label({ componentName, valueType }) {
+function Label({ componentName, valueType, props }) {
+  
   const content = (
     <span>
       <strong>{componentName}</strong>
     </span>
   )
-
   return content;
 }
 
-export default function CommonlyUsedComponents() {
+
+const MyDatePicker = ({ onChange }) => (
+  <DatePicker
+    onChange={onChange}
+  />
+);
+
+const MyTimePicker = ({ onChange }) => (
+  <TimePicker
+    onChange={onChange}
+  />
+);
+
+export default function CommonlyUsedComponents(props) {
+  const { eventDate, onEventDateChange, onEventTimeChange} = props
+
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer
@@ -29,10 +45,14 @@ export default function CommonlyUsedComponents() {
         ]}
       >
             <DemoItem label={<Label componentName="DatePicker" valueType="date" />}>
-              <DatePicker />
+              <MyDatePicker 
+                onChange={onEventDateChange}
+              />
             </DemoItem>
           <DemoItem label={<Label componentName="TimePicker" valueType="time" />}>
-            <TimePicker />
+            <MyTimePicker 
+              onChange={onEventTimeChange}
+            />
           </DemoItem>
       </DemoContainer>
     </LocalizationProvider>

@@ -11,6 +11,7 @@ import styles from './BlogPage.module.css'
 import axios from 'axios';
 import useLoadProfile from '../../../hooks/useLoadProfile';
 import AccountContext from '../../../context/accountContext';
+import { useNavigate } from 'react-router-dom';
 
 // const VisuallyHiddenInput = styled('input')({
 //   clip: 'rect(0 0 0 0)',
@@ -29,6 +30,7 @@ function BlogPage() {
   const accountCtx = useContext(AccountContext);
   const [uploadedFile, setUploadedFile] = useState()
   const { profileData } = useLoadProfile();
+  const navigate = useNavigate();
 
   const [blogData, setBlogData] = useState({
     blogTitle: '',
@@ -45,22 +47,41 @@ function BlogPage() {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    try {
-      // const formData = new FormData();
-      // // const data = {...blogData, file: uploadedFile }
+  const handleSubmit = async () => {
 
-      // formData.append('blogTitle', blogData.blogTitle);
-      // formData.append('blogContent', blogData.blogContent);
-      // formData.append('file', uploadedFile);
+    const formData = new FormData()
 
-      // console.log(formData);
+    formData.append('file_path', 'blog-pics')
+    formData.append('image', uploadedFile)
 
-      // const res = await axios('/api/blogs/post')
-    } catch (error) {
-      console.log(error);
+    const imageRes = await fetch(`${import.meta.env.VITE_BACKEND_DOMAIN}/images/upload`,{
+      method: 'POST',
+      body: formData,
+    })
+
+    const imageData = await imageRes.json()
+    console.log(imageData)
+
+    const modifiedImageUrl = imageData.filePath.replace('/app/public/', '');
+
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_DOMAIN}/blogs/post`,{
+      method: 'POST',
+      body: JSON.stringify({
+        authorId: profileData.member_id,
+        blogTitle: blogData.blogTitle,
+        blogContent: blogData.blogContent,
+        blogImg: modifiedImageUrl
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    const data = await res.json()
+    if (data.message === "Blog created successfully"){
+      navigate('/blogs')
     }
-  };
+  }
 
 
   return (
@@ -77,10 +98,10 @@ function BlogPage() {
                     </Link>
                   </div>
                 </div>
-                <form className={styles['formContainer']} onSubmit={handleSubmit}>
-                <button className={styles['publishBtn']} type='submit'>
+                <button className={styles['publishBtn']} style={{padding: 10}} onClick={handleSubmit} >
                     Publish
                 </button>
+                <form className={styles['formContainer']} onSubmit={handleSubmit}>
                 <Box
                   component="form"
                   sx={{
