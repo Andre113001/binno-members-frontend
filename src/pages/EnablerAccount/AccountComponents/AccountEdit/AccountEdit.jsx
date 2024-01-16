@@ -8,6 +8,8 @@ import Coverphoto from '../../../../assets/Coverphoto.png';
 
 import CameraAltRoundedIcon from '@mui/icons-material/CameraAltRounded';
 
+import { fetchImage } from "../../../../hooks/image-hook";
+
 function AccountEdit(props) {
     const [uploadedFileCover, setUploadedFileCover] = useState()
     const [uploadErrorCover, setUploadErrorCover] = useState(null)
@@ -58,6 +60,8 @@ function AccountEdit(props) {
             )
             return
         }
+
+        // const res = await 
 
         setUploadedFileProfile(file)
         setUploadErrorProfile(null)
