@@ -27,7 +27,7 @@ function PanelContent(props) {
             if (profileData) {
                 const profile = await profileData
                 const guidesQuery = await fetch(
-                    `https://binno-members-repo-production-b8c4.up.railway.app/api/events/user/${profile.member_id}`,
+                    `https://binno-members-repo-production-b8c4.up.railway.app/api/posts/user/${profile.member_id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -37,12 +37,16 @@ function PanelContent(props) {
 
                 const guidesResult = await guidesQuery.json()
                 
+                console.log(guidesResult)
                 
                 const promises = guidesResult.map(async (guide) => {
                     const postPic = await fetchImage(guide.post_img)
                     const profilePic = await fetchImage(profileData.setting_profilepic)
                     
-                    console.log(postPic, profilePic);
+            // const p1 = new Blob([postPic], { type: 'image/jpeg' });
+            // const p2 = new Blob([profilePic], { type: 'image/jpeg' });
+                    // console.log(p1, p2);
+                    console.log({...guide, postPic: postPic, profilePic: profilePic})
                 return {...guide, postPic: postPic, profilePic: profilePic};
               });
             
@@ -52,7 +56,7 @@ function PanelContent(props) {
             }
         }
 
-        loadData()
+        if(profileData)loadData()
     }, [profileData])
 
   return (
@@ -73,7 +77,7 @@ function PanelContent(props) {
                 >
                 <div className={styles['PostCards']}>
                     <div className={styles['titleImageContainer']}>
-                        <img src={URL.createObjectURL(post.post_img)} alt="" />
+                        <img src={post.postPic && URL.createObjectURL(post.postPic)} alt="" />
                     </div>
                         
                     <div className={styles['contentDetail']}>

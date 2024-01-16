@@ -5,12 +5,9 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function BasicSelect() {
-  const [category, setCategory] = React.useState('');
+export default function BasicSelect(props) {
 
-  const handleChange = (event) => {
-    setCategory(event.target.value);
-  };
+  const { category,onCategoryChange } = props
 
   return (
     <Box sx={{ minWidth: 120 }}>
@@ -20,7 +17,7 @@ export default function BasicSelect() {
           id="PostCategory"
           value={category}
           label="Category"
-          onChange={handleChange}
+          onChange={onCategoryChange}
         >
           <MenuItem value={'Milestone'}>Milestone</MenuItem>
           <MenuItem value={'Promotion'}>Promotion</MenuItem>
