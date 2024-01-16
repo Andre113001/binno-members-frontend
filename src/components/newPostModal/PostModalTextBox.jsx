@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 
-export default function PostModalTextBox() {
+export default function PostModalTextBox(props) {
+
+    const {onContentChange} = props
     return (
         <div>
             <div>
@@ -30,6 +32,7 @@ export default function PostModalTextBox() {
                             }}
                             minRows={4}
                             maxRows={5}
+                            onChange={onContentChange}
                         />
                     </div>
                 </Box>

@@ -4,49 +4,8 @@ import styles from './dropBox.module.css'
 import ImageRoundedIcon from '@mui/icons-material/ImageRounded';
 
 
-function DropBox() {
-    const [uploadedFile, setUploadedFile] = useState()
-    const [uploadError, setUploadError] = useState(null)
-    const fileRef = useRef()
-
-    const handleFileUpload = async (e) => {
-        const file = e.target.files[0]
-
-        const isImage = file.type.split('/')[0] === 'image' ?? false
-
-        if (!isImage) {
-            setUploadError('The uploaded file is not a valid image.')
-            return
-        }
-
-        if (!checkFileSize(file)) {
-            setUploadError(
-                'The image size exceeds the maximum allowed size of 5 MB.'
-            )
-            return
-        }
-
-        setUploadedFile(file)
-        setUploadError(null)
-        
-        console.log('Uploaded File:', file);
-
-
-        return []
-    }
-
-    const checkFileSize = (file) => {
-        const fileSizeInMB = file.size / (1024 * 1024)
-
-        if (fileSizeInMB > 5) {
-            setUploadError(
-                'The file size is too large. Please upload a file that is smaller than 5MB.'
-            )
-            return false
-        }
-
-        return true
-    }
+function DropBox(props) {
+    const {onFileUpload,fileRef,uploadError,uploadedFile} = props
     
   return (
     <>
@@ -71,7 +30,7 @@ function DropBox() {
 
          <input
                 ref={fileRef}
-                onChange={handleFileUpload}
+                onChange={onFileUpload}
                 type="file"
                 style={{ display: 'none' }}
                 accept=".png, .jpg, .jpeg"
