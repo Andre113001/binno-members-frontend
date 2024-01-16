@@ -102,7 +102,7 @@ function App() {
     )
     let non_auth_routes = (
         <Routes>
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
             <Route path="/two-auth" element={<TwoAuth />} />
             <Route path="/forgot" element={<ForgotPassword />} />
             <Route path="/verifyPassword" element={<VerifyPassword />} />
