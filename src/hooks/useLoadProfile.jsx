@@ -19,6 +19,7 @@ const useLoadProfile = () => {
                         }/members/profile/${accessToken}`
                     )
                     const data = await results.json()
+
                     // Save the fetched data to the state
                     setProfileData(data[0])
                 } catch (error) {
@@ -35,13 +36,13 @@ const useLoadProfile = () => {
         localStorage.removeItem('access')
         console.log('Token Destroyed')
         setProfileData(null)
-        // navigate('/')
+        navigate('/')
         // window.location.href = '/'
-        location.reload()
+        // location.reload()
     }
 
     // Return the profileData, so it can be used by the component using this hook
-    return { profileData, isLoading, handleDestroyToken }
+    return { isLoggedIn, profileData, isLoading, handleDestroyToken }
 }
 
 export default useLoadProfile
