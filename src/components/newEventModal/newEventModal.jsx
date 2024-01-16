@@ -7,13 +7,19 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import useLoadProfile from '../../hooks/useLoadProfile';
+import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 
 
 export default function NewEventModal() {
   const [currentDate, setCurrentDate] = useState(new Date())
   const [title, setTitle] = useState('Write your heading here..') 
   const [description, setDescription]= useState()
-  const [eventDate, setEventDate] = useState()
+  const [eventDate, setEventDate] = useState(null);
+  const [eventTime, setEventTime] = useState(null);
   const [uploadedFile, setUploadedFile] = useState()
   const [uploadError, setUploadError] = useState(null)
   const fileRef = useRef()
@@ -58,6 +64,16 @@ export default function NewEventModal() {
 
     return true
 }
+
+    function Label({ componentName, valueType, props }) {
+      
+      const content = (
+        <span>
+          <strong>{componentName}</strong>
+        </span>
+      )
+      return content;
+    }
     
     const toggleEdit = () => {
       setIsEditActive((prev) => !prev);
@@ -74,7 +90,13 @@ export default function NewEventModal() {
       document.body.classList.remove('active-modal')
     }  
 
+    const handleDateChange = (date) => {
+      setEventDate(date);
+    };
   
+    const handleTimeChange = (time) => {
+      setEventTime(time);
+    };
 
     const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -91,7 +113,6 @@ export default function NewEventModal() {
       formData.append('file_path', 'event-pics')
       formData.append('image', uploadedFile)
 
-      console.log('ds')
       const imageRes = await fetch(`${import.meta.env.VITE_BACKEND_DOMAIN}/images/upload`,{
         method: 'POST',
         body: formData,
@@ -105,11 +126,12 @@ export default function NewEventModal() {
       const modifiedImageUrl = imageData.filePath.replace('/app/public/', '');
 
 
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_DOMAIN}/events/upload`,{
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_DOMAIN}/events/post`,{
         method: 'POST',
         body: JSON.stringify({
           eventAuthor: profileData.member_id,
           eventDate: eventDate,
+          eventTime: eventTime,
           eventTitle: title,
           eventDescription: description,
           eventImg: modifiedImageUrl
@@ -150,7 +172,21 @@ export default function NewEventModal() {
                       <CloseRoundedIcon />
                       </button>
                       <div className="datepickerContainer">
-                          <PickDate />
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DemoContainer
+                            components={[
+                              'DatePicker',
+                              'TimePicker',
+                            ]}
+                          > 
+                          <DemoItem label={<Label componentName="Date" valueType="date" />}>
+                            <DatePicker value={eventDate} format='YYYY-MM-DD' onChange={handleDateChange} />
+                          </DemoItem>
+                          <DemoItem label={<Label componentName="Time" valueType="time" />}>
+                            <TimePicker value={eventTime} onChange={handleTimeChange} />
+                          </DemoItem>
+                          </DemoContainer>
+                        </LocalizationProvider>
                           {/* eventDate={eventDate} onEventDateChange={handleDateChange} */}
                         </div>
                           <div className="TextBoxContainer">
