@@ -41,7 +41,7 @@ import PostEdit from './pages/Posts/PostEditPage/PostEdit'
 // import PostEdit from './pages/Posts/PostEditPage/PostEdit';
 
 function App() {
-    const { profileData, isLoading, isLoggedIn } = useLoadProfile()
+    const { profileData, isLoading } = useLoadProfile()
 
     return (
         <AccountContext.Provider

@@ -42,7 +42,7 @@ const useLoadProfile = () => {
     }
 
     // Return the profileData, so it can be used by the component using this hook
-    return { isLoggedIn, profileData, isLoading, handleDestroyToken }
+    return { profileData, isLoading, handleDestroyToken }
 }
 
 export default useLoadProfile
