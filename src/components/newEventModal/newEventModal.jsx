@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import './newEventModal.css'
 import PickDate from './datePicker';
 import DropBox from '../dropbox/DropBox';
@@ -10,12 +10,55 @@ import useLoadProfile from '../../hooks/useLoadProfile';
 
 
 export default function NewEventModal() {
-    const [currentDate, setCurrentDate] = useState(new Date());
-    const [isEditActive, setIsEditActive] = useState(true);
-    const { profileData } = useLoadProfile();
+  const [currentDate, setCurrentDate] = useState(new Date())
+  const [title, setTitle] = useState('Write your heading here..') 
+  const [description, setDescription]= useState()
+  const [eventDate, setEventDate] = useState()
+  const [uploadedFile, setUploadedFile] = useState()
+  const [uploadError, setUploadError] = useState(null)
+  const fileRef = useRef()
 
-    console.log(profileData);
+    const {profileData} = useLoadProfile()
+    
+    const handleFileUpload = async (e) => {
+      const file = e.target.files[0]
 
+      const isImage = file.type.split('/')[0] === 'image' ?? false
+
+      if (!isImage) {
+          setUploadError('The uploaded file is not a valid image.')
+          return
+      }
+
+      if (!checkFileSize(file)) {
+          setUploadError(
+              'The image size exceeds the maximum allowed size of 5 MB.'
+          )
+          return
+      }
+
+      setUploadedFile(file)
+      setUploadError(null)
+      
+      console.log('Uploaded File:', file);
+
+
+      return []
+  }
+
+  const checkFileSize = (file) => {
+    const fileSizeInMB = file.size / (1024 * 1024)
+
+    if (fileSizeInMB > 5) {
+        setUploadError(
+            'The file size is too large. Please upload a file that is smaller than 5MB.'
+        )
+        return false
+    }
+
+    return true
+}
+    
     const toggleEdit = () => {
       setIsEditActive((prev) => !prev);
     };
@@ -30,16 +73,58 @@ export default function NewEventModal() {
     } else {
       document.body.classList.remove('active-modal')
     }  
-    
-    const [eventData, setEventData] = useState({
-      eventTitle: '',
-      eventDescription: '',
-    });
 
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      console.log('Form submitted with data:', eventData);
-    };
+  
+
+    const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+  };
+
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value)
+  }
+
+    const handleSubmit = async () => {
+
+      const formData = new FormData()
+
+      formData.append('file_path', 'event-pics')
+      formData.append('image', uploadedFile)
+
+      console.log('ds')
+      const imageRes = await fetch(`${import.meta.env.VITE_BACKEND_DOMAIN}/images/upload`,{
+        method: 'POST',
+        body: formData,
+      })
+
+      console.log('ddd')
+
+      const imageData = await imageRes.json()
+      console.log(imageData)
+
+      const modifiedImageUrl = imageData.filePath.replace('/app/public/', '');
+
+
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_DOMAIN}/events/upload`,{
+        method: 'POST',
+        body: JSON.stringify({
+          eventAuthor: profileData.member_id,
+          eventDate: eventDate,
+          eventTitle: title,
+          eventDescription: description,
+          eventImg: modifiedImageUrl
+
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      const data = await res.json()
+      console.log(data)
+      toggleModal()
+    }
+
 
     return (
     <>
@@ -49,13 +134,14 @@ export default function NewEventModal() {
           {modal && (
               <div className="eventModal">
                 <div onClick={toggleModal} className="overlay"></div>
-                  <div className="eventModalContent" onSubmit={handleSubmit}>
+                  <div className="eventModalContent">
                       <div className="titleDateContainer">
                           <input 
                             type="text"
                             className='titleTextBox'
-                            placeholder='Title' 
-                          style={{margin: '10px', outline: 'none'}}
+                            placeholder='Title'
+                            onChange={handleTitleChange}
+                            style={{margin: '10px', outline: 'none'}}
                             // value={eventTitle}
                             // onChange={(e) => setEventTitle(e.target.value)}
                           />
@@ -65,6 +151,7 @@ export default function NewEventModal() {
                       </button>
                       <div className="datepickerContainer">
                           <PickDate />
+                          {/* eventDate={eventDate} onEventDateChange={handleDateChange} */}
                         </div>
                           <div className="TextBoxContainer">
                             <Box
@@ -84,6 +171,7 @@ export default function NewEventModal() {
                                         margin: "15px 10px", backgroundColor:"rgb(241,241,241)", outline:'none'}}
                                       minRows={3}
                                       maxRows={5}
+                                      onChange={handleDescriptionChange}
                                       // value={eventDescription}
                                       // onChange={(e) => setEventDescription(e.target.value)}
                                       inputProps={{ maxLength: 300 }}
@@ -93,10 +181,12 @@ export default function NewEventModal() {
                           </div>
                       
                       <div className="eventModalDropboxContainer">
-                        <DropBox />
+                        <DropBox uploadError={uploadError} uploadedFile={uploadedFile} fileRef={fileRef} onFileUpload={handleFileUpload} />
                       </div>
               
-                      <button className='uploadButton' type='submit' onClick={toggleModal}> 
+                      <button className='uploadButton' 
+                        onClick={handleSubmit}
+                        > 
                         Upload
                       </button>
                   </div>
