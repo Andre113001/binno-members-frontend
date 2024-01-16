@@ -70,7 +70,7 @@ function SideBar() {
         // console.log(accCtx)()|
         // console.log(accCtx)()|
 
-        navigate('/login')
+        navigate('/')
     }
 
     return (
