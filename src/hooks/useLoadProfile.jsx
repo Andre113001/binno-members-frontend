@@ -41,9 +41,9 @@ const useLoadProfile = () => {
         console.log('Token Destroyed')
         setProfileData(null)
         setIsLoggedIn(false)
-        // navigate('/')
+        navigate('/login')
         // window.location.href = '/'
-        location.reload()
+        // location.reload()
     }
 
     // Return the profileData, so it can be used by the component using this hook

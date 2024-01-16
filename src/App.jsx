@@ -51,6 +51,8 @@ function App() {
     let auth_routes = (
         <Routes>
             <Route path="/" element={<Navigate replace to="/dashboard" />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/account" element={<AccountPage />} />
             <Route
                 path="/events"
@@ -105,11 +107,15 @@ function App() {
                 <Route path="upload" element={<UploadDocuments />} />
             </Route>
             <Route path="/test" element={<Testing />} />
+            <Route path="*" element={<h1></h1>}>
+                {' '}
+            </Route>
         </Routes>
     )
     let non_auth_routes = (
         <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<Navigate replace to="/login" />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/two-auth" element={<TwoAuth />} />
             <Route path="/forgot" element={<ForgotPassword />} />
             <Route path="/verifyPassword" element={<VerifyPassword />} />
@@ -117,6 +123,9 @@ function App() {
             <Route path="/change-password-sent" element={<MessagePassword />} />
             <Route path="/invalid-token" element={<TokenInvalid />} />
             <Route path="/password-changed" element={<PasswordChanged />} />
+            <Route path="*" element={<h1></h1>}>
+                {' '}
+            </Route>
         </Routes>
     )
 
@@ -135,7 +144,7 @@ function App() {
                             auth_routes) ||
                             (isLoggedIn !== 'initial' &&
                                 !isLoggedIn &&
-                                non_auth_routes)}
+                                non_auth_routes) || <></>}
                     </div>
                 </Router>
             </AuthProvider>
