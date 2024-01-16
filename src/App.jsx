@@ -5,6 +5,7 @@ import {
     Route,
     Outlet,
     useNavigate,
+    Navigate,
 } from 'react-router-dom'
 
 // Hooks
@@ -40,10 +41,16 @@ import PostEdit from './pages/Posts/PostEditPage/PostEdit'
 // import PostEdit from './pages/Posts/PostEditPage/PostEdit';
 
 function App() {
-    const { profileData, isLoading } = useLoadProfile()
+    const { profileData, isLoading, isLoggedIn } = useLoadProfile()
 
+    console.log(isLoggedIn !== 'initial' && isLoggedIn)
+    console.log(isLoggedIn !== 'initial' && !isLoggedIn)
+    console.log(profileData)
+
+    console.log('isLoggedIn', isLoggedIn)
     let auth_routes = (
         <Routes>
+            <Route path="/" element={<Navigate replace to="/dashboard" />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route
                 path="/events"
@@ -123,7 +130,12 @@ function App() {
                 <Router>
                     <div className="w-screen">
                         {/* Change the default landing to login once done */}
-                        {profileData ? auth_routes : non_auth_routes}
+                        {(isLoggedIn !== 'initial' &&
+                            isLoggedIn &&
+                            auth_routes) ||
+                            (isLoggedIn !== 'initial' &&
+                                !isLoggedIn &&
+                                non_auth_routes)}
                     </div>
                 </Router>
             </AuthProvider>
