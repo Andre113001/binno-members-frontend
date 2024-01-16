@@ -44,7 +44,7 @@ function App() {
 
     let auth_routes = (
         <Routes>
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/account" element={<AccountPage />} />
             <Route
                 path="/events"
                 element={
