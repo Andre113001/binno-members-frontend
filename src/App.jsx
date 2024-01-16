@@ -102,7 +102,7 @@ function App() {
     )
     let non_auth_routes = (
         <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/two-auth" element={<TwoAuth />} />
             <Route path="/forgot" element={<ForgotPassword />} />
             <Route path="/verifyPassword" element={<VerifyPassword />} />
@@ -114,20 +114,23 @@ function App() {
     )
 
     return (
-        <AccountContext.Provider
-            value={{
-                profileData: profileData,
-            }}
-        >
-            <AuthProvider>
-                <Router>
-                    <div className="w-screen">
-                        {/* Change the default landing to login once done */}
-                        {profileData ? auth_routes : non_auth_routes}
-                    </div>
-                </Router>
-            </AuthProvider>
-        </AccountContext.Provider>
+        <AccountContext.Provider value={{ profileData: profileData }}>
+          <AuthProvider>
+              <Router>
+                  <div className="w-screen">
+                      {/* Change the default landing to login once done */}
+                      {isLoading ? (
+                          // Show loading indicator or some placeholder while loading
+                          <div>Loading...</div>
+                      ) : profileData ? (
+                          auth_routes
+                      ) : (
+                          non_auth_routes
+                      )}
+                  </div>
+              </Router>
+          </AuthProvider>
+    </AccountContext.Provider>
     )
 }
 
