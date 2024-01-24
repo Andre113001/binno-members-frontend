@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import styles from './BlogCard.module.css'
-import { blog } from '../../assets/data'
 import useLoadProfile from '../../hooks/useLoadProfile'
 import { Link, useNavigate } from 'react-router-dom'
 import useAccessToken from '../../hooks/useAccessToken'
+
+import IconButton from '@mui/material/IconButton';
+import ShareIcon from '@mui/icons-material/Share';
+import Stack from '@mui/material/Stack';
 
 import { fetchImage } from '../../hooks/image-hook'
 
@@ -73,19 +76,18 @@ const BlogCards = () => {
                                 <div className={styles['img']}>
                                     <img src={URL.createObjectURL(blog.blogPic)} alt="" />
                                 </div>
-                                <div
-                                    className={
-                                        styles['contentUserInfoContainer']
-                                    }
-                                >
-                                    <h2>{profileData.setting_institution}</h2>
-                                    <h4>{profileData.user_type}</h4>
-                                </div>
                                 <div className={styles['details']}>
                                     <h3>{blog.blog_title}</h3>
                                     <p>{blog.blog_content.slice(0, 250)}...</p>
-                                    <div className={styles['date']}>
-                                        <h4>{blog.blog_dateadded}</h4>
+                                    <div className={styles['DateShareContainer']}>
+                                        <div className={styles['date']}>
+                                            <h4>{blog.blog_dateadded}</h4>
+                                        </div>
+                                    <Stack direction="row" alignItems="center">
+                                        <IconButton size="medium">
+                                            <ShareIcon/>
+                                        </IconButton>
+                                    </Stack>
                                     </div>
                                 </div>
                             </div>

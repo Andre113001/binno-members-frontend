@@ -66,4 +66,11 @@
     font-family: 'Inter', sans-serif;
     display: block;
     margin: 5px;
+    flex: 1;
   }
+
+.DateShareContainer{
+  display: flex;
+  margin: 20px;
+  align-items: center;
+}
