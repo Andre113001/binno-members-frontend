@@ -32,7 +32,6 @@ const MyTimePicker = ({ onChange }) => (
   />
 );
 
-  x1
 
 export default function CommonlyUsedComponents(props) {
   const { eventDate, onEventDateChange} = props
