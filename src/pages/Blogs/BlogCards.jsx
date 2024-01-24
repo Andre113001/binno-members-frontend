@@ -32,7 +32,7 @@ const BlogCards = () => {
                 
                 const promises = guidesResult.map(async (guide) => {
                     console.log(guide);
-                    const blogPic = await fetchImage(guide.blog_img)
+                    const blogPic = await fetchImage(`blog-pics/${guide.blog_img}`)
                     console.log(guide.blog_img)
                     const newBlob = new Blob([blogPic], { type: 'image/jpeg' });
 

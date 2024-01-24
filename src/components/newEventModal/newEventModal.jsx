@@ -118,13 +118,10 @@ export default function NewEventModal() {
         body: formData,
       })
 
-      console.log('ddd')
-
       const imageData = await imageRes.json()
       console.log(imageData)
 
       const modifiedImageUrl = imageData.filePath.replace('/app/public/', '');
-
 
       const res = await fetch(`${import.meta.env.VITE_BACKEND_DOMAIN}/events/post`,{
         method: 'POST',

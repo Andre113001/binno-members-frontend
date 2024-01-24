@@ -12,15 +12,22 @@ import useLoadProfile from "../../../../hooks/useLoadProfile";
 function AccountHeader(props) {
 
     const {profileData} = useLoadProfile()
-    const [imageSrc, setImageSrc] = useState()
+    const [profilePic, setProfilePic] = useState();
+    const [coverPic, setCoverPic] = useState();
 
     useEffect(() => {
         const loadData = async () => {
-            const pic = await fetchImage(profileData.setting_profilepic)
-            console.log(profileData.setting_profilepic)
-            const newBlob = new Blob([pic], { type: 'image/jpeg' });
-            console.log(newBlob)
-            setImageSrc(URL.createObjectURL(newBlob))
+            const profilePicPath = await fetchImage(profileData.setting_profilepic);
+            const coverPicPath = await fetchImage(profileData.setting_coverpic);
+            
+            console.log(profileData.setting_profilepic);
+            console.log(profileData.setting_coverpic);
+
+            const profilePicBlob = new Blob([profilePicPath], { type: 'image/jpeg' });
+            const coverPicBlob = new Blob([coverPicPath], { type: 'image/jpeg' });
+            
+            setProfilePic(URL.createObjectURL(profilePicBlob));
+            setCoverPic(URL.createObjectURL(coverPicBlob));
         }
 
         if(profileData) loadData()
@@ -30,12 +37,12 @@ function AccountHeader(props) {
     <>
         <div className={styles["Header"]}>
             <div className={styles["profileCoverImage"]}>
-                        <img className={styles["coverPhoto"]} src={imageSrc} alt="Cover Photo" />
+                        <img className={styles["coverPhoto"]} src={coverPic} alt="Cover Photo" />
                     </div>
                 <div className={styles["ProfileHeaderContainer"]}>
                     <div className={styles["userProfile"]}>
                         <div className={styles["profileImageContainer"]}>
-                            <img src={imageSrc} alt="User Profile" className={styles["profileImage"]}/>
+                            <img src={profilePic} alt="User Profile" className={styles["profileImage"]}/>
                         </div> 
                                 <div className={styles["UserInfoContainer"]}>
                                     <p>{props.userType}</p>

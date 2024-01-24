@@ -125,11 +125,41 @@ const GuideElements = (props) => {
             content: ''
         };
 
-
         setElements((prevElements) => [newElement, ...prevElements]);
         console.log('ds');
         updateSaveStatus(false);
     }
+
+    const handleAddYoutubeEmbed = async (code) => {
+        try {
+            // Validate the YouTube video code
+            if (!code) {
+                alert('Invalid YouTube video code');
+                return;
+            }
+    
+            // Construct the YouTube embed code
+            const embedCode = `<iframe title="YouTube Video" width="1300" height="720" src="https://www.youtube.com/embed/${code}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    
+            // Create a new element
+            const newElement = {
+                id: uuidv4(), 
+                type: "iframe",
+                attributes: embedCode,
+                content: ''
+            };
+    
+            // Update the elements state
+            setElements((prevElements) => [newElement, ...prevElements]);
+            updateSaveStatus(false);
+        } catch (error) {
+            console.error('Error adding YouTube embed:', error);
+            alert('Error adding YouTube embed: See console for details');
+        }
+    };
+    
+
+
     const handleAddElement = async (option) => {
         const newElement = {
             id: uuidv4(), 
@@ -180,7 +210,7 @@ const GuideElements = (props) => {
                     </div>
                     <div className="page-add-btn"> {/* THIS SHOULD BE A DROP-DOWN */}
                         {/* <button>Add Element</button> */}
-                        <AddElement onSelectOption={handleAddElement} onHandleImage={handleCoverPhotoFileChange}/>
+                        <AddElement onSelectOption={handleAddElement} onHandleImage={handleCoverPhotoFileChange} onHandleYoutube={handleAddYoutubeEmbed}/>
                     </div>
                 </Stack>
             </div>

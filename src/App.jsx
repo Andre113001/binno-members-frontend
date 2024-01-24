@@ -139,7 +139,7 @@ function App() {
                             />
                             <Route path="/account" element={<AccountPage />} />
                             <Route
-                                path="/registration"
+                                path="/register"
                                 element={<RegistrationPage />}
                             >
                                 <Route path="" element={<RegistrationForm />} />

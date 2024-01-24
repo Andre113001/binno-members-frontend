@@ -53,7 +53,7 @@ function RegistrationForm() {
               console.log(formData);
               localStorage.setItem("app_id", res.appId);
               localStorage.setItem("form_info", JSON.stringify(formData));
-              navigate('/registration/upload');
+              navigate('/register/upload');
             } else {
               console.log(res);
             }

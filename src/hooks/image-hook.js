@@ -1,11 +1,7 @@
-export const fetchImage = async (path) => {
+export const fetchImage = async (filePath) => {
     const res = await fetch(
-        'https://binno-members-repo-production-b8c4.up.railway.app/api/images',
+        `${import.meta.env.VITE_BACKEND_DOMAIN}/images?filePath=${filePath}`,
         {
-            method: 'POST',
-            body: JSON.stringify({
-                file_path: path,
-            }),
             headers: {
                 'Content-Type': 'application/json',
             },
