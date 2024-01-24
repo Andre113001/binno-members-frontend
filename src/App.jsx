@@ -5,6 +5,7 @@ import {
     Route,
     Outlet,
     useNavigate,
+    Navigate,
 } from 'react-router-dom'
 
 // Hooks
@@ -42,77 +43,6 @@ import PostEdit from './pages/Posts/PostEditPage/PostEdit'
 function App() {
     const { profileData, isLoading } = useLoadProfile()
 
-    let auth_routes = (
-        <Routes>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route
-                path="/events"
-                element={
-                    <>
-                        <Outlet />
-                    </>
-                }
-            >
-                <Route path="" element={<Events />} />
-                <Route path=":eventId" element={<EventEdit />} />
-            </Route>
-            <Route
-                path="/blogs"
-                element={
-                    <>
-                        <Outlet />
-                    </>
-                }
-            >
-                <Route path="" element={<Blogs />} />
-                <Route path="create" element={<BlogPage />} />
-                <Route path=":blogId" element={<BlogEdit />} />
-            </Route>
-            <Route
-                path="/posts"
-                element={
-                    <>
-                        <Outlet />
-                    </>
-                }
-            >
-                <Route path="" element={<Posts />} />
-                <Route path=":post_id" element={<PostEdit />} />
-            </Route>
-            <Route
-                path="/guides"
-                element={
-                    <>
-                        <Outlet />
-                    </>
-                }
-            >
-                <Route path="" element={<GuideMain />} />
-                <Route path=":program_id" element={<GuidePage />} />
-            </Route>
-            <Route path="/guides/:pageId" element={<GuidePage />} />
-            <Route path="/account" element={<AccountPage />} />
-            <Route path="/registration" element={<RegistrationPage />}>
-                <Route path="" element={<RegistrationForm />} />
-                <Route path="enabler" element={<EnablerRegForm />} />
-                <Route path="upload" element={<UploadDocuments />} />
-            </Route>
-            <Route path="/test" element={<Testing />} />
-        </Routes>
-    )
-    let non_auth_routes = (
-        <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/two-auth" element={<TwoAuth />} />
-            <Route path="/forgot" element={<ForgotPassword />} />
-            <Route path="/verifyPassword" element={<VerifyPassword />} />
-            <Route path="/changePassword" element={<ChangePassword />} />
-            <Route path="/change-password-sent" element={<MessagePassword />} />
-            <Route path="/invalid-token" element={<TokenInvalid />} />
-            <Route path="/password-changed" element={<PasswordChanged />} />
-        </Routes>
-    )
-
     return (
         <AccountContext.Provider
             value={{
@@ -123,7 +53,107 @@ function App() {
                 <Router>
                     <div className="w-screen">
                         {/* Change the default landing to login once done */}
-                        {profileData ? auth_routes : non_auth_routes}
+                        <Routes>
+                            {/* Change the default landing to login once done */}
+                            <Route path="/" element={<Login />} />
+                            <Route path="/two-auth" element={<TwoAuth />} />
+                            <Route
+                                path="/forgot"
+                                element={<ForgotPassword />}
+                            />
+                            <Route
+                                path="/verifyPassword"
+                                element={<VerifyPassword />}
+                            />
+                            <Route
+                                path="/changePassword"
+                                element={<ChangePassword />}
+                            />
+                            <Route
+                                path="/change-password-sent"
+                                element={<MessagePassword />}
+                            />
+                            <Route
+                                path="/invalid-token"
+                                element={<TokenInvalid />}
+                            />
+                            <Route
+                                path="/password-changed"
+                                element={<PasswordChanged />}
+                            />
+                            <Route path="/dashboard" element={<Dashboard />} />
+                            <Route
+                                path="/events"
+                                element={
+                                    <>
+                                        <Outlet />
+                                    </>
+                                }
+                            >
+                                <Route path="" element={<Events />} />
+                                <Route
+                                    path=":eventId"
+                                    element={<EventEdit />}
+                                />
+                            </Route>
+                            <Route
+                                path="/blogs"
+                                element={
+                                    <>
+                                        <Outlet />
+                                    </>
+                                }
+                            >
+                                <Route path="" element={<Blogs />} />
+                                <Route path="create" element={<BlogPage />} />
+                                <Route path=":blogId" element={<BlogEdit />} />
+                            </Route>
+                            <Route
+                                path="/posts"
+                                element={
+                                    <>
+                                        <Outlet />
+                                    </>
+                                }
+                            >
+                                <Route path="" element={<Posts />} />
+                                <Route path=":post_id" element={<PostEdit />} />
+                            </Route>
+                            <Route
+                                path="/guides"
+                                element={
+                                    <>
+                                        <Outlet />
+                                    </>
+                                }
+                            >
+                                <Route path="" element={<GuideMain />} />
+                                <Route
+                                    path=":program_id"
+                                    element={<GuidePage />}
+                                />
+                            </Route>
+                            <Route
+                                path="/guides/:pageId"
+                                element={<GuidePage />}
+                            />
+                            <Route path="/account" element={<AccountPage />} />
+                            <Route
+                                path="/register"
+                                element={<RegistrationPage />}
+                            >
+                                <Route path="" element={<RegistrationForm />} />
+                                <Route
+                                    path="enabler"
+                                    element={<EnablerRegForm />}
+                                />
+                                <Route
+                                    path="upload"
+                                    element={<UploadDocuments />}
+                                />
+                            </Route>
+                            <Route path="/test" element={<Testing />} />
+                        </Routes>
                     </div>
                 </Router>
             </AuthProvider>

@@ -34,7 +34,7 @@ const MyTimePicker = ({ onChange }) => (
 
 
 export default function CommonlyUsedComponents(props) {
-  const { eventDate, onEventDateChange} = props
+  const { eventDate, onEventDateChange, onEventTimeChange} = props
 
 
   return (
@@ -51,8 +51,8 @@ export default function CommonlyUsedComponents(props) {
               />
             </DemoItem>
           <DemoItem label={<Label componentName="TimePicker" valueType="time" />}>
-            <MySTimePicker 
-              onChange={onEventDateChange}
+            <MyTimePicker 
+              onChange={onEventTimeChange}
             />
           </DemoItem>
       </DemoContainer>

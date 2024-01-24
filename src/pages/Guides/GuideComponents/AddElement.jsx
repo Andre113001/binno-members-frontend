@@ -54,12 +54,13 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function AddElement({ onSelectOption,onHandleImage }) {
+export default function AddElement({ onSelectOption, onHandleImage, onHandleYoutube }) {
   const { handleClose, handleOpen, CustomModal } = useCustomModal();
   const [passContent, setPassContent] = useState();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [image, setImage] = useState()
+  const [youtube, setYoutube] = useState();
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -69,6 +70,23 @@ export default function AddElement({ onSelectOption,onHandleImage }) {
   const handleCloseAdd = () => {
     setAnchorEl(null);
   };
+
+  function extractVideoCode(link) {
+    if (typeof link !== 'string') {
+      // Handle invalid input
+      return null;
+    }
+  
+    const regex = /(?:\?v=|\/embed\/|\/watch\?v=|youtu.be\/|\/v\/|\/e\/|\?v%3D|\/videos\/)([a-zA-Z0-9_-]{11})/;
+    const match = link.match(regex);
+  
+    if (match && match[1]) {
+      return match[1];
+    } else {
+      // Handle invalid or unsupported links
+      return null;
+    }
+  }
 
   return (
     <div>
@@ -128,102 +146,7 @@ export default function AddElement({ onSelectOption,onHandleImage }) {
           Paragraph
         </MenuItem>
         {/* <Divider sx={{ my: 0.5 }} /> */}
-        <MenuItem onClick={() => {
-          handleOpen();
-          setPassContent(
-            <>
-              <center>
-              <Typography variant='h3'>Upload an image</Typography>
-              {/* <TextField
-                margin="normal"
-                fullWidth
-                id="image-link"
-                label="Image Link"
-                name="access-key"
-                autoComplete="off"
-                autoFocus
-              />
-              <Typography fontSize={30}>or</Typography> */}
-              <FileUploader
-                  required
-                  maxSize={20}
-                  minSize={0.002}
-                  onSizeError={(file) => alert(`File ${file.name} exceeds the allowed size.`)}
-                  label={`Upload your files here`}
-                  types={['JPG', 'PNG']}
-                  handleChange={(file) => {onHandleImage(file);}}
-              />
-              
-              </center>
-            </>
-          );
-        // { onSelectOption({ 
-        //   type: 'img',
-        //   attributes: "src=\"https://variety.com/wp-content/uploads/2023/06/MCDSPMA_SP062.jpg?w=1000&h=563&crop=1&resize=1000%2C563\" class=\"element_img\"",
-        //   content: ""
-        //   }
-          handleCloseAdd(); }} disableRipple>
-          <Image />
-          Image
-        </MenuItem>
-        <MenuItem onClick={() => { 
-          handleOpen();
-          setPassContent(
-            <>
-              <center><Typography variant='h4'>Your text</Typography>
-              <TextField
-                margin="normal"
-                fullWidth
-                name="link-text"
-                autoComplete="off"
-                autoFocus
-                placeholder='Example: Click Me, Press me to access page'
-              />
-              <Typography variant='h4' >Hyperlink</Typography>
-              <TextField
-                margin="normal"
-                fullWidth
-                name="link-link"
-                autoComplete="off"
-                autoFocus
-                placeholder='https://'
-              />
-              </center>
-            </>
-          );
-          // onSelectOption({ 
-          //   type: 'a',
-          //   attributes: "href='https://www.youtube.com/watch?v=mwKJfNYwvm8' class='element_a'",
-          //   content: "Click me"
-          handleCloseAdd(); }} disableRipple>
-          <InsertLink />
-          Link
-        </MenuItem>
-        <MenuItem onClick={() => { 
-          handleOpen();
-          setPassContent(
-            <>
-              <center><Typography variant='h4' fontWeight={"bold"}>Youtube Embed</Typography>
-              <TextField
-                margin="normal"
-                fullWidth
-                name="yt-link"
-                autoComplete="off"
-                autoFocus
-                placeholder='https://www.youtube.com/watch?v=FTsuS3Opf1s'
-              />
-              </center>
-            </>
-          );
-          // onSelectOption({ 
-          // type: "iframe",
-          // attributes: `title="YouTube Video" width="1300" height="720" src="https://www.youtube.com/embed/FTsuS3Opf1s" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen`, 
-          // content: ''
-          // }); 
-          handleCloseAdd(); }} disableRipple>
-          <YouTube />
-          Youtube Embed
-        </MenuItem>
+        {/* Insert other components here */}
       </StyledMenu>
     </div>
   );

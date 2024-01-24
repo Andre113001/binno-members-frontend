@@ -4,28 +4,30 @@ import profileImage from '../../siliDeli.svg'
 import './Header.css'
 import useLoadProfile from "../../hooks/useLoadProfile";
 import AccountContext from "../../context/accountContext";
+import { fetchImage } from '../../hooks/image-hook'
 
 function Header() {
-    const accountContext = useContext(AccountContext)
+    const accountContext = useContext(AccountContext);
+    const [profilePic, setProfilePic] = useState();
     const [headingData, setHeadingData] = useState([]);
     const { profileData } = useLoadProfile();
 
-    // useEffect(() => {
-    //     const loadHeadingData = async () => {
-    //         if (profileData) {
-    //             const result = await profileData;
-    //             setHeadingData(result)
-    //         }
-    //     }
+    useEffect(() => {
+        const loadHeadingData = async () => {
+            if (profileData) {
+                const res = await fetchImage(profileData.setting_profilepic);
+                setProfilePic(URL.createObjectURL(res));
+            }
+        }
 
-    //     loadHeadingData();
-    // }, [profileData])
+        loadHeadingData();
+    }, [profileData])
 
     return (
         <div className="Header">
             <div className="profileImageContainer"> 
                 <div className="userProfile">
-                    <img src={profileImage} alt="User Profile" className="profileImage"/>    
+                    <img src={profilePic} alt="User Profile" className="profileImage"/>    
                 </div>
                 <div className="UserInfoContainer">
                         <p id="userType">{accountContext.profileData?.user_type}</p>

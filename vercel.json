@@ -1,5 +1,5 @@
 {
     "rewrites": [
-      { "source": "/api/(.*)", "destination": "https://binno-members-repo-production-b8c4.up.railway.app/" }
+        {"source": "/(.*)", "destination": "/"}
     ]
-  }
+}

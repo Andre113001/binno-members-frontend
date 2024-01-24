@@ -38,13 +38,12 @@ const UploadDocuments = () => {
         loadData();
     }, []);
 
+    console.log(appId);
 
     const handleFilesSubmit = async () => {
         try {
             const data = { ...formInfo, id: appId, files: selectedFiles };
             const formData = new FormData();
-
-            console.log("Form Info: ", formInfo);
 
             formData.append('email', formInfo.email);
             formData.append('institution', formInfo.institution);
@@ -59,10 +58,10 @@ const UploadDocuments = () => {
                 formData.append(`files`, file);
             });
 
-            const res = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/register/upload`, formData, {
+            const res = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN_ADMIN}/application/upload`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',}
-                });
+            });
 
             if (res.data.result === true) {
                 setUploadSuccess(true);
@@ -74,6 +73,8 @@ const UploadDocuments = () => {
             console.error('Error uploading files:', error.message);
         }
     };
+
+    
     
 
     const truncateFileName = (fileName) => {

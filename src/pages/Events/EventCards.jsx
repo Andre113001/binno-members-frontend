@@ -32,7 +32,7 @@ const Events = () => {
                 
                 
                 const promises = guidesResult.map(async (guide) => {
-                    const eventPic = await fetchImage(guide.event_img)
+                    const eventPic = await fetchImage(`event-pics/${guide.event_img}`)
                     const profilePic = await fetchImage(profileData.setting_profilepic)
             
                 return {...guide, eventPic: eventPic, profilePic: profilePic};
