@@ -44,6 +44,7 @@
     font-size: 15px;
     margin: 0 10px;
     color: #575757;
+    max-width: 90%;
 }
 
 .titleContainer, .titleContainer h2{

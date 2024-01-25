@@ -12,11 +12,12 @@
 }
 
 .AboutTabContainer h1{
-    margin: 10px 0;
+    margin: 10px;
 }
 
 .enablerContent p{
-    margin: 20px 0;
+    margin: 20px 10px;
+    max-width: 95%;
 }
 
 .enablerLocation {

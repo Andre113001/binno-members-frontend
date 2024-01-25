@@ -49,6 +49,7 @@
     font-size: 15px;
     line-height: 25px;
     font-weight: 200;
+    max-width: 90%;
   }
 
   .content .contentUserInfoContainer {

@@ -12,7 +12,7 @@ const GuideCards = () => {
                 <h1>Recent Guide</h1>
                 <a href="/guides">View all Guides...</a>
             </div>
-            <div className={styles["grid2"]}>
+            <div className={styles["flexContainer"]}>
                 {guide.map((item)=> (
                     <div className={styles["guideContent"]} key={item.id}>
                         <div className={styles["guideImage"]}>

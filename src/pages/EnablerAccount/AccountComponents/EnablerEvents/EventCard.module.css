@@ -62,15 +62,17 @@
     margin: 5px;
     font-weight: 700;
     flex: 1;
+    max-width: 80%;
   }
 
   .content p {
     color: #575757;
     font-family: 'Inter', sans-serif;
-    margin: 10px;
+    margin: 15px;
     font-size: 15px;
     line-height: 25px;
     font-weight: 200;
+    max-width: 90%;
   }
 
   
