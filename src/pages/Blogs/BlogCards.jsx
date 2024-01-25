@@ -83,8 +83,8 @@ const BlogCards = () => {
                                         <div className={styles['date']}>
                                             <h4>{blog.blog_dateadded}</h4>
                                         </div>
-                                    <Stack direction="row" alignItems="center">
-                                        <IconButton size="medium">
+                                    <Stack direction="row" alignItems="center" sx={{marginRight: '20px'}}>
+                                        <IconButton size="large">
                                             <ShareIcon/>
                                         </IconButton>
                                     </Stack>

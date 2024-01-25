@@ -97,10 +97,11 @@ function BlogPage() {
                     </button>
                     </Link>
                   </div>
-                </div>
-                <button className={styles['publishBtn']} style={{padding: 10}} onClick={handleSubmit} >
+                  <button className={styles['publishBtn']} style={{padding: 10, width: '100px'}} onClick={handleSubmit}>
                     Publish
-                </button>
+                  </button>
+                </div>
+
                 <form className={styles['formContainer']} onSubmit={handleSubmit}>
                 <Box
                   component="form"
