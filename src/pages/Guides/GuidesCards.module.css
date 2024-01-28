@@ -18,9 +18,9 @@
     flex-direction: column;
     align-items: center;
     flex: 1;
-    height: 400px;
+    height: auto;
     width: 700px;
-    margin: 10px 0 ;
+    margin: 20px 0;
   }
 
   .content .guideContent:hover {
@@ -36,14 +36,16 @@
     height: 230px;
     object-fit: cover;
     border-radius: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .guideFooter{
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 700px;
+    width: 1;
+    color: black;
+    margin: 0;
 }
 
 .TitleDateContainer{
@@ -51,11 +53,17 @@
     flex: 1;
     flex-direction: column;
     font-family: 'Inter', sans-serif;
-    margin: 0 20px;
 }
 
-.TitleDateContainer h2, .guideDate{
+.TitleDateContainer h2{
     margin: 5px;
+    font-size: 30px;
     color: black;
+}
+
+.buttonContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
