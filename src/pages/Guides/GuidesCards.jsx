@@ -8,32 +8,40 @@ import useAccessToken from '../../hooks/useAccessToken.jsx'
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
+import Skeleton from '@mui/material/Skeleton';
 
 const GuideCards = () => {
     const [guides, setGuides] = useState([])
     const { profileData } = useLoadProfile()
+    const [loading, setLoading] = useState(true);
     const accessToken = useAccessToken()
 
     useEffect(() => {
         const loadHeadingData = async () => {
-            if (profileData) {
-                const profile = await profileData
-                const fetchGuides = await fetch(
-                    `${import.meta.env.VITE_BACKEND_DOMAIN}/programs/user/${profile.member_id}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    }
-                )
-                fetchGuides.json().then((result) => {
-                    setGuides(result)
-                })
+            try {
+                setLoading(true);
+                if (profileData) {
+                    const profile = await profileData
+                    const fetchGuides = await fetch(
+                        `${import.meta.env.VITE_BACKEND_DOMAIN}/programs/user/${profile.member_id}`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        }
+                    )
+                    fetchGuides.json().then((result) => {
+                        setGuides(result)
+                    })
+                }
+            }
+            finally{
+                setLoading(false);
             }
         }
 
         loadHeadingData()
-    }, [profileData])
+    }, [profileData, accessToken])
 
     // console.log(guides);
 
@@ -41,7 +49,21 @@ const GuideCards = () => {
         <>
             <section className={styles['content']}>
                 <div className={styles['grid2']}>
-                    {guides.map((guide) => (
+                {loading ? (
+                    Array.from({ length: 6 }).map((_, index) => (
+                    <div className={styles['boxItems']} key={index}>
+                        <Skeleton variant="rectangular" width="100%" height={300} />
+                        <div className={styles['eventContent']}>
+                        <div className={styles['details']}>
+                            <Skeleton variant="text" width="80%" sx={{margin: '20px'}} />
+                            <Skeleton variant="text" width="60%" sx={{margin: '20px'}}/>
+                            <Skeleton variant="text" width="90%" sx={{margin: '20px'}} />
+                        </div>
+                        </div>
+                    </div>
+                    ))
+                ) : (
+                    guides.map((guide) => (
                         <Link
                             to={`/guides/${guide.program_id}`}
                             key={guide.program_id}
@@ -74,7 +96,8 @@ const GuideCards = () => {
                                 </div>
                             </div>
                         </Link>
-                    ))}
+                    ))
+                )}
                 </div>
             </section>
         </>
