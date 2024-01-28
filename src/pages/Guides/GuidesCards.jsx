@@ -5,6 +5,10 @@ import Moment from 'react-moment'
 import { Link } from 'react-router-dom'
 import useAccessToken from '../../hooks/useAccessToken.jsx'
 
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+
 const GuideCards = () => {
     const [guides, setGuides] = useState([])
     const { profileData } = useLoadProfile()
@@ -59,7 +63,14 @@ const GuideCards = () => {
                                             </Moment>
                                         </span>
                                     </div>
-                                    <p>Click to View and Edit</p>
+                                    <div className={styles['buttonContainer']}>
+                                        <p>Click to View and Edit</p>
+                                        <Stack direction="row" alignItems="center" margin={'0 20px'}>
+                                            <IconButton aria-label="delete" size="large">
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </Stack>
+                                    </div>
                                 </div>
                             </div>
                         </Link>

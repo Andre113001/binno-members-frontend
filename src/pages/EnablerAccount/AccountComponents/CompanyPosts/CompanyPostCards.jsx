@@ -21,7 +21,7 @@ const PostCards = () => {
     useEffect(() => {
         const loadHeadingData = async () => {
             if (profileData) {
-                const profile = await profileData
+                const profile = await profileData;
                 const fetchGuides = await fetch(
                     `${import.meta.env.VITE_BACKEND_DOMAIN}/posts/user/${profile.member_id}`,
                     {
@@ -29,15 +29,14 @@ const PostCards = () => {
                             Authorization: `Bearer ${accessToken}`,
                         },
                     }
-                )
-                fetchGuides.json().then((result) => {
-                    setPosts(result)
-                })
+                );
+                const result = await fetchGuides.json();
+                setPosts(result);
             }
-        }
-
-        loadHeadingData()
-    }, [profileData])
+        };
+    
+        loadHeadingData();
+    }, [profileData, accessToken]);
 
 
     console.log(posts)

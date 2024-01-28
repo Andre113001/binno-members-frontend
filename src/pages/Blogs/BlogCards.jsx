@@ -4,6 +4,7 @@ import useLoadProfile from '../../hooks/useLoadProfile'
 import { Link, useNavigate } from 'react-router-dom'
 import useAccessToken from '../../hooks/useAccessToken'
 
+import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import ShareIcon from '@mui/icons-material/Share';
 import Stack from '@mui/material/Stack';
@@ -76,18 +77,29 @@ const BlogCards = () => {
                                 <div className={styles['img']}>
                                     <img src={URL.createObjectURL(blog.blogPic)} alt="" />
                                 </div>
-                                <div className={styles['details']}>
-                                    <h3>{blog.blog_title}</h3>
-                                    <p>{blog.blog_content.slice(0, 250)}...</p>
-                                    <div className={styles['DateShareContainer']}>
-                                        <div className={styles['date']}>
-                                            <h4>{blog.blog_dateadded}</h4>
+                                <div className={styles['blogContent']}>
+                                    <div className={styles['details']}>
+                                        <div className={styles['titleDeleteContainer']}>
+                                            <h3>{blog.blog_title}</h3>
+                                            <Stack direction="row" alignItems="center" margin={'0 20px'}>
+                                                <IconButton aria-label="delete" size="large">
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </Stack>
                                         </div>
-                                    <Stack direction="row" alignItems="center" sx={{marginRight: '20px'}}>
-                                        <IconButton size="large">
-                                            <ShareIcon/>
-                                        </IconButton>
-                                    </Stack>
+                                        <p>{blog.blog_content.slice(0, 250)}...</p>
+                                        
+                                
+                                            <div className={styles['DateShareContainer']}>
+                                                <div className={styles['date']}>
+                                                    <h4>{blog.blog_dateadded}</h4>
+                                                </div>
+                                            <Stack direction="row" alignItems="center" sx={{marginRight: '20px'}}>
+                                                <IconButton size="large">
+                                                    <ShareIcon/>
+                                                </IconButton>
+                                            </Stack>
+                                            </div>
                                     </div>
                                 </div>
                             </div>

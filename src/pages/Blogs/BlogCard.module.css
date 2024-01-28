@@ -83,3 +83,18 @@
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 20px;
 }
+
+.blogContent{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.titleDeleteContainer{
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.titleDeleteContainer h3{
+  flex: 1;
+}
