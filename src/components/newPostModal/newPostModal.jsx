@@ -9,7 +9,7 @@ import useLoadProfile from '../../hooks/useLoadProfile.jsx'
 
 export default function NewPostModal() {
     const [currentDate, setCurrentDate] = useState(new Date())
-    const [heading, setHeading] = useState('Write your heading here..') 
+    const [heading, setHeading] = useState() 
     const [content, setContent] = useState() 
     const [uploadedFile, setUploadedFile] = useState()
     const [uploadError, setUploadError] = useState(null)
@@ -106,13 +106,10 @@ export default function NewPostModal() {
       formData.append('file_path', 'post-pics')
       formData.append('image', uploadedFile)
 
-      console.log('ds')
       const imageRes = await fetch(`${import.meta.env.VITE_BACKEND_DOMAIN}/images/upload`,{
         method: 'POST',
         body: formData,
       })
-
-      console.log('ddd')
 
       const imageData = await imageRes.json()
       console.log(imageData)
@@ -137,6 +134,8 @@ export default function NewPostModal() {
 
       const data = await res.json()
       console.log(data)
+      setHeading(null)
+      setUploadedFile(null)
       toggleModal()
     }
 
@@ -159,7 +158,7 @@ export default function NewPostModal() {
                             <input
                                 type="text"
                                 className={styles['titleTextBox']}
-                                placeholder="Create new post"
+                                placeholder="Title of the Post"
                                 onChange={handleHeadingChange}
                                 value={heading}
                                 style={{ margin: '10px', outline: 'none' }}

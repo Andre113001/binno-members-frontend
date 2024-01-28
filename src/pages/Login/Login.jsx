@@ -88,7 +88,6 @@ const Login = () => {
                 // localStorage.setItem('access', data.token);
                 // login(); // Set authenticated to true
                 // navigate('/account');
-                console.log("Auth: ", requestData.accessKey);
             } else {
                 console.log(false);
             }
@@ -97,8 +96,6 @@ const Login = () => {
         }
         
     };
-
-    console.log("Current OTP: ", otp);
 
     return (
         <Container component="main" maxWidth="xs">

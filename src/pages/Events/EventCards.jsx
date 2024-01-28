@@ -10,7 +10,6 @@ const Events = () => {
     const [events, setEvents] = useState([])
     const { profileData } = useLoadProfile()
     const accessToken = useAccessToken()
-    const [imageSrc, setImageSrc] = useState()
 
     const navigate = useNavigate()
 
