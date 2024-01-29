@@ -116,7 +116,7 @@ const Login = () => {
             alignItems: 'center',
             }}
         >
-            <img src={logo} alt="" />
+            <img src={logo} alt="" width={350}/>
             {currentSection === 1 && (
                 <>
                     <Typography fontWeight={'bold'} className='sm:text-sm' component="h1" variant="h5">
