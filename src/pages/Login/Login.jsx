@@ -5,10 +5,10 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
-import logo from '../../icon.svg'
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import axios from 'axios';
+import logo from '../../icon.svg'
 
 import { json, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/AuthContext';
@@ -51,7 +51,7 @@ const Login = () => {
             localStorage.setItem('access', res.token);
             navigate('/account');
         } else {
-            alert("Incorrect PIN");
+            alert("Incorrect PIN")
         }
     };
 
@@ -116,7 +116,7 @@ const Login = () => {
             alignItems: 'center',
             }}
         >
-            <img src={logo} alt="" width={350}/>
+            <img src={logo} alt="" />
             {currentSection === 1 && (
                 <>
                     <Typography fontWeight={'bold'} className='sm:text-sm' component="h1" variant="h5">
