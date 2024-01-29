@@ -27,7 +27,7 @@ function PanelContent(props) {
             if (profileData) {
                 const profile = await profileData
                 const guidesQuery = await fetch(
-                    `https://binno-members-repo-production-b8c4.up.railway.app/api/posts/user/${profile.member_id}`,
+                    `${import.meta.env.VITE_BACKEND_DOMAIN}/posts/user/${profile.member_id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
@@ -41,7 +41,6 @@ function PanelContent(props) {
                 
                 const promises = guidesResult.map(async (guide) => {
                     const postPic = await fetchImage(guide.post_img)
-<<<<<<< HEAD
                     const profilePic = await fetchImage(`profile-img/${profileData.setting_profilepic}`)
                         
                 // const p1 = new Blob([postPic], { type: 'image/jpeg' });
@@ -52,18 +51,6 @@ function PanelContent(props) {
                 });
                 
                 const results = await Promise.all(promises);
-=======
-                    const profilePic = await fetchImage(profileData.setting_profilepic)
-                    
-            // const p1 = new Blob([postPic], { type: 'image/jpeg' });
-            // const p2 = new Blob([profilePic], { type: 'image/jpeg' });
-                    // console.log(p1, p2);
-                    console.log({...guide, postPic: postPic, profilePic: profilePic})
-                return {...guide, postPic: postPic, profilePic: profilePic};
-              });
-            
-              const results = await Promise.all(promises);
->>>>>>> d1e26bfb534a17feac8243ed71b896b0d715e520
 
               setPosts(results)
             }
