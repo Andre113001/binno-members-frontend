@@ -3,6 +3,7 @@ import styles from './BlogCard.module.css'
 import useLoadProfile from '../../hooks/useLoadProfile'
 import { Link, useNavigate } from 'react-router-dom'
 import useAccessToken from '../../hooks/useAccessToken'
+import SocialMediaShare from '../../components/SocialMediaShare/SocialMediaShare';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
@@ -18,7 +19,9 @@ const BlogCards = () => {
     const accessToken = useAccessToken()
     const [imageSrc, setImageSrc] = useState()
     const [loading, setLoading] = useState(true);
+    const [showShareComponent, setShowShareComponent] = useState(false);
     const navigate = useNavigate()
+    const [ blogId, setBlogId ] = useState();
 
     useEffect(() => {
         const loadHeadingData = async () => {
@@ -57,10 +60,21 @@ const BlogCards = () => {
             loadHeadingData();
         }, [profileData, accessToken]);
         
-    console.log(blogs)
+    // console.log(blogs)
+
+    const closeShareComponent = () => {
+        setShowShareComponent(false);
+    };
+
+    const showShare = (e, id) => {
+        e.stopPropagation();
+        setBlogId(id);
+        setShowShareComponent(true);
+    }
 
     return (
         <>
+            {showShareComponent && <SocialMediaShare type={"Blog"} id={`blog/${blogId}`} setClose={closeShareComponent} />}
             <section className={styles['content']}>
                 <div className={styles['grid2']}>
                     {loading ? (
@@ -78,20 +92,23 @@ const BlogCards = () => {
                         ))
                     ) : (
                         blogs?.map((blog) => (
-                            <Link to={`/blogs/${blog.blog_id}`} 
-                                onClick={(e)=>{
-                                    e.preventDefault()
-                                    navigate(`/blogs/${blog.blog_id}`,
-                                    {state: {
-                                        blog,
-                                    },
-                                    });
-                            }}
-                            key={blog.blog_id}
-                            style={{ textDecoration: 'none', color: 'inherit'}}>
-                                <div
-                                    className={styles['boxItems']}
-                                    key={blog.blog_id}
+                            // <Link to={`/blogs/${blog.blog_id}`} 
+                            //     onClick={(e)=>{
+                            //         e.preventDefault()
+                            //         navigate(`/blogs/${blog.blog_id}`,
+                            //         {state: {
+                            //             blog,
+                            //         },
+                            //         });
+                            // }}
+                            // key={blog.blog_id}
+                            // style={{ textDecoration: 'none', color: 'inherit'}}>
+                            <div
+                                onClick={() => navigate(`/blogs/${blog.blog_id}`, {
+                                    state: { blog },
+                                })}
+                                className={styles['boxItems']}
+                                key={blog.blog_id}
                             >
                                 <div className={styles['img']}>
                                     <img src={URL.createObjectURL(blog.blogPic)} alt="" />
@@ -100,29 +117,27 @@ const BlogCards = () => {
                                     <div className={styles['details']}>
                                         <div className={styles['titleDeleteContainer']}>
                                             <h3>{blog.blog_title}</h3>
-                                            <Stack direction="row" alignItems="center" margin={'0 20px'}>
-                                                <IconButton aria-label="delete" size="large">
-                                                    <DeleteIcon />
-                                                </IconButton>
-                                            </Stack>
-                                        </div>
-                                        <p>{blog.blog_content.slice(0, 250)}...</p>
-                                        
-                                
-                                            <div className={styles['DateShareContainer']}>
-                                                <div className={styles['date']}>
-                                                    <h4>{blog.blog_dateadded}</h4>
-                                                </div>
-                                            <Stack direction="row" alignItems="center" sx={{marginRight: '20px'}}>
+                                            <Stack direction="row" alignItems="center" sx={{marginRight: '20px'}} onClick={(e) => showShare(e, blog.blog_id)}>
                                                 <IconButton size="large">
                                                     <ShareIcon/>
                                                 </IconButton>
                                             </Stack>
+                                            {/* <Stack direction="row" alignItems="center" margin={'0 20px'}>
+                                                <IconButton aria-label="delete" size="large">
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </Stack> */}
+                                        </div>
+                                        <p>{blog.blog_content.slice(0, 250)}...</p>
+                                            <div className={styles['DateShareContainer']}>
+                                                <div className={styles['date']}>
+                                                    <h4>{blog.blog_dateadded}</h4>
+                                                </div>
                                             </div>
                                     </div>
                                 </div>
                             </div>
-                        </Link>
+                        // </Link>
                         ))
                     )}
                 </div>

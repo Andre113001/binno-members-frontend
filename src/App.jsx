@@ -38,11 +38,11 @@ import Testing from './pages/Testing/testing'
 import AccountContext from './context/accountContext'
 import useLoadProfile from './hooks/useLoadProfile'
 import PostEdit from './pages/Posts/PostEditPage/PostEdit'
+import FirstTimeLogin from './pages/FirstTimeLogin/FirstTimeLogin'
 // import PostEdit from './pages/Posts/PostEditPage/PostEdit';
 
 function App() {
     const { profileData, isLoading } = useLoadProfile()
-
     return (
         <AccountContext.Provider
             value={{
@@ -138,6 +138,9 @@ function App() {
                                 element={<GuidePage />}
                             />
                             <Route path="/account" element={<AccountPage />} />
+
+                            <Route path="/getting-started" element={<FirstTimeLogin />} />
+
                             <Route
                                 path="/register"
                                 element={<RegistrationPage />}

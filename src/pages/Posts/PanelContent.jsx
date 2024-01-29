@@ -45,7 +45,7 @@ function PanelContent(props) {
                 
                 const promises = guidesResult.map(async (guide) => {
                     const postPic = await fetchImage(guide.post_img)
-                    const profilePic = await fetchImage(profileData.setting_profilepic)
+                    const profilePic = await fetchImage(`profile-img/${profileData.setting_profilepic}`)
                         
                 // const p1 = new Blob([postPic], { type: 'image/jpeg' });
                 // const p2 = new Blob([profilePic], { type: 'image/jpeg' });

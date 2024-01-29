@@ -3,6 +3,10 @@ import { Typography, Button, TextField, Divider, VisuallyHiddenInput} from '@mui
 import { ArrowBack } from '@mui/icons-material/'
 import { FileUploader } from 'react-drag-drop-files';
 import Copyright from '../../components/Copyright/Copyright';
+import { MuiTelInput } from 'mui-tel-input'
+import useHttp from '../../hooks/http-hook';
+import { useNavigate } from 'react-router';
+import axios from 'axios';
 
 import './FirstTimeLogin.css';
 
@@ -15,6 +19,9 @@ const FirstTimeLogin = () => {
   const [logoFile, setLogoFile] = useState(null);
   const [coverPhotoFile, setCoverPhotoFile] = useState(null);
   const [description, setDescription] = useState('');
+  const [contact, setContact] = useState();
+  const { sendRequest, isLoading } = useHttp();
+  const navigate = useNavigate();
 
 
   const handlePasswordChange = (event) => {
@@ -38,6 +45,10 @@ const FirstTimeLogin = () => {
 
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
+  };
+  
+  const handleContactChange = (event) => {
+    setContact(event);
   };
 
   const handleLogoFileChange = (file) => {
@@ -67,7 +78,7 @@ const FirstTimeLogin = () => {
   };
   
 
-  const handleNextClick = () => {
+const handleNextClick = async () => {
     if (currentSection === 1) {
       // Validate password fields
       setShowError(true);
@@ -82,19 +93,43 @@ const FirstTimeLogin = () => {
         alert('Please upload both logo and cover photo.');
       }
     } else if (currentSection === 3) {
+      // Validate contact number field
+      if (contact === '' || contact.length === 16) {
+        setCurrentSection(4);
+      } else {
+        alert('Please enter your number correctly');
+      }
+    } else if (currentSection === 4) {
       // Validate description field
       if (description.trim() !== '') {
-        // Continue with your submission logic
-        console.log(password);
-        console.log(logoFile);
-        console.log(coverPhotoFile);
-        console.log(description);
-        console.log('Submission complete!');
+        const formData = new FormData();
+
+        formData.append('token', localStorage.getItem('access'));
+        formData.append('password', password);
+        formData.append('contact', contact);
+        formData.append('description', description);
+        formData.append('profileImg', logoFile);
+        formData.append('coverImg', coverPhotoFile);
+
+        try {
+          const res = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/login/firstTime`, formData, {
+              headers: {
+                  'Content-Type': 'multipart/form-data', // Set Content-Type for file uploads
+              },
+          });
+          
+          if (res.data === true) {
+            navigate('/account')
+          }
+
+        } catch (error) {
+            console.error('Error uploading files:', error);
+        }
       } else {
         alert('Please enter a description.');
       }
     }
-  };
+};
 
   return (
     <div className="first-container">
@@ -126,7 +161,7 @@ const FirstTimeLogin = () => {
                 id="password"
                 type="password"
                 label="Password"
-                sx={{ marginTop: 2 }}
+                sx={{ marginTop: 1 }}
                 variant="outlined"
                 value={password}
                 onChange={handlePasswordChange}
@@ -142,7 +177,7 @@ const FirstTimeLogin = () => {
                 type="password"
                 label="Re-type your password"
                 variant="outlined"
-                sx={{ marginTop: 2 }}
+                sx={{ marginTop: 1 }}
                 value={confirmPassword}
                 error={!passwordsMatch && showError}
                 helperText={!passwordsMatch && showError ? 'Passwords do not match' : ''}
@@ -160,7 +195,7 @@ const FirstTimeLogin = () => {
                   Your Logo
                 </Typography>
                 <center>
-                  <img className='preview-logo' src={logoFile ? logoFile : '../../../public/img/profile-default.png'} alt="Logo Preview" />
+                  <img className='preview-logo' src={logoFile ? logoFile : '/img/profile-default.png'} alt="Logo Preview" />
                 </center>
                 <FileUploader
                   required
@@ -179,7 +214,7 @@ const FirstTimeLogin = () => {
                 <center>
                 <img
                     className='preview-cover'
-                    src={coverPhotoFile ? coverPhotoFile : '../../../public/img/cover-default.png'} 
+                    src={coverPhotoFile ? coverPhotoFile : '/img/cover-default.png'} 
                     alt="Logo Preview"
                   />
                 </center>
@@ -200,9 +235,25 @@ const FirstTimeLogin = () => {
           <>
             <div className="description">
               <Typography fontSize={25} fontWeight="bold">
+                Contact Number (optional)
+              </Typography>
+              <Typography>
+                This is optional, but you may add your contact number
+              </Typography>
+              <MuiTelInput value={contact} defaultCountry="PH" inputProps={{ maxLength: 12 }} forceCallingCode disableDropdown style={{width: '100%'}} onChange={((event) => handleContactChange(event))} />
+            </div>
+          </>
+        )}
+        {currentSection === 4 && (
+          <>
+            <div className="description">
+              <Typography fontSize={25} fontWeight="bold">
                 Description
               </Typography>
-              <TextField fullWidth multiline rows={8} value={description} onChange={handleDescriptionChange} />
+              <Typography>
+                Describe your institution, your goals 
+              </Typography>
+              <TextField fullWidth multiline rows={8} inputProps={{ maxLength: 250 }} value={description} onChange={handleDescriptionChange} />
             </div>
           </>
         )}
@@ -214,9 +265,9 @@ const FirstTimeLogin = () => {
             backgroundColor: '#ff7a00',
             borderRadius: 10,
           }}
-          onClick={currentSection === 3 ? handleNextClick : () => setCurrentSection(currentSection + 1)}
+          onClick={handleNextClick}
         >
-          {currentSection === 3 ? 'Submit' : 'Next'}
+          {currentSection === 4 ? 'Submit' : 'Next'}
         </Button>
       </div>
       <Copyright />

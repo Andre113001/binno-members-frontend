@@ -20,15 +20,15 @@
 
 .backButtonContainer{
     flex: 1;
+    border: 1px solid ;
 }
 
 .backButton{
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color:   rgb(252, 74, 74);
     border: none;
-    color: white;   
+    color: black;   
     border-radius: 10px;
     padding: 5px 20px;
 }
@@ -49,9 +49,18 @@
 .publishBtn{
     padding: 10px 40px;
     border: none;
-    margin: 0 30px;
+    margin: 0 10px;
     border-radius: 15px;
     background-color: #fd7c06;
+    color: white;
+}
+
+.deleteBtn {
+    padding: 10px 40px;
+    border: none;
+    margin: 0 10px;
+    border-radius: 15px;
+    background-color: #f85e3f;
     color: white;
 }
 

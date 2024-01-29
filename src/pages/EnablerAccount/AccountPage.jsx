@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import styles from './AccountPage.module.css'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import InformationTab from './AccountComponents/InformationTab/InformationTab'
 import GuideCards from './AccountComponents/EnablerGuides/GuidesCards'
 import BlogCards from './AccountComponents/EnablerBlog/BlogCards'
@@ -17,10 +17,12 @@ import PostCards from './AccountComponents/CompanyPosts/CompanyPostCards'
 import CompanyEvents from './AccountComponents/CompanyEvents/CompanyEventCards'
 
 
+
 function AccountPage() {
   const {profileData} = useLoadProfile();
   const [data, setData] = useState([]);
   const [isEditActive, setIsEditActive] = useState(true);
+  const navigate = useNavigate();
 
   const toggleEdit = () => {
     setIsEditActive((prev) => !prev);
@@ -38,7 +40,14 @@ function AccountPage() {
       loadHeadingData();
   }, [profileData])
 
-  console.log(profileData)
+  useEffect(() => {
+    // Redirect logic based on member_first_time
+    if (profileData && profileData.member_first_time === 1) {
+       navigate('/getting-started')
+    }
+  }, [profileData, navigate]);
+
+  // console.log(profileData)
 
   return (
     <>

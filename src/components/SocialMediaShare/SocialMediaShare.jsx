@@ -3,21 +3,31 @@ import { FacebookShareButton, FacebookIcon, LinkedinShareButton, LinkedinIcon } 
 import { Typography, Button } from '@mui/material';
 import './SocialMediaShare.css';
 
-const SocialMediaShare = ({ postId }) => {
-    const url = `binnostartup.org/post/${postId}`;
+import {
+    Facebook,
+    LinkedIn
+} from '@mui/icons-material';
+
+const SocialMediaShare = ({ id, type, setClose }) => {
+    const url = `www.binnostartup.site/${id}`;
+    console.log(url);
+
+    const handleClose = () => {
+        setClose(true);
+    };
 
     return (
-        <div className="blur-background">
+        <div className="blur-background" onClick={handleClose}>
             <div className="share-container">
-                <Typography variant='h4' color={"white"} fontWeight={"bold"}>Share this post</Typography>
+                <Typography variant='h4' color={"white"} fontWeight={"bold"}>Share this {type}</Typography>
                 <Typography color={'white'}>Help spread awareness of the Bicol Startup scene</Typography>
                 {/* <Embed url='wordpress.com' /> */}
                 <div className="social-media">
                     <FacebookShareButton url={url}> 
-                        <FacebookIcon round size={100}/>
+                        <Button startIcon={<Facebook />} sx={{backgroundColor:"#0965fe"}} variant='contained'>Facebook</Button>
                     </FacebookShareButton>
                     <LinkedinShareButton url={url}>
-                        <LinkedinIcon round size={100}/>
+                        <Button startIcon={<LinkedIn />} sx={{backgroundColor:"#0077b5"}} variant='contained'>Facebook</Button>
                     </LinkedinShareButton>
                 </div>
                 <Button
@@ -27,6 +37,7 @@ const SocialMediaShare = ({ postId }) => {
                 style={{
                     backgroundColor: "#ff7a00",
                 }}
+                onClick={handleClose}
                 >
                 Done
             </Button>

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'; 
+import { Link, useLocation, useNavigate } from 'react-router-dom'; 
 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Header from '../../../components/header/Header'
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import BlogImageUpload from '../../../components/blogImageUpload/blogImageUpload';
+import useHttp from '../../../hooks/http-hook';
 
 import styles from './BlogEdit.module.css'
 
@@ -26,11 +27,13 @@ function BlogEdit(props) {
     const location = useLocation()
     const receivedData = location.state
     const [titleInput, setTitleInput] = useState()
-      const [titleDescription, setDescription] = useState()
-  const [blogData, setBlogData] = useState({
-    title: '',
-    description: '',
-  });
+    const [titleDescription, setDescription] = useState()
+    const { sendRequest, isLoading } = useHttp()
+    const navigate = useNavigate();
+    const [blogData, setBlogData] = useState({
+      title: '',
+      description: '',
+  } );
 
 
   const handleTitleChange = (event) => {
@@ -67,7 +70,21 @@ function BlogEdit(props) {
     console.log('Form submitted:', { title, description});
   };
 
-  console.log(blogData)
+  const handleDelete = async () => {
+    if (window.confirm("Are you sure you want to delete this blog?")) {
+      const res = await sendRequest({
+        url: `${import.meta.env.VITE_BACKEND_DOMAIN}/blogs/delete/${receivedData.blog.blog_id}`
+      });
+  
+      if (res.message === 'Blog deleted successfully') {
+        console.log(res);
+        navigate('/blogs');
+      } else {
+        console.log(res);
+        alert("Delete Unsuccessful");
+      }
+    }
+  } 
 
   return (
     <>
@@ -78,17 +95,20 @@ function BlogEdit(props) {
                   <div className={styles['backButtonContainer']}>
                     <Link to="/blogs" style={{textDecoration:'none'}}>
                     <button className={styles['backButton']} ><ArrowBackRoundedIcon />
-                      <span style={{margin:'5px'}}>Discard Changes</span>
+                      <span style={{margin:'5px'}} disabled={isLoading}>Back</span>
                     </button>
                     </Link>
                   </div>
 
-                  <button className={styles['publishBtn']} type='submit'>
+                  <button className={styles['publishBtn']} disabled={isLoading}> {/* Update Functionality */}
                     Save Changes
+                  </button>
+
+                  <button className={styles['deleteBtn']} onClick={() => handleDelete()} disabled={isLoading}> {/* Update Functionality */}
+                    Delete Blog
                   </button>
                   
                 </div>
-                <form className={styles['formContainer']} onSubmit={handleSubmit}>
                 <Box
                   component="form"
                   sx={{
@@ -120,7 +140,6 @@ function BlogEdit(props) {
                     />
                   </div>
                   </Box>
-                </form>
             </div>
         </div>
     </>

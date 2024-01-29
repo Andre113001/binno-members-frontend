@@ -60,7 +60,7 @@ const TwoAuth = () => {
                 alignItems: 'center',
                 }}
             >
-                <img src="../../../public/img/binno-logo.png" alt="" />
+                <img src={import.meta.env.VITE_LOGO} alt="" />
                 <Typography component="h1" variant="h4" sx={{mt: 2, fontWeight: 'bold'}}>
                     Forgot Password
                 </Typography>

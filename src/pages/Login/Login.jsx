@@ -31,7 +31,7 @@ const Login = () => {
     };
 
     const handleOtpComplete = async (value) => {
-        console.log("New OTP: ", value, "AccessKey: ", accesskey);
+        // console.log("New OTP: ", value, "AccessKey: ", accesskey);
         const requestDataOtp = {
             accesskey: accesskey,
             otp: value
@@ -41,9 +41,16 @@ const Login = () => {
             body: JSON.stringify(requestDataOtp)
         })
 
-        if (res.auth === true) {
+        console.log(res);
+
+        if (res.auth === 1) {
+            localStorage.setItem('access', res.token);
+            navigate('/getting-started');
+        } else if (res.auth === 0) {
             localStorage.setItem('access', res.token);
             navigate('/account');
+        } else {
+            alert("Incorrect PIN");
         }
     };
 
@@ -108,7 +115,7 @@ const Login = () => {
             alignItems: 'center',
             }}
         >
-            <img src="../../../public/img/binno-logo.png" alt="" />
+            <img src={import.meta.env.VITE_LOGO} alt="" />
             {currentSection === 1 && (
                 <>
                     <Typography fontWeight={'bold'} className='sm:text-sm' component="h1" variant="h5">

@@ -17,11 +17,11 @@ function AccountHeader(props) {
 
     useEffect(() => {
         const loadData = async () => {
-            const profilePicPath = await fetchImage(profileData.setting_profilepic);
-            const coverPicPath = await fetchImage(profileData.setting_coverpic);
+            const profilePicPath = await fetchImage(`profile-img/${profileData.setting_profilepic}`);
+            const coverPicPath = await fetchImage(`profile-cover-img/${profileData.setting_coverpic}`);
             
-            console.log(profileData.setting_profilepic);
-            console.log(profileData.setting_coverpic);
+            // console.log(profileData.setting_profilepic);
+            // console.log(profileData.setting_coverpic);
 
             const profilePicBlob = new Blob([profilePicPath], { type: 'image/jpeg' });
             const coverPicBlob = new Blob([coverPicPath], { type: 'image/jpeg' });

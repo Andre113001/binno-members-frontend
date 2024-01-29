@@ -8,7 +8,7 @@ function RegistrationPage() {
     <>
        <div className="registrationPage">
           <div className="header">
-              <img className='logo' src="../../../public/img/binno-logo.png" 
+              <img className='logo' src={import.meta.env.VITE_LOGO} 
               alt=""/>
           </div>
 

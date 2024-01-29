@@ -21,7 +21,7 @@ function Header() {
     useEffect(() => {
         const loadHeadingData = async () => {
             if (profileData) {
-                const res = await fetchImage(profileData.setting_profilepic);
+                const res = await fetchImage(`profile-img/${profileData.setting_profilepic}`);
                 setProfilePic(URL.createObjectURL(res));
                 setLoadingProfile(false);
             }
