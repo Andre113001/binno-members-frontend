@@ -22,6 +22,7 @@ export default function NewEventModal() {
   const [eventTime, setEventTime] = useState(null);
   const [uploadedFile, setUploadedFile] = useState()
   const [uploadError, setUploadError] = useState(null)
+  const [location, setLocation] = useState('');
   const fileRef = useRef()
 
     const {profileData} = useLoadProfile()
@@ -100,6 +101,10 @@ export default function NewEventModal() {
 
     const handleTitleChange = (event) => {
     setTitle(event.target.value);
+  };
+
+  const handleLocationChange = (event) => {
+    setLocation(event.target.value);
   };
 
   const handleDescriptionChange = (e) => {
@@ -194,7 +199,17 @@ export default function NewEventModal() {
                                 }}
                                 noValidate
                                 autoComplete="off"
-                                >
+                            >
+                            <div>
+                              {/* Location TextField */}
+                              <TextField
+                                label="Location"
+                                placeholder="Enter location"
+                                onChange={handleLocationChange}
+                                value={location}
+                                variant="outlined"
+                              />
+                            </div>
                                   <div>
                                     <TextField
                                       aria-label="empty textarea"
