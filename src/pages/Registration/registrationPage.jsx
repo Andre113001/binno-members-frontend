@@ -1,5 +1,6 @@
 import React from 'react'
 import '../../App.css'
+import logo from '../../icon.svg'
 import { Outlet } from 'react-router-dom'
 
 function RegistrationPage() {
@@ -8,8 +9,7 @@ function RegistrationPage() {
     <>
        <div className="registrationPage">
           <div className="header">
-              <img className='logo' src={import.meta.env.VITE_LOGO} 
-              alt=""/>
+            <img src={logo} alt="" width={350}/>
           </div>
 
           <div className="fromRegistraion">

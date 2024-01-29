@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import logo from '../../icon.svg'
 
 import {
     TextField, 
@@ -60,7 +61,7 @@ const TwoAuth = () => {
                 alignItems: 'center',
                 }}
             >
-                <img src={import.meta.env.VITE_LOGO} alt="" />
+                <img src={logo} alt="" width={350}/>
                 <Typography component="h1" variant="h4" sx={{mt: 2, fontWeight: 'bold'}}>
                     Forgot Password
                 </Typography>

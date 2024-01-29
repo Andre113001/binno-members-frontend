@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import logo from '../../icon.svg'
 
 import {
     TextField, 
@@ -76,7 +77,7 @@ const VerifyPassword = () => {
                 alignItems: 'center',
                 }}
             >
-                <img src="../../../public/img/binno-logo.png" alt="" />
+                <img src={logo} alt="" width={350}/>
                 <Typography component="h1" variant="h4" sx={{mt: 2, fontWeight: 'bold'}}>
                     Verify OTP
                 </Typography>

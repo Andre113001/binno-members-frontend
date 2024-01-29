@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
+import logo from '../../icon.svg'
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import axios from 'axios';
@@ -115,7 +116,7 @@ const Login = () => {
             alignItems: 'center',
             }}
         >
-            <img src={import.meta.env.VITE_LOGO} alt="" />
+            <img src={logo} alt="" width={350}/>
             {currentSection === 1 && (
                 <>
                     <Typography fontWeight={'bold'} className='sm:text-sm' component="h1" variant="h5">

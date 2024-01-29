@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Copyright from '../../components/Copyright/Copyright';
+import logo from '../../icon.svg'
 
 import {
     TextField, 
@@ -30,7 +31,7 @@ const MessagePassword = () => {
     alignItems: 'center',
     }}
 >
-    <img src="../../../public/img/binno-logo.png" alt="" />
+    <img src={logo} alt="" width={350}/>
     <Box sx={{ mt: 1 }}>
         <MarkEmailRead sx={{fontSize: 200, color: '#ff7a00'}}/>
     </Box>
