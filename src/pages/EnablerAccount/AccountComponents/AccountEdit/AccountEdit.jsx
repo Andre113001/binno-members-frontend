@@ -1,10 +1,9 @@
 import React, { useState, useEffect , useRef } from "react";
 import styles from './AccountEdit.module.css'
 
-import { companyInformation } from '../../../../assets/companyInfo'
-
-import profileImage from '../../../../assets/siliDeli.svg';
-import Coverphoto from '../../../../assets/Coverphoto.png';
+import Skeleton from '@mui/material/Skeleton';
+import Stack from '@mui/material/Stack';
+import useLoadProfile from "../../../../hooks/useLoadProfile";
 
 import CameraAltRoundedIcon from '@mui/icons-material/CameraAltRounded';
 
@@ -17,6 +16,31 @@ function AccountEdit(props) {
     const [uploadErrorProfile, setUploadErrorProfile] = useState(null)
     const fileRefCover = useRef()
     const fileRefProfile = useRef()
+
+    const {profileData} = useLoadProfile()
+    const [profilePic, setProfilePic] = useState();
+    const [coverPic, setCoverPic] = useState();
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const loadData = async () => {
+            const profilePicPath = await fetchImage(`profile-img/${profileData.setting_profilepic}`);
+            const coverPicPath = await fetchImage(`profile-cover-img/${profileData.setting_coverpic}`);
+            
+            // console.log(profileData.setting_profilepic);
+            // console.log(profileData.setting_coverpic);
+
+            const profilePicBlob = new Blob([profilePicPath], { type: 'image/jpeg' });
+            const coverPicBlob = new Blob([coverPicPath], { type: 'image/jpeg' });
+            
+            setProfilePic(URL.createObjectURL(profilePicBlob));
+            setCoverPic(URL.createObjectURL(coverPicBlob));
+            setLoading(false);
+        }
+
+        if(profileData) loadData()
+    }, [profileData])
+
 
     const handleCoverUpload = async (e) => {
         const file = e.target.files[0]
@@ -89,7 +113,13 @@ function AccountEdit(props) {
     <>
         <div className={styles["Header"]}>
             <div className={styles["profileCoverImage"]}>
-                        <img src={uploadedFileCover ? URL.createObjectURL(uploadedFileCover):Coverphoto} className={styles["coverPhoto"]} alt="Cover Photo" />
+                {loading ? (
+                            <Stack spacing={1}>
+                                <Skeleton variant="rectangular" width={'100%'} height={'300px'} />
+                            </Stack>
+                        ) : (
+                            <img src={uploadedFileCover ? URL.createObjectURL(uploadedFileCover) : coverPic} className={styles["coverPhoto"]} alt="Cover Photo" />
+                    )}
                         <button onClick={() => fileRefCover.current.click()} className={styles["CoverButton"]}><CameraAltRoundedIcon />⠀Edit Cover Photo
                                 </button>
                             <input
@@ -103,7 +133,13 @@ function AccountEdit(props) {
                 <div className={styles["ProfileHeaderContainer"]}>
                     <div className={styles["userProfile"]}>
                         <div className={styles["profileImageContainer"]}>
-                            <img src={uploadedFileProfile ? URL.createObjectURL(uploadedFileProfile):profileImage} alt="User Profile" className={styles["profileImage"]}/>
+                            {loading ? (
+                                    <Stack spacing={1}>
+                                        <Skeleton variant="circular" width={'150px'} height={'150px'} />
+                                    </Stack>
+                                ) : (
+                                    <img src={uploadedFileProfile ? URL.createObjectURL(uploadedFileProfile) : profilePic} alt="User Profile" className={styles["profileImage"]} />
+                                )}
                                 <button onClick={() => fileRefProfile.current.click()} className={styles["ProfileButton"]}><CameraAltRoundedIcon />
                                     </button>
                                     <input
