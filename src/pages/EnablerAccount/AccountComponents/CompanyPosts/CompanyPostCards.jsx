@@ -90,7 +90,8 @@ return (
                         </div>
                     </div>
                 </Link>
-                ))} 
+                ))
+            } 
             </div>
         </section>
     </>
