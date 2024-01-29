@@ -20,7 +20,7 @@ export default function NewEventModal() {
   const [description, setDescription]= useState()
   const [eventDate, setEventDate] = useState(null);
   const [eventTime, setEventTime] = useState(null);
-  const [uploadedFile, setUploadedFile] = useState()
+  const [uploadedFile, setUploadedFile] = useState('')
   const [uploadError, setUploadError] = useState(null)
   const [location, setLocation] = useState('');
   const fileRef = useRef()
@@ -83,6 +83,7 @@ export default function NewEventModal() {
     const [modal, setModal] = useState(false);
     const toggleModal = () => {
       setModal(!modal);
+      setUploadedFile('')
     };
     
     if(modal) {
@@ -124,7 +125,6 @@ export default function NewEventModal() {
       })
 
       const imageData = await imageRes.json()
-      console.log(imageData)
 
       const modifiedImageUrl = imageData.filePath.replace('/app/public/', '');
 
@@ -134,6 +134,7 @@ export default function NewEventModal() {
           eventAuthor: profileData.member_id,
           eventDate: eventDate,
           eventTime: eventTime,
+          eventLocation: location,
           eventTitle: title,
           eventDescription: description,
           eventImg: modifiedImageUrl
@@ -147,6 +148,7 @@ export default function NewEventModal() {
       const data = await res.json()
       console.log(data)
       toggleModal()
+      window.location.reload();
     }
 
 
@@ -174,21 +176,32 @@ export default function NewEventModal() {
                       <CloseRoundedIcon />
                       </button>
                       <div className="datepickerContainer">
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DemoContainer
-                            components={[
-                              'DatePicker',
-                              'TimePicker',
-                            ]}
-                          > 
-                          <DemoItem label={<Label componentName="Date" valueType="date" />}>
-                            <DatePicker value={eventDate} format='YYYY-MM-DD' onChange={handleDateChange} />
-                          </DemoItem>
-                          <DemoItem label={<Label componentName="Time" valueType="time" />}>
-                            <TimePicker value={eventTime} onChange={handleTimeChange} />
-                          </DemoItem>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DemoContainer
+                              components={[
+                                'DatePicker',
+                                'TimePicker',
+                              ]}
+                            > 
+                            <DemoItem label={<Label componentName="Date" valueType="date" />}>
+                              <DatePicker value={eventDate} disablePast format='YYYY-MM-DD' onChange={handleDateChange} />
+                            </DemoItem>
+                            <DemoItem label={<Label componentName="Time" valueType="time" />}>
+                              <TimePicker value={eventTime} onChange={handleTimeChange} />
+                            </DemoItem>
+                            <DemoItem label={<Label componentName="Location" valueType="location" />}>
+                                  {/* Location TextField */}
+                                  <TextField
+                                    placeholder="Enter location"
+                                    onChange={handleLocationChange}
+                                    value={location}
+                                    variant="outlined"
+                                    fullWidth
+                                    style={{ width: '50rem' }}
+                                  />
+                            </DemoItem>
                           </DemoContainer>
-                        </LocalizationProvider>
+                          </LocalizationProvider>
                           {/* eventDate={eventDate} onEventDateChange={handleDateChange} */}
                         </div>
                           <div className="TextBoxContainer">
@@ -200,19 +213,8 @@ export default function NewEventModal() {
                                 noValidate
                                 autoComplete="off"
                             >
-                            <div>
-                              {/* Location TextField */}
-                              <TextField
-                                label="Location"
-                                placeholder="Enter location"
-                                onChange={handleLocationChange}
-                                value={location}
-                                variant="outlined"
-                              />
-                            </div>
                                   <div>
                                     <TextField
-                                      aria-label="empty textarea"
                                       placeholder="Write a short description"
                                       multiline
                                       style={{ maxHeight: '250px' ,width: '97.5%', border: 'rgb(241,241,241)', 
@@ -222,14 +224,18 @@ export default function NewEventModal() {
                                       onChange={handleDescriptionChange}
                                       // value={eventDescription}
                                       // onChange={(e) => setEventDescription(e.target.value)}
-                                      inputProps={{ maxLength: 300 }}
+                                      inputProps={{ maxLength: 500 }}
                                     />
                                   </div>
                                 </Box>
                           </div>
                       
                       <div className="eventModalDropboxContainer">
-                        <DropBox uploadError={uploadError} uploadedFile={uploadedFile} fileRef={fileRef} onFileUpload={handleFileUpload} />
+                        <DropBox
+                          uploadedFile={uploadedFile}
+                          setUploadedFile={setUploadedFile}
+                          initialFile={''}
+                        />
                       </div>
               
                       <button className='uploadButton' 

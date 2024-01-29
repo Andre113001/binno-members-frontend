@@ -103,10 +103,6 @@ function BlogEdit(props) {
                   <button className={styles['publishBtn']} disabled={isLoading}> {/* Update Functionality */}
                     Save Changes
                   </button>
-
-                  <button className={styles['deleteBtn']} onClick={() => handleDelete()} disabled={isLoading}> {/* Update Functionality */}
-                    Delete Blog
-                  </button>
                   
                 </div>
                 <Box
@@ -125,7 +121,7 @@ function BlogEdit(props) {
                     />
                   </div>
                   <div className={styles['UploadImage']}>
-                    <BlogImageUpload />
+                    <BlogImageUpload setUpLoadedFile={eventPic} />
                   </div>
                   <div className={styles['descriptionContainer']}>
                     <TextField

@@ -3,7 +3,8 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .contentContainer{
@@ -27,7 +28,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color:   rgb(252, 74, 74);
+    background-color:   rgb(194, 194, 194);
     border: none;
     color: white;   
     border-radius: 10px;
@@ -63,6 +64,7 @@
 
 .titleContainer{
     margin: 20px;
+    
 } 
 
 .descriptionContainer{

@@ -14,7 +14,7 @@
 .createEventBtn:hover{
     cursor: pointer;
     background-color: #054eae;
-    transition: 0.5ms;
+    transition: 0.5s ease-in-out;
 }
   
 body.active-modal {
@@ -44,7 +44,7 @@ body.active-modal {
     top: 50%;
     left: 50%;
     font-family: 'Inter', sans-serif;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(0.8); /* Scale down by 50% */
     background: #f1f1f1;
     border-radius: 10px;
     width: 70%;
@@ -52,6 +52,7 @@ body.active-modal {
     padding: 20px;
     z-index: 2;
 }
+
 
 
 .titleDateContainer{
@@ -124,11 +125,12 @@ body.active-modal {
     border: none;
     color: #f1f1f1;
     margin: 0 10px;
+    transition: 0.5s;
 }
 
 .uploadButton:hover, .categoryButton:hover{
     cursor: pointer;
-    background-color: #054eae;
+    background-color: #2180c1;
 }
 
 
