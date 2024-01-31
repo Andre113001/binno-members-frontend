@@ -7,6 +7,7 @@ import Header from '../../../components/header/Header'
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import BlogImageUpload from '../../../components/blogImageUpload/blogImageUpload';
 import useHttp from '../../../hooks/http-hook';
+import axios from 'axios';
 
 import styles from './BlogEdit.module.css'
 
@@ -29,12 +30,22 @@ function BlogEdit(props) {
     const [titleInput, setTitleInput] = useState()
     const [titleDescription, setDescription] = useState()
     const { sendRequest, isLoading } = useHttp()
+    const [uploadedFile, setUploadedFile] = useState(null);
     const navigate = useNavigate();
     const [blogData, setBlogData] = useState({
       title: '',
       description: '',
   } );
+  const [img, setImg] = useState('');
 
+  const readFileAsBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+    });
+  };
 
   const handleTitleChange = (event) => {
     setTitleInput(event.target.value)
@@ -44,10 +55,15 @@ function BlogEdit(props) {
     setDescription(event.target.value)
   };
 
+  const handleImageChange = async (file) => {
+    const base64 = await readFileAsBase64(file);
+    setImg(base64);
+  };
+
   useEffect(() => {
     const loadData = () => {
         if(receivedData) {
-            setBlogData(receivedData.event)
+            setBlogData(receivedData.blog)
             setTitleInput(receivedData.blog.blog_title)
             setDescription(receivedData.blog.blog_content)
         }
@@ -55,36 +71,39 @@ function BlogEdit(props) {
     loadData()
   }, [receivedData])
   
-//   const handleChange = (e) => {
-//     setBlogData((prevData) => ({
-//       ...prevData,
-//       [e.target.id]: e.target.value,
-//     }));
-//   };
 
-  const handleSubmit = (e) => {
-    e.preDefault();
-    const title = e.target.elements.title.value;
-    // const category = e.target.elements.category.value;
-    const description = e.target.elements.description.value;
-    console.log('Form submitted:', { title, description});
+
+  const handleSubmit = async () => {
+
+    const requestData = {
+        blogId: blogData.blog_id,
+        authorId: blogData.blog_author,
+        blogTitle: titleInput,
+        blogContent: titleDescription,
+        username: 'BiNNO'
+    };
+
+    if (img !== blogData.blog_img) {
+      requestData.blogImg = img
+    } else {
+      requestData.blogImg = blogData.blogPic
+    }
+
+    const res = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/blogs/post`, 
+    requestData, {
+        headers: {
+            'Content-Type': 'multipart/form-data', // Set Content-Type for file uploads
+        },
+    });
+    
+    if (res.data.message === 'Blog updated successfully') {
+      navigate('/blogs')
+    }
+
+
   };
 
-  const handleDelete = async () => {
-    if (window.confirm("Are you sure you want to delete this blog?")) {
-      const res = await sendRequest({
-        url: `${import.meta.env.VITE_BACKEND_DOMAIN}/blogs/delete/${receivedData.blog.blog_id}`
-      });
-  
-      if (res.message === 'Blog deleted successfully') {
-        console.log(res);
-        navigate('/blogs');
-      } else {
-        console.log(res);
-        alert("Delete Unsuccessful");
-      }
-    }
-  } 
+  // console.log(blogData);
 
   return (
     <>
@@ -100,7 +119,7 @@ function BlogEdit(props) {
                     </Link>
                   </div>
 
-                  <button className={styles['publishBtn']} disabled={isLoading}> {/* Update Functionality */}
+                  <button className={styles['publishBtn']} disabled={isLoading} onClick={handleSubmit}> {/* Update Functionality */}
                     Save Changes
                   </button>
                   
@@ -121,7 +140,8 @@ function BlogEdit(props) {
                     />
                   </div>
                   <div className={styles['UploadImage']}>
-                    <BlogImageUpload setUpLoadedFile={eventPic} />
+                    <BlogImageUpload initialFile={blogData.blogPic} uploadedFile={uploadedFile} setUploadedFile={setUploadedFile}
+                  onChange={handleImageChange}/>
                   </div>
                   <div className={styles['descriptionContainer']}>
                     <TextField
@@ -129,10 +149,12 @@ function BlogEdit(props) {
                       value={titleDescription}
                       onChange={handleDescriptionChange}
                       multiline
+                      InputProps={{
+                        disableUnderline: true,
+                      }}
+                      variant='standard'
                       placeholder="What is it all about?"
-                      style={{border: 'none', padding: '10px', fontSize: '18px', width:'98%', outline:'none'}}
-                      minRows={6}
-                      maxRows={7}
+                      style={{border: 'none', padding: '10px', fontSize: '18px', width:'98%'}}
                     />
                   </div>
                   </Box>

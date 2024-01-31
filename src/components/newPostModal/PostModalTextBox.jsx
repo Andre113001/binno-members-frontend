@@ -19,16 +19,15 @@ export default function PostModalTextBox(props) {
                     <div>
                         <TextField
                             aria-label="empty textarea"
-                            placeholder="Write a short description"
+                            placeholder="What's it about?"
                             multiline
                             style={{
                                 maxHeight: '250px',
-                                maxWidth: '1200px',
+                                maxWidth: '100%',
                                 width: '98%',
                                 border: 'white',
                                 margin: '10px',
-                                backgroundColor: 'rgb(241,241,241)',
-                                outline: 'none',
+                                backgroundColor: 'rgb(241,241,241)'
                             }}
                             minRows={4}
                             maxRows={5}

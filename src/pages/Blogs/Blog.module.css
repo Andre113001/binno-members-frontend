@@ -44,20 +44,20 @@ h1{
   margin: 20px 50px;
 }
 
-.blogButtons{
+.blogButtons {
   display: flex;
   margin: 0 50px;
 }
 
-.addButtonContainer{
-  display: flex;
+.addButtonContainer {
   width: 100%;
+  justify-content: center;
 }
 
-.actualButton{
+.actualButton {
   padding: 20px 30px;
-  width: 1420px;
   border: none;
+  width: 100%;
   border-radius: 15px;
   color: white;
   background-color: #fd7c06;

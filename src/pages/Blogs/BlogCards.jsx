@@ -4,6 +4,7 @@ import useLoadProfile from '../../hooks/useLoadProfile'
 import { Link, useNavigate } from 'react-router-dom'
 import useAccessToken from '../../hooks/useAccessToken'
 import SocialMediaShare from '../../components/SocialMediaShare/SocialMediaShare';
+import Moment from 'react-moment'
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
@@ -12,8 +13,10 @@ import Stack from '@mui/material/Stack';
 import Skeleton from '@mui/material/Skeleton';
 
 import { fetchImage } from '../../hooks/image-hook'
+import useHttp from '../../hooks/http-hook'
 
 const BlogCards = () => {
+    const { sendRequest, isLoading } = useHttp();
     const [blogs, setBlogs] = useState([])
     const { profileData } = useLoadProfile()
     const accessToken = useAccessToken()
@@ -60,7 +63,7 @@ const BlogCards = () => {
             loadHeadingData();
         }, [profileData, accessToken]);
         
-    // console.log(blogs)
+    console.log(blogs)
 
     const closeShareComponent = () => {
         setShowShareComponent(false);
@@ -70,6 +73,22 @@ const BlogCards = () => {
         e.stopPropagation();
         setBlogId(id);
         setShowShareComponent(true);
+    }
+
+    const handleDeleteBlog = async (e, id) => {
+        console.log("delete clicked", id);
+        e.stopPropagation();
+        if (window.confirm("Are you sure you want to delete this Blog?")) {
+            const res = await sendRequest({
+              url: `${import.meta.env.VITE_BACKEND_DOMAIN}/blogs/delete/${id}`
+            });
+        
+            if (res.message === 'Blog deleted successfully') {
+              window.location.reload();
+            } else {
+              alert("Delete Unsuccessful");
+            }
+        }
     }
 
     return (
@@ -122,18 +141,14 @@ const BlogCards = () => {
                                                     <ShareIcon/>
                                                 </IconButton>
                                             </Stack>
-                                            {/* <Stack direction="row" alignItems="center" margin={'0 20px'}>
+                                            <Stack direction="row" alignItems="center" margin={'0 20px'} onClick={(e) => handleDeleteBlog(e, blog.blog_id)}>
                                                 <IconButton aria-label="delete" size="large">
                                                     <DeleteIcon />
                                                 </IconButton>
-                                            </Stack> */}
+                                            </Stack>
                                         </div>
+                                        <p>Published: <Moment format='MMMM DD, YYYY'>{blog.blog_dateadded}</Moment></p>
                                         <p>{blog.blog_content.slice(0, 250)}...</p>
-                                            <div className={styles['DateShareContainer']}>
-                                                <div className={styles['date']}>
-                                                    <h4>{blog.blog_dateadded}</h4>
-                                                </div>
-                                            </div>
                                     </div>
                                 </div>
                             </div>

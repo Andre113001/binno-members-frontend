@@ -27,7 +27,7 @@ const SocialMediaShare = ({ id, type, setClose }) => {
                         <Button startIcon={<Facebook />} sx={{backgroundColor:"#0965fe"}} variant='contained'>Facebook</Button>
                     </FacebookShareButton>
                     <LinkedinShareButton url={url}>
-                        <Button startIcon={<LinkedIn />} sx={{backgroundColor:"#0077b5"}} variant='contained'>Facebook</Button>
+                        <Button startIcon={<LinkedIn />} sx={{backgroundColor:"#0077b5"}} variant='contained'>LinkedIn</Button>
                     </LinkedinShareButton>
                 </div>
                 <Button

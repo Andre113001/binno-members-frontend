@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'; 
 
 import Box from '@mui/material/Box';
@@ -39,6 +39,16 @@ function BlogPage() {
 
   console.log(accountCtx.profileData);
 
+  // useEffect(() => {
+  //   const loadData = () => {
+  //       if(receivedData) {
+  //           setBlogData(receivedData.blog)
+  //           setTitleInput(receivedData.blog.blog_title)
+  //           setDescription(receivedData.blog.blog_content)
+  //       }
+  //   }
+  //   loadData()
+  // }, [receivedData])
   
   const handleChange = (e) => {
     setBlogData((prevData) => ({
@@ -70,7 +80,8 @@ function BlogPage() {
         authorId: profileData.member_id,
         blogTitle: blogData.blogTitle,
         blogContent: blogData.blogContent,
-        blogImg: modifiedImageUrl
+        blogImg: modifiedImageUrl,
+        username: 'BiNNO' // needs to be dynamic
       }),
       headers: {
         'Content-Type': 'application/json'

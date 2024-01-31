@@ -125,7 +125,6 @@ export default function NewPostModal() {
           postHeading: heading,
           postText: content,
           postImg: modifiedImageUrl
-
         }),
         headers: {
           'Content-Type': 'application/json'
@@ -179,7 +178,11 @@ export default function NewPostModal() {
                             <PostModalTextBox onContentChange={handleContentChange}/>
                         </div>
                         <div className={styles['dropboxContainer']}>
-                            <DropBox uploadError={uploadError} uploadedFile={uploadedFile} fileRef={fileRef} onFileUpload={handleFileUpload} />
+                            <DropBox
+                                uploadedFile={uploadedFile}
+                                setUploadedFile={setUploadedFile}
+                                initialFile={''}
+                            />
                         </div>
                         <button
                             className={styles['uploadButton']}

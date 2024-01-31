@@ -47,8 +47,9 @@ return (
                 <h1>Recent Posts</h1>
                 <Link to="/posts">View all posts...</Link>
             </div>
+            {posts.length > 0 ? (
             <div className={styles["content"]}>
-                {posts?.map((post)=> (
+                {posts.map((post)=> (
                     <Link to={`/posts/${post.post_id}`} 
                         onClick={(e)=>{
                             e.preventDefault()
@@ -92,7 +93,11 @@ return (
                 </Link>
                 ))
             } 
-            </div>
+            </div> 
+            ) : (
+                <div>No Posts</div>
+            ) }
+            
         </section>
     </>
   ) 

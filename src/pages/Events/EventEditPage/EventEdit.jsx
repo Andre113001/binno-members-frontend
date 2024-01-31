@@ -78,7 +78,7 @@ function EventEdit(props) {
     formData.append('eventDescription', titleDescription);
 
     // Check if the new image is different from the old image
-    if (img !== eventData.event_img) {
+    if (img !== eventData.eventPic) {
       formData.append('eventImg', img);
     } else {
       // Use the old image if it hasn't changed
@@ -177,8 +177,6 @@ function EventEdit(props) {
                   InputProps={{
                     disableUnderline: true,
                   }}
-                  minRows={6}
-                  maxRows={7}
                 />
               </div>
             </Box>

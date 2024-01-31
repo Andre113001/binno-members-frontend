@@ -111,56 +111,52 @@ const Events = () => {
                     </div>
                     ))
                 ) : (
-                    events && events.length > 0 ? (
-                        events?.map((event) => (
-                            <div
-                                className={styles['boxItems']}
-                                key={event.event_id}
-                                onClick={(e)=>{
-                                    e.preventDefault()
-                                    navigate(`/events/${event.event_id}`,
-                                    {   state: {
-                                        event
-                                    },
-                                });
-                            }}
-                            >
-                                <div className={styles['img']}>
-                                    <img src={URL.createObjectURL(event.eventPic)} alt="" />
-                                </div>
-                                <div className={styles['eventContent']}>
-                                    <div className={styles['details']}>
-                                        <h3>{event.event_title}</h3>
-                                        <p>📍 {event.event_address}</p>
-                                        <p>📅 <Moment format="MMMM DD, YYYY">{event.event_date}</Moment> ⌚{' '}
-                                            {moment(event.event_time, 'HH:mm:ss').format('hh:mm A')}</p>
-                                        <p>
-                                            {event.event_description.slice(0, 250)}...<br/><span style={{color: '#fd7c06', marginTop: 10}}>Read more</span>
-                                        </p>
-                                        {/* <p style={{fontWeight: 'bold'}}>Uploaded <Moment>{event.event_datecreated}</Moment> ago</p>
-                                        <p>{new Date().toString()}</p> */}
-                                        <div
-                                            className={
-                                                styles['contentUserInfoContainer']
-                                            }
-                                        >
-                                            <div className={styles['userProfileImg']}>
-                                                <img  src={URL.createObjectURL(event.profilePic)} alt="" />
-                                            </div>
-                                            <p>{profileData.setting_institution}</p>
-                                        </div>
-                                    </div>
-                                    <Stack direction="row" alignItems="center" margin={'0 20px'} onClick={(e) => handleDeleteEvent(event.event_id, e)}>
-                                        <IconButton aria-label="delete" size="large">
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </Stack>
-                                </div>
+                    events?.map((event) => (
+                        <div
+                            className={styles['boxItems']}
+                            key={event.event_id}
+                            onClick={(e)=>{
+                                e.preventDefault()
+                                navigate(`/events/${event.event_id}`,
+                                {   state: {
+                                    event
+                                },
+                            });
+                        }}
+                        >
+                            <div className={styles['img']}>
+                                <img src={URL.createObjectURL(event.eventPic)} alt="" />
                             </div>
-                        ))
-                    ) : (
-                        handleShowNoDataMessage(false)
-                    )
+                            <div className={styles['eventContent']}>
+                                <div className={styles['details']}>
+                                    <h3>{event.event_title}</h3>
+                                    <p>📍 {event.event_address}</p>
+                                    <p>📅 <Moment format="MMMM DD, YYYY">{event.event_date}</Moment> ⌚{' '}
+                                        {moment(event.event_time, 'HH:mm:ss').format('hh:mm A')}</p>
+                                    <p>
+                                        {event.event_description.slice(0, 250)}...<br/><span style={{color: '#fd7c06', marginTop: 10}}>Read more</span>
+                                    </p>
+                                    {/* <p style={{fontWeight: 'bold'}}>Uploaded <Moment>{event.event_datecreated}</Moment> ago</p>
+                                    <p>{new Date().toString()}</p> */}
+                                    <div
+                                        className={
+                                            styles['contentUserInfoContainer']
+                                        }
+                                    >
+                                        <div className={styles['userProfileImg']}>
+                                            <img  src={URL.createObjectURL(event.profilePic)} alt="" />
+                                        </div>
+                                        <p>{profileData.setting_institution}</p>
+                                    </div>
+                                </div>
+                                <Stack direction="row" alignItems="center" margin={'0 20px'} onClick={(e) => handleDeleteEvent(event.event_id, e)}>
+                                    <IconButton aria-label="delete" size="large">
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </Stack>
+                            </div>
+                        </div>
+                    ))
                 )}
                 </div>
             </section>
