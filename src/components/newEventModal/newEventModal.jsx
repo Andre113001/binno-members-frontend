@@ -137,8 +137,8 @@ export default function NewEventModal() {
           eventLocation: location,
           eventTitle: title,
           eventDescription: description,
-          eventImg: modifiedImageUrl
-
+          eventImg: modifiedImageUrl,
+          username: profileData.setting_institution
         }),
         headers: {
           'Content-Type': 'application/json'

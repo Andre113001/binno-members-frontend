@@ -73,7 +73,8 @@ function PostEdit() {
       postAuthor: postData.post_author,
       postCategory: postData.post_category,
       postHeading: titleInput,
-      postText: titleDescription
+      postText: titleDescription,
+      username: postData.setting_institution
     };
 
     if (img !== initialImg) {

@@ -52,6 +52,8 @@ function EventEdit(props) {
     loadData()
   }, [receivedData])
 
+  console.log(receivedData);
+
   const readFileAsBase64 = (file) => {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -76,6 +78,7 @@ function EventEdit(props) {
     formData.append('eventLocation', 'Sorsi');
     formData.append('eventTitle', titleInput);
     formData.append('eventDescription', titleDescription);
+    formData.append('username', eventData.setting_institution);
 
     // Check if the new image is different from the old image
     if (img !== eventData.eventPic) {

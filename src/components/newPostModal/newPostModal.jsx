@@ -124,7 +124,8 @@ export default function NewPostModal() {
           postCategory: category,
           postHeading: heading,
           postText: content,
-          postImg: modifiedImageUrl
+          postImg: modifiedImageUrl,
+          username: profileData.setting_institution
         }),
         headers: {
           'Content-Type': 'application/json'
@@ -136,6 +137,7 @@ export default function NewPostModal() {
       setHeading(null)
       setUploadedFile(null)
       toggleModal()
+      window.location.reload();
     }
 
 

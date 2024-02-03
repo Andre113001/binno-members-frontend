@@ -32,11 +32,19 @@ function PanelContent(props) {
         setShowShareComponent(true);
     }
 
-    const handleDeletePost = async (id, e) => {
+    const handleDeletePost = async (id, username, e) => {
         e.stopPropagation();
         if (window.confirm("Are you sure you want to delete this Post?")) {
           const res = await sendRequest({
-            url: `${import.meta.env.VITE_BACKEND_DOMAIN}/posts/delete/${id}`
+            url: `${import.meta.env.VITE_BACKEND_DOMAIN}/posts/delete`,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // Specify that you are sending JSON data
+            },
+            body: JSON.stringify({
+                post_id: id,
+                username: username
+            })
           });
       
           if (res.message === 'Post deleted successfully') {
@@ -44,8 +52,8 @@ function PanelContent(props) {
           } else {
             alert("Delete Unsuccessful");
           }
-        }
-      } 
+        }   
+    } 
 
     return (
         <>
@@ -78,7 +86,7 @@ function PanelContent(props) {
                                     />
                                 </Stack>
                                 </div>
-                                <Stack direction="row" alignItems="center" onClick={(e) => handleDeletePost(post.post_id, e)}>
+                                <Stack direction="row" alignItems="center" onClick={(e) => handleDeletePost(post.post_id, post.author, e)}>
                                     <IconButton size="medium">
                                         <Delete />
                                     </IconButton>

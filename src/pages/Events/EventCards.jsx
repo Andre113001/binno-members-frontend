@@ -67,7 +67,15 @@ const Events = () => {
         e.stopPropagation();
         if (window.confirm("Are you sure you want to delete this Event?")) {
           const res = await sendRequest({
-            url: `${import.meta.env.VITE_BACKEND_DOMAIN}/events/delete/${id}`
+            url: `${import.meta.env.VITE_BACKEND_DOMAIN}/events/delete`,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // Specify that you are sending JSON data
+            },
+            body: JSON.stringify({
+                eventId: id,
+                username: profileData.setting_institution
+            })
           });
       
           if (res.message === 'Event deleted successfully') {

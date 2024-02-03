@@ -71,7 +71,7 @@ function BlogEdit(props) {
     loadData()
   }, [receivedData])
   
-
+  console.log(receivedData);
 
   const handleSubmit = async () => {
 

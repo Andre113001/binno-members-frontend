@@ -37,7 +37,7 @@ function BlogPage() {
     blogContent: '',
   });
 
-  console.log(accountCtx.profileData);
+  // console.log(accountCtx.profileData);
 
   // useEffect(() => {
   //   const loadData = () => {
@@ -81,7 +81,7 @@ function BlogPage() {
         blogTitle: blogData.blogTitle,
         blogContent: blogData.blogContent,
         blogImg: modifiedImageUrl,
-        username: 'BiNNO' // needs to be dynamic
+        username: profileData.setting_institution // needs to be dynamic
       }),
       headers: {
         'Content-Type': 'application/json'

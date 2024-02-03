@@ -80,7 +80,15 @@ const BlogCards = () => {
         e.stopPropagation();
         if (window.confirm("Are you sure you want to delete this Blog?")) {
             const res = await sendRequest({
-              url: `${import.meta.env.VITE_BACKEND_DOMAIN}/blogs/delete/${id}`
+                url: `${import.meta.env.VITE_BACKEND_DOMAIN}/blogs/delete`,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', // Specify that you are sending JSON data
+                },
+                body: JSON.stringify({
+                    blogId: id,
+                    username: profileData.setting_institution
+                })
             });
         
             if (res.message === 'Blog deleted successfully') {
