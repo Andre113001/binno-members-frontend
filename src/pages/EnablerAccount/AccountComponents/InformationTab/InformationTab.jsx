@@ -6,8 +6,11 @@ import CallRoundedIcon from '@mui/icons-material/CallRounded';
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 
+
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { Save } from '@mui/icons-material'
 
 function InformationTab(props) {
   const [name, setName] = useState('');
@@ -32,12 +35,16 @@ function InformationTab(props) {
     props.onFBChange(event.target.value);
   };
 
+  const handleSave = async () => {
+    alert('Save Clicked');
+  }
+
   return (
     <>
         
             {props.isEditing ?(
               <div className={styles["editingContainer"]}>
-                <h1>Edit About Page</h1>
+                <h1>Edit Details</h1>
                   <hr />
                   <Box
                     component="form"
@@ -52,22 +59,22 @@ function InformationTab(props) {
                       onChange={handleDescriptionChange}
                       sx={{margin: '10px'}}
                       multiline
-                      maxRows={5}
+                      rows={20}
                     />
-                      <TextField
+                      {/* <TextField
                       id="enablerAddress"
                       label="Address"
                       defaultValue={props.address}
                       onChange={handleAddressChange}
                       sx={{margin: '10px'}}
-                      />
-                        <TextField
+                      /> */}
+                        {/* <TextField
                         id="enablerEmail"
                         label="Email"
                         defaultValue={props.email}
                         onChange={handleEmailChange}
                         sx={{margin: '10px'}}
-                        />
+                        /> */}
                           <TextField
                           id="enablerPhone"
                           label="Phone"
@@ -75,13 +82,16 @@ function InformationTab(props) {
                           onChange={handlePhoneChange}
                           sx={{margin: '10px'}}
                           />
-                          <TextField
+                          {/* <TextField
                           id="enablerFacebook"
                           label="Facebook"
                           defaultValue={props.fb}
                           onChange={handleFBChange}
                           sx={{margin: '10px'}}
-                          />
+                          /> */}
+                          <Button onClick={handleSave} variant='contained' size='large' startIcon={<Save />} sx={{bgcolor: "#fd7c06", p: 2, borderRadius: 4}}>
+                            Save
+                          </Button>
                   </Box>
               </div>
                ) : (

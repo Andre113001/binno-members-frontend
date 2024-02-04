@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import useLoadProfile from '../../../../hooks/useLoadProfile'
 import useAccessToken from '../../../../hooks/useAccessToken';
 import { Link, useNavigate} from 'react-router-dom';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
+import Moment from 'react-moment';
 
 import styles from './CompanyPostCards.module.css'
 
 
-const PostCards = () => {
+const PostCards = (props) => {
     const [posts, setPosts] = useState([])
-    const { profileData } = useLoadProfile()
+    const profileData = props.profileData;
     const accessToken = useAccessToken()
 
     const fullDate = new Date();
-    const dateOnly = fullDate.toISOString().split('T')[0];
 
     const navigate = useNavigate()
 
@@ -30,8 +29,10 @@ const PostCards = () => {
                         },
                     }
                 );
-                const result = await fetchGuides.json();
-                setPosts(result);
+                fetchGuides.json().then((result) => {
+                    const firstTwoResults = result.slice(0, 2);
+                    setPosts(firstTwoResults)
+                })
             }
         };
     
@@ -63,16 +64,16 @@ return (
                     >
                     <div className={styles["boxItems"]} > 
                         <div className={styles["userInfoContainer"]}>
-                            <img src={post.userProfile} alt='' style={{margin: '20px',width: '60px',height:'auto',borderRadius: '50%'}}/>
+                            <img src={`${import.meta.env.VITE_BACKEND_DOMAIN}/images?filePath=profile-img/${profileData.setting_profilepic}`} alt='' style={{margin: '20px',width: '60px',height:'auto',borderRadius: '50%'}}/>
 
                                 <div className={styles["UserDateContainer"]}>
-                                    <h3>{post.post_author}</h3>
-                                    <p>{post.post_dateadded}</p>
+                                    <h3>{profileData.setting_institution}</h3>
+                                    <p><Moment format='MMMM DD, YYYY'>{post.post_dateadded}</Moment></p>
                                 </div>
                         </div>
-                            <div className={styles["img"]}>
-                                <img src={post.cover} alt='' />
-                            </div>
+                        <div className={styles["img"]}>
+                            <img src={`${import.meta.env.VITE_BACKEND_DOMAIN}/images?filePath=post-pics/${post.post_img}`} alt='' />
+                        </div>
                         <div className={styles["details"]}>
                             <h3>{post.post_heading}</h3>
                             <div className={styles['ChipsContiner']}>

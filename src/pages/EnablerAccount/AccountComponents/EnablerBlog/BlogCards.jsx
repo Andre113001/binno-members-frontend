@@ -1,9 +1,42 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import useAccessToken from '../../../../hooks/useAccessToken';
 import styles from './BlogCards.module.css'
-import { blog } from '../../../../assets/EnablerAccountData'
+import { Link, useNavigate} from 'react-router-dom';
 
-const BlogCards = () => {
-  return (
+const BlogCards = (props) => {
+    const [blog, setBlog] = useState([])
+    const profileData = props.profileData;
+    const accessToken = useAccessToken()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        const loadHeadingData = async () => {
+            if (profileData) {
+                const profile = profileData;
+                const fetchGuides = await fetch(
+                    `${import.meta.env.VITE_BACKEND_DOMAIN}/blogs/user/${profile.member_id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    }
+                );
+    
+                fetchGuides.json().then((result) => {
+                    // Get the first two items from the result array
+                    const firstTwoResults = result.slice(0, 2);
+                    setBlog(firstTwoResults);
+                });
+            }
+        };
+    
+        loadHeadingData();
+    }, [profileData]);
+
+    console.log(blog);
+    
+
+    return (
     <>
         <section className={styles["BlogPage"]}>     
             <div className={styles["titleContainer"]}>
@@ -12,23 +45,27 @@ const BlogCards = () => {
             </div>
             <div className={styles["content"]}>
                 {blog.map((item)=> (
-                <div className={styles["boxItems"]} key={item.id}> 
+                <div className={styles["boxItems"]} key={item.blog_id} 
+                        onClick={() => navigate(`/blogs/${item.blog_id}`, {
+                        state: { item },
+                    })}
+                > 
                         <div className={styles["img"]}>
-                            <img src={item.cover} alt='' />
+                            <img src={`${import.meta.env.VITE_BACKEND_DOMAIN}/images?filePath=blog-pics/${item.blog_img}`}/>
                         </div>
                     <div className={styles["details"]}>
-                        <h3>{item.title}</h3>
+                        <h3>{item.blog_title}</h3>
                             <div className={styles["date"]}>
-                            <h4>{item.date}</h4>
+                            <h4>{item.blog_datedadded}</h4>
                             </div>
-                        <p>{item.desc.slice(0,150)}...</p>    
+                        <p>{item.blog_content.slice(0,150)}...</p>    
                     </div>
                 </div>
                 ))} 
             </div>
         </section>
     </>
-  ) 
+    ) 
 }
 
 export default BlogCards;

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import useLoadProfile from '../../../../hooks/useLoadProfile'
 import useAccessToken from '../../../../hooks/useAccessToken';
 import { Link, useNavigate} from 'react-router-dom';
+import Moment from 'react-moment';
 
 import styles from './CompanyEventCard.module.css'
 
 
-const CompanyEvents = () => {
+const CompanyEvents = (props) => {
     const [events, setEvents] = useState([])
-    const { profileData } = useLoadProfile()
+    const profileData = props.profileData;
     const accessToken = useAccessToken()
 
     const navigate = useNavigate()
@@ -26,7 +26,8 @@ const CompanyEvents = () => {
                     }
                 )
                 fetchGuides.json().then((result) => {
-                    setEvents(result)
+                    const firstTwoResults = result.slice(0, 4);
+                    setEvents(firstTwoResults)
                 })
             }
         }
@@ -39,7 +40,7 @@ const CompanyEvents = () => {
     <>
         <section className={styles['EventPage']}>
             <div className={styles["PageHeaderContainer"]}>
-                <h2>Current & Upcoming Events</h2>
+                <h2>Recent Events</h2>
                 <Link to="/events">View all Events...</Link>
             </div>
             
@@ -65,7 +66,7 @@ const CompanyEvents = () => {
                                 </a>
                             </div>
                             <div className={styles['date']}>
-                                    <h4>{event.event_datecreated}</h4>
+                                    <h4><Moment format='MMMM DD, YYYY'>{event.event_date}</Moment></h4>
                             </div>
                         </div>
                         <p>{event.event_description?.slice(0,250)}...</p>

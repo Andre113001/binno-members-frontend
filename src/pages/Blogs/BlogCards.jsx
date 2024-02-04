@@ -119,17 +119,6 @@ const BlogCards = () => {
                         ))
                     ) : (
                         blogs?.map((blog) => (
-                            // <Link to={`/blogs/${blog.blog_id}`} 
-                            //     onClick={(e)=>{
-                            //         e.preventDefault()
-                            //         navigate(`/blogs/${blog.blog_id}`,
-                            //         {state: {
-                            //             blog,
-                            //         },
-                            //         });
-                            // }}
-                            // key={blog.blog_id}
-                            // style={{ textDecoration: 'none', color: 'inherit'}}>
                             <div
                                 onClick={() => navigate(`/blogs/${blog.blog_id}`, {
                                     state: { blog },

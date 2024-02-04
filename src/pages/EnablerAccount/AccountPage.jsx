@@ -87,8 +87,8 @@ function AccountPage() {
                   
               </div>
                 <div className={styles["BlogEventContainer"]}>
-                    <BlogCards />
-                    <EventCards />
+                    <BlogCards profileData = {profileData}/>
+                    <EventCards profileData={profileData}/>
                 </div>
             </div>
             ) : profileData?.user_type === "Startup Company" ? (
@@ -103,8 +103,8 @@ function AccountPage() {
                         fb={data.contact_facebook}
                     />
                   </div>
-                  <PostCards />
-                  <CompanyEvents />
+                  <PostCards profileData={profileData}/>
+                  <CompanyEvents profileData={profileData}/>
                 </div>
              </div>
             ) : (
