@@ -3,7 +3,9 @@
     padding: 10px;
     height: auto;
     width: auto;
+    min-width: 350px;
     max-width: 450px;
+    min-height: 300px;
     transition: 0.5s;
     border-radius: 10px; 
     margin-right: 10px;
