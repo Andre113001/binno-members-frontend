@@ -59,7 +59,7 @@ function InformationTab(props) {
                       onChange={handleDescriptionChange}
                       sx={{margin: '10px'}}
                       multiline
-                      rows={20}
+                      rows={10}
                     />
                       {/* <TextField
                       id="enablerAddress"
