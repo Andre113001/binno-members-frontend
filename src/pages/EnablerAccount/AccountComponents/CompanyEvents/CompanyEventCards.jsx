@@ -38,7 +38,7 @@ const CompanyEvents = (props) => {
 
   return (
     <>
-        <section className={styles['EventPage']}>
+        <div className={styles['EventPage']}>
             <div className={styles["PageHeaderContainer"]}>
                 <h2>Recent Events</h2>
                 <Link to="/events">View all Events...</Link>
@@ -76,7 +76,7 @@ const CompanyEvents = (props) => {
                 ))}
             
             </div>
-        </section>
+        </div>
     </>
   ) 
 }
