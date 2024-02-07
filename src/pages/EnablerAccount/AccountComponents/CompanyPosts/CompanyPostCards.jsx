@@ -45,7 +45,7 @@ return (
     <>
         <section className={styles["PostsPage"]}>     
             <div className={styles["titleContainer"]}>
-                <h1>Recent Posts</h1>
+                <h1 className={styles["title"]}>Recent Posts</h1>
                 <Link to="/posts">View all posts...</Link>
             </div>
             {posts.length > 0 ? (
@@ -64,7 +64,7 @@ return (
                     >
                     <div className={styles["boxItems"]} > 
                         <div className={styles["userInfoContainer"]}>
-                            <img src={`${import.meta.env.VITE_BACKEND_DOMAIN}/images?filePath=profile-img/${profileData.setting_profilepic}`} alt='' style={{margin: '20px',width: '60px',height:'auto',borderRadius: '50%'}}/>
+                            <img src={`${import.meta.env.VITE_BACKEND_DOMAIN}/images?filePath=profile-img/${profileData.setting_profilepic}`} alt='' style={{margin: '10px',width: '60px',height:'60px',borderRadius: '50%'}}/>
 
                                 <div className={styles["UserDateContainer"]}>
                                     <h3>{profileData.setting_institution}</h3>

@@ -59,13 +59,13 @@ function AccountHeader(props) {
                                 <div className={styles["UserInfoContainer"]}>
                                     {loading ? (
                                         <Stack spacing={1}>
-                                            <Skeleton variant="text" sx={{ fontSize: '1rem' , width: '200px', marginTop: '10px'}} />
+                                            <Skeleton variant="text" sx={{ fontSize: '1rem' , width: '200px', marginTop: '15px'}} />
                                             <Skeleton variant="text" sx={{ fontSize: '1rem' , width: '150px', marginTop: '10px' }} />
                                         </Stack>
                                     ) : (
                                             <>
-                                                <p>{props.userType}</p>
                                                 <h2>{props.institution}</h2>
+                                                <p>{props.userType}</p>
                                             </>
                                     )}
                                 </div>
