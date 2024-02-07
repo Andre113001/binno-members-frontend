@@ -64,7 +64,7 @@ return (
                     >
                     <div className={styles["boxItems"]} > 
                         <div className={styles["userInfoContainer"]}>
-                            <img src={`${import.meta.env.VITE_BACKEND_DOMAIN}/images?filePath=profile-img/${profileData.setting_profilepic}`} alt='' style={{margin: '10px',width: '60px',height:'60px',borderRadius: '50%'}}/>
+                            <img src={`${import.meta.env.VITE_BACKEND_DOMAIN}/images?filePath=profile-img/${profileData.setting_profilepic}`} alt='' style={{margin: '10px',width: '60px',height:'60px',borderRadius: '50%', objectFit: cover}}/>
 
                                 <div className={styles["UserDateContainer"]}>
                                     <h3>{profileData.setting_institution}</h3>
