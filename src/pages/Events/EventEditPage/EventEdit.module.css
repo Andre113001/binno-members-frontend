@@ -36,6 +36,7 @@
 }
 
 .backButton:hover{
+    background-color: rgb(252, 74, 74);
     cursor: pointer;
     transition: 0.5ms;
 }
@@ -59,6 +60,7 @@
 }
 
 .publishBtn:hover{
+    background-color: #054eae;;
     cursor: pointer;
 }
 
