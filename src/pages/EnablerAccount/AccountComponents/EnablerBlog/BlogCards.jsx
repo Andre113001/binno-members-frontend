@@ -24,8 +24,8 @@ const BlogCards = (props) => {
     
                 fetchGuides.json().then((result) => {
                     // Get the first two items from the result array
-                    const firstTwoResults = result.slice(0, 2);
-                    setBlog(firstTwoResults);
+                    const firstThreeResults = result.slice(0, 3);
+                    setBlog(firstThreeResults);
                 });
             }
         };

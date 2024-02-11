@@ -47,7 +47,7 @@ function AccountPage() {
     }
   }, [profileData, navigate]);
 
-  // console.log(profileData)
+  console.log(profileData);
 
   return (
     <>
@@ -59,22 +59,27 @@ function AccountPage() {
           <div className={styles["Headline"]}>
             <div className={styles["UserProfile"]}>
               <AccountHeader userType={data.user_type} institution={data.setting_institution}/>
-                <div className={styles["HeaderButtons"]}>
-                    <button className={styles["profileEditButton"]} onClick={toggleEdit}>
-                      <EditRoundedIcon/> {isEditActive ? '⠀Edit Profile' : '⠀Save Edit'}
-                    </button>
-                    <Link to='#' style={{textDecoration: 'none'}}> {/*link san viewer side sa profile*/}
-                      <button className={styles["ViewPageButton"]}>
-                        <VisibilityRoundedIcon/>{isEditActive ? '⠀View Page' : 'Discard Change'}
+              <div className={styles["HeaderButtons"]}>
+                {isEditActive && ( // Only render the buttons if isEditActive is true
+                    <>
+                        <button className={styles["profileEditButton"]} onClick={toggleEdit}>
+                            <EditRoundedIcon/> {isEditActive ? '⠀Edit Profile' : '⠀Save Edit'}
                         </button>
-                    </Link>
-                </div>
+                        <Link to={`https://binnostartup.site/startup-enabler-profile.php?setting_institution=${profileData?.setting_institution}&member_id=${profileData?.member_id}`} style={{textDecoration: 'none'}}> {/*link san viewer side sa profile*/}
+                            <button className={styles["ViewPageButton"]}>
+                                <VisibilityRoundedIcon/> View Page
+                            </button>
+                        </Link>
+                    </>
+                )}
+              </div>
             </div>
           </div>
             {profileData?.user_type === "Startup Enabler" ? (
               <div className={styles["bodyContainer"]}>
               <div className={styles["CompanyInfoGuidesContainer"]}>
                   <InformationTab
+                      member_id={profileData.member_id}
                       description={data.setting_bio}
                       address={data.setting_address}
                       email={data.email_address}
@@ -96,6 +101,7 @@ function AccountPage() {
                 <div className={styles['AccountContent']}>
                   <div className={styles["informationTabContainer "]}>
                     <InformationTab
+                        member_id={profileData.member_id}
                         description={data.setting_bio}
                         address={data.setting_address}
                         email={data.email_address}
@@ -120,12 +126,12 @@ function AccountPage() {
                     
                     />
                     <div className={styles["AccountEditSave"]}>
-                        <button className={styles["profileSaveButton"]} onClick={toggleEdit}>
+                        {/* <button className={styles["profileSaveButton"]} onClick={toggleEdit}>
                           <EditRoundedIcon/> {isEditActive ? '⠀Edit Profile' : '⠀Save Edit'}
-                        </button>
+                        </button> */}
                         <Link to='/account' style={{textDecoration: 'none'}}>
                           <button className={styles["discardButton"]} onClick={toggleEdit}>
-                            {isEditActive ? '⠀View Page' : 'Discard Change'}
+                            {isEditActive ? '⠀View Page' : 'Return to Account'}
                             </button>
                         </Link>
                     </div>
@@ -133,6 +139,7 @@ function AccountPage() {
                     <div className={styles['EditAccountDescription']}>
                       <InformationTab
                           isEditing={true}
+                          member_id={profileData.member_id}
                           description={data.setting_bio}
                           address={data.setting_address}
                           email={data.email_address}

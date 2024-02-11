@@ -80,7 +80,7 @@ function BlogEdit(props) {
         authorId: blogData.blog_author,
         blogTitle: titleInput,
         blogContent: titleDescription,
-        username: 'BiNNO'
+        username: blogData.setting_institution
     };
 
     if (img !== blogData.blog_img) {

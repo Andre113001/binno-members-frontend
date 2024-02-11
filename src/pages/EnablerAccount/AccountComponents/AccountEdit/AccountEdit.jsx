@@ -6,6 +6,8 @@ import Stack from '@mui/material/Stack';
 import useLoadProfile from "../../../../hooks/useLoadProfile";
 
 import CameraAltRoundedIcon from '@mui/icons-material/CameraAltRounded';
+import useHttp from "../../../../hooks/http-hook";
+import axios from "axios";
 
 import { fetchImage } from "../../../../hooks/image-hook";
 
@@ -14,8 +16,9 @@ function AccountEdit(props) {
     const [uploadErrorCover, setUploadErrorCover] = useState(null)
     const [uploadedFileProfile, setUploadedFileProfile] = useState()
     const [uploadErrorProfile, setUploadErrorProfile] = useState(null)
-    const fileRefCover = useRef()
-    const fileRefProfile = useRef()
+    const fileRefCover = useRef();
+    const fileRefProfile = useRef();
+    const { sendRequest, isLoading } = useHttp();
 
     const {profileData} = useLoadProfile()
     const [profilePic, setProfilePic] = useState();
@@ -62,11 +65,44 @@ function AccountEdit(props) {
         setUploadedFileCover(file)
         setUploadErrorCover(null)
         
-        console.log('Uploaded File:', file);
+        try {
+            const fileAsbase64 = await readFileAsBase64(file);
+            const requestData = {
+                image: fileAsbase64
+            }
+            
+            const res = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/images/update?filePath=profile-cover-img/${profileData.setting_coverpic}`, requestData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data', // Set Content-Type for file uploads
+                },
+            })
+
+            const requestData2 = {
+                newCoverPic: res.data.imageName,
+                id: profileData.setting_id
+            }
+
+            if (res.data.result === true) {
+                const res2 = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/members/update-profile-cover`, requestData2)
+
+                console.log(res2.data);
+            }
+        } catch (error) {
+            console.log('error: ', error);
+        }
 
 
         return []
-    }
+    };
+
+    const readFileAsBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = (error) => reject(error);
+        });
+    };
 
     const handleProfileUpload = async (e) => {
         const file = e.target.files[0]
@@ -90,9 +126,31 @@ function AccountEdit(props) {
         setUploadedFileProfile(file)
         setUploadErrorProfile(null)
         
-        console.log('Uploaded File:', file);
+        try {
+            const fileAsbase64 = await readFileAsBase64(file);
+            const requestData = {
+                image: fileAsbase64
+            }
+            
+            const res = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/images/update?filePath=profile-img/${profileData.setting_profilepic}`, requestData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data', // Set Content-Type for file uploads
+                },
+            })
 
+            const requestData2 = {
+                newProfilePic: res.data.imageName,
+                id: profileData.setting_id
+            }
 
+            if (res.data.result === true) {
+                const res2 = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/members/update-profile-img`, requestData2)
+
+                console.log(res2.data);
+            }
+        } catch (error) {
+            console.log('error: ', error);
+        }
         return []
     }
 
@@ -150,10 +208,10 @@ function AccountEdit(props) {
                                         accept=".png, .jpg, .jpeg"
                                     />
                         </div>
-                                <div className={styles["UserInfoContainer"]}>
-                                    <p>{props.userType}</p>
-                                    <h2>{props.institution}</h2>
-                                </div>
+                        <div className={styles["UserInfoContainer"]}>
+                            <p>{props.userType}</p>
+                            <h2>{props.institution}</h2>
+                        </div>
                     </div>
             </div>
         </div>

@@ -7,7 +7,6 @@ import { MuiTelInput } from 'mui-tel-input'
 import useHttp from '../../hooks/http-hook';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
-
 import './FirstTimeLogin.css';
 
 const FirstTimeLogin = () => {
@@ -22,7 +21,6 @@ const FirstTimeLogin = () => {
   const [contact, setContact] = useState();
   const { sendRequest, isLoading } = useHttp();
   const navigate = useNavigate();
-
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
