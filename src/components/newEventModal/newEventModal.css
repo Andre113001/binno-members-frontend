@@ -94,7 +94,7 @@ body.active-modal {
 {
     display: flex;
     flex-direction: row;
-    width: 96%;
+    width: 100%;
     font-family: 'Inter', sans-serif;
     padding: 10px;
 }

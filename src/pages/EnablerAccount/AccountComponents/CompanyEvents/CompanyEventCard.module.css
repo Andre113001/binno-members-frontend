@@ -3,6 +3,7 @@
     padding: 10px;
     height: auto;
     width: auto;
+    min-height: 300px;
     margin-left: 10px;
     max-width: 500px;
     border-radius: 10px;

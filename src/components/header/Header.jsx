@@ -1,6 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded'
-import profileImage from '../../siliDeli.svg'
 import './Header.css'
 import useLoadProfile from "../../hooks/useLoadProfile";
 import AccountContext from "../../context/accountContext";
@@ -15,8 +13,6 @@ function Header() {
     const [headingData, setHeadingData] = useState([]);
     const { profileData } = useLoadProfile();
     const [loadingProfile, setLoadingProfile] = useState(true);
-
-
 
     useEffect(() => {
         const loadHeadingData = async () => {
@@ -36,17 +32,15 @@ function Header() {
                 <div className="userProfile">
                     {loadingProfile ? (
                             <Stack spacing={1}>
-                                <Skeleton variant="rectangular" width={'100%'} height={70} />
+                                <Skeleton variant="rectangular" width={'100%'} height={'50px'} />
                             </Stack>
                         ) : (
-                    <>
-                        <img src={profilePic} alt="User Profile" className="profileImage"/>
-                    </>
+                            <img src={profilePic} alt="User Profile" className="profileImage"/>
                     )} 
                 </div>
                 <div className="UserInfoContainer">
-                        <p id="userType">{accountContext.profileData?.user_type}</p>
                         <h2 id="username">{accountContext.profileData?.setting_institution}</h2>
+                        <p id="userType">{accountContext.profileData?.user_type}</p>
                     </div>
             </div>
 

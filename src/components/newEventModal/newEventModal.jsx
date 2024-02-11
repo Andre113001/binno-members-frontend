@@ -197,7 +197,7 @@ export default function NewEventModal() {
                                     value={location}
                                     variant="outlined"
                                     fullWidth
-                                    style={{ width: '50rem' }}
+                                    sx={{ width: '49rem' }}
                                   />
                             </DemoItem>
                           </DemoContainer>
@@ -228,7 +228,7 @@ export default function NewEventModal() {
                                     />
                                   </div>
                                 </Box>
-                          </div>
+                      </div>
                       
                       <div className="eventModalDropboxContainer">
                         <DropBox
