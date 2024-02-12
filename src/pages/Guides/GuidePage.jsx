@@ -10,6 +10,7 @@ import { AddPhotoAlternateOutlined } from '@mui/icons-material'
 
 import { Chip, styled, Button } from '@mui/material'
 import useHttp from '../../hooks/http-hook'
+import axios from 'axios'
 
 
 import './Guides.css'
@@ -18,11 +19,13 @@ const GuidePage = () => {
     const { program_id } = useParams()
     const [pageContents, setPageContents] = useState([])
     const [currentPage, setCurrentPage] = useState('')
+    const [ programId, setProgramId ] = useState();
+    const [ imgName, setImgName ] = useState();
 
     const [isSaved, setIsSaved] = useState(true)
     
     const [backgroundImage, setBackgroundImage] = useState(
-        'https://variety.com/wp-content/uploads/2023/06/MCDSPMA_SP062.jpg?w=1000&h=563&crop=1&resize=1000%2C563'
+        'https://www.givenow.com.au/img/default-cover.png'
     )
     const accessToken = useAccessToken()
     const { sendRequest, isLoading } = useHttp();
@@ -38,6 +41,10 @@ const GuidePage = () => {
                 
                 setPageContents(res)
                 setCurrentPage(res.program_pages[0].program_pages_id);
+                setProgramId(res.program_pages[0].program_id);
+                // setBackgroundImage(`${import.meta.env.VITE_BACKEND_DOMAIN}/images?filePath=guide-pics/${res.program_pages[0].program_img}`);
+                setBackgroundImage(`${import.meta.env.VITE_BACKEND_DOMAIN}/images?filePath=guide-pics/${res.program_pages[0].program_img}`);
+                setImgName(res.program_pages[0].program_img);
             }
 
             loadPageData()
@@ -45,6 +52,8 @@ const GuidePage = () => {
             console.log('Error Fetching Data: ', error.message)
         }
     }, [program_id])
+
+    // console.log(imgName);
 
     // Callback function to update save status
     const updateSaveStatus = (status) => {
@@ -55,7 +64,16 @@ const GuidePage = () => {
         alert('Please save your changes before navigating to another page.')
     }
 
-    const handleCoverPhoto = (event) => {
+    const readFileAsBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = (error) => reject(error);
+        });
+    };
+
+    const handleCoverPhoto = async (event) => {
         const file = event.target.files[0]
         if (file) {
             const reader = new FileReader()
@@ -63,6 +81,51 @@ const GuidePage = () => {
                 setBackgroundImage(reader.result)
             }
             reader.readAsDataURL(file)
+        }
+
+        const fileAsbase64 = await readFileAsBase64(file);
+        const uploadData = {
+            image: fileAsbase64
+        }
+
+        const res = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/images/update?filePath=guide-pics/${imgName}`, uploadData, {
+            headers: {
+                'Content-Type': 'multipart/form-data', // Set Content-Type for file uploads
+            },
+        })
+
+        const requestData2 = {
+            newCoverPic: res.data.imageName,
+            id: programId
+        }
+
+        if (res.data.result === true) {
+            const res2 = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/programs/change_img`, requestData2)
+
+            if (res2.data === true) {
+                window.location.reload();
+            }
+        }
+    }
+    
+
+    const handleAddPage = async () => {
+        const uploadData = {
+            pageProgramId: programId
+        }
+
+        try {
+            if (confirm('add page')) {
+                const res = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/programs/create_page`, uploadData);
+
+                console.log(res.data);
+
+                if (res.data === 'Page created successfully') {
+                    window.location.reload();
+                }
+            }
+        } catch (error) {
+            console.log('Error: ', error);
         }
     }
 
@@ -97,7 +160,10 @@ const GuidePage = () => {
                             </div>
                             <main className="page-body">
                                 <div className="page-selector">
-                                    <button className="add-page-btn">
+                                    <button 
+                                        className="add-page-btn"
+                                        onClick={handleAddPage}
+                                    >
                                         + Add Page
                                     </button>
                                     <ul>

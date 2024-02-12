@@ -126,7 +126,7 @@ export default function AddElement({ onSelectOption, onHandleImage, onHandleYout
         <MenuItem onClick={() => { onSelectOption({ 
             type: 'h1', 
             attributes: "class=\"element_h1\"", 
-            content: "New Added"
+            content: "Untitled Header"
           }); handleCloseAdd(); }} disableRipple>
           <Title />
           Heading
@@ -136,7 +136,7 @@ export default function AddElement({ onSelectOption, onHandleImage, onHandleYout
             onSelectOption({ 
               type: 'p',
               attributes: "class=\"element_p\"",
-              content: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quasi vel quas magni id perferendis tenetur, nisi expedita, vitae voluptates a beatae pariatur neque sunt repudiandae labore ratione! Nemo libero quis quia nostrum distinctio tenetur eum odio consequuntur fuga impedit officiis quod non itaque mollitia repudiandae nam officia, tempore error obcaecati!"
+              content: "Untitled Paragraph"
             });
             handleCloseAdd();
           }} 

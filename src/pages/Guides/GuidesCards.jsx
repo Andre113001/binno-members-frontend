@@ -71,7 +71,7 @@ const GuideCards = () => {
                         >
                             <div className={styles['guideContent']}>
                                 <div className={styles['guideImage']}>
-                                    <img src="" alt="" />
+                                    <img src={`${import.meta.env.VITE_BACKEND_DOMAIN}/images?filePath=guide-pics/${guide.program_img}`} alt="" />
                                 </div>
                                 <div className={styles['guideFooter']}>
                                     <div
@@ -80,7 +80,7 @@ const GuideCards = () => {
                                         <h2>{guide.program_heading}</h2>
                                         <span className={styles['guideDate']}>
                                             Last accessed:{' '}
-                                            <Moment>
+                                            <Moment format='MMMM DD, YYYY'>
                                                 {guide.program_datemodified}
                                             </Moment>
                                         </span>

@@ -1,3 +1,7 @@
+/* * {
+  overflow-x: hidden;
+} */
+
 .list-row {
     /* Remove border and spacing */
     border: none;
@@ -53,6 +57,7 @@ Link {
 
 .page-view {
     padding: 0px 70px 0px 70px;
+    overflow: hidden;
 }
 
 .page-selector {
@@ -68,6 +73,13 @@ Link {
     border-radius: 10px;
     border: none;
     font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.add-page-btn:hover {
+    background-color: #ff7a00;
+    color: white;
 }
 
 .page-body {
