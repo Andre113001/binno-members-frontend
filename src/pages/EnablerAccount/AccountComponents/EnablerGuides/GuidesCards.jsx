@@ -10,6 +10,7 @@ const GuideCards = (props) => {
     const profileData = props.profileData;
     const accessToken = useAccessToken();
     const [guides, setGuides] = useState();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const loadHeadingData = async () => {
@@ -26,7 +27,7 @@ const GuideCards = (props) => {
     
                 fetchGuides.json().then((result) => {
                     // Get the first two items from the result array
-                    const firstThreeResults = result.slice(0, 3);
+                    const firstThreeResults = result.slice(0, 1);
                     setGuides(firstThreeResults);
                 });
             }
@@ -53,9 +54,13 @@ const GuideCards = (props) => {
                             <h2>{item.program_heading}</h2>
                             <p className={styles["guideDate"]}>Last accessed: <Moment format='MMMM DD, YYYY'>{item.program_datemodified}</Moment></p>
                             </div> 
-                            <div className={styles["editButton"]}>
-                                <button>View and Edit<EditIcon/></button>
-                                </div>
+                            <div 
+                                className={styles["editButton"]} 
+                            > 
+                                <button 
+                                    onClick={() => navigate(`/guides/${item.program_id}`)}
+                                >View and Edit <EditIcon/></button>
+                            </div>
                         </div>
                     </div> 
                 ))} 

@@ -1,131 +1,155 @@
-import React, { useEffect } from 'react'
-import './RegistrationForm.css'
-import  { useState } from 'react';
-import StyledToggleButton from '../../components/ToggleButton/ToggleButton';
+import React, { useEffect, useState } from 'react';
+import './RegistrationForm.css';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { Link } from 'react-router-dom';
-import Copyright from '../../components/Copyright/Copyright';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import StyledToggleButton from '../../components/ToggleButton/ToggleButton';
 import useHttp from '../../hooks/http-hook';
-
 
 function RegistrationForm() {
     const navigate = useNavigate();
     const { sendRequest, isLoading } = useHttp();
+    const [formData, setFormData] = useState({
+        institution: '',
+        email: '',
+        address: ''
+    });
+    const [error, setError] = useState('');
+    const [buttonDisabled, setButtonDisabled] = useState(false);
 
     useEffect(() => {
-      const destroyToken = () => {
-        localStorage.clear();
-        setFormData('');
-      }
+        const destroyToken = () => {
+            localStorage.clear();
+            setFormData({
+                institution: '',
+                email: '',
+                address: ''
+            });
+        };
 
-      destroyToken();
-    }, [])
-
-    const [formData, setFormData] = useState({
-      institution: '',
-      email: '',
-      address: ''
-    });
+        destroyToken();
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+
+        // Regex for email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        // Check if the entered value matches the email regex
+        if (name === 'email' && !emailRegex.test(value)) {
+            setError('Please enter a valid email address');
+        } else {
+            setError('');
+        }
+
         setFormData((prevData) => ({
-          ...prevData,
-          [name]: value,
-          type: "Company",
-          classification: null,
+            ...prevData,
+            [name]: value
         }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
+        setButtonDisabled(true);
+
         try {
-            const res = await sendRequest({url: `${import.meta.env.VITE_BACKEND_DOMAIN}/register/`, 
+            const res = await sendRequest({
+                url: `${import.meta.env.VITE_BACKEND_DOMAIN}/register/`,
                 method: 'POST',
                 body: JSON.stringify(formData)
-            })
+            });
 
             if (res.appId) {
-              console.log(res.appId);
-              console.log(formData);
-              localStorage.setItem("app_id", res.appId);
-              localStorage.setItem("form_info", JSON.stringify(formData));
-              navigate('/register/upload');
+                localStorage.setItem('app_id', res.appId);
+                localStorage.setItem('form_info', JSON.stringify(formData));
+                navigate('/register/upload');
             } else {
-              console.log(res);
+                setError('Email or Institution Name is already registered to the platform. Please try again.');
+                setButtonDisabled(false);
             }
         } catch (error) {
-          console.error('Error:', error.message);
-      
-          // Log more details from the error response if available
-          if (error.response) {
             console.error('Error:', error.message);
-          }
+            setError('An unexpected error occurred.');
+            setButtonDisabled(false);
         }
-      };
-      
+    };
 
-
-  return (
-    <>
-        <div className="formPage">
-            <h1>Become a Member</h1>
+    return (
+        <>
+            <div className="formPage">
+                <h1>Become a Member</h1>
                 <div className="switchUserContainer">
-                    <StyledToggleButton currentPage={'Company'}/>
+                    {/* Assuming StyledToggleButton is a custom component */}
+                    <StyledToggleButton currentPage={'Company'} />
                 </div>
                 <p>Please fill up the required fields. </p>
 
-                <form className='formContent' onSubmit={handleSubmit}>
+                <form className="formContent" onSubmit={handleSubmit}>
                     <Box
                         component="form"
                         sx={{
-                            '& > :not(style)': { mb: 3, width: '35ch' },
+                            '& > :not(style)': { mb: 3, width: '35ch' }
                         }}
                         noValidate
                         autoComplete="off"
-                        >
+                    >
                         <div>
-                          <TextField id="institute" label="Name of Institution" 
-                            value={formData.institution} 
-                            required
-                            name='institution' 
-                            onChange={handleChange}
-                            style={{width:'100%', borderRadius: '10px', boxShadow: "5px 5px 5px 5px rgb(0 0 0 / 10%)"}}/>
-                        </div>
-                            <div >
-                                <TextField id="email" 
-                                label="E-mail" 
-                                value={formData.email} 
+                            <TextField
+                                id="institute"
+                                label="Name of Institution"
+                                value={formData.institution}
                                 required
-                                name='email'
+                                name="institution"
                                 onChange={handleChange}
-                                style={{width:'100%', borderRadius: '10px', boxShadow: "5px 5px 5px 5px rgb(0 0 0 / 10%)"}}/>
-                                </div>
-                                <div >
-                                <TextField id="address" label="Address" 
-                                  value={formData.address} 
-                                  required 
-                                  name='address'
-                                  onChange={handleChange}
-                                  style={{width:'100%', borderRadius: '10px', boxShadow: "5px 5px 5px 5px rgb(0 0 0 / 10%)"}}/>
-                            </div>
+                                error={Boolean(error)}
+                                style={{ width: '100%', borderRadius: '10px', boxShadow: '5px 5px 5px 5px rgb(0 0 0 / 10%)' }}
+                            />
+                        </div>
+                        <div>
+                        <TextField
+                            id="email"
+                            label="E-mail"
+                            type="email" // Set type prop to "email" for email validation
+                            inputMode="email" // Set inputMode to "email" for better browser support
+                            value={formData.email}
+                            required
+                            name="email"
+                            onChange={handleChange}
+                            helperText={error} // Display error message if there's an error
+                            style={{ width: '100%', borderRadius: '10px', boxShadow: '5px 5px 5px 5px rgb(0 0 0 / 10%)' }}
+                        />
+                        </div>
+                        <div>
+                            <TextField
+                                id="address"
+                                label="Address"
+                                value={formData.address}
+                                required
+                                name="address"
+                                onChange={handleChange}
+                                error={Boolean(error)}
+                                style={{ width: '100%', borderRadius: '10px', boxShadow: '5px 5px 5px 5px rgb(0 0 0 / 10%)' }}
+                            />
+                        </div>
+                        {error && (
+                          <p style={{color: 'red'}}>{error}</p>
+                        )}
                     </Box>
                     <div>
-                        <button className='registerButton' type="submit">Next</button>
+                        <button className="registerButton" type="submit" disabled={isLoading}>
+                            Next
+                        </button>
                     </div>
-                    <div style={{marginTop: "20px"}}>
-                        <Link to={'/'}>Already a member? Sign-in here</Link>
+                    <div style={{ marginTop: '20px' }}>
+                        <Link to="/">Already a member? Sign-in here</Link>
                     </div>
-                    
                 </form>
-        </div>
-        <Copyright />
-    </>
-  )
-
+            </div>
+        </>
+    );
 }
 
 export default RegistrationForm;

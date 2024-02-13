@@ -1,71 +1,66 @@
-import React, {useState} from 'react'
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import logo from '../../icon.svg'
-
+import React, { useState } from 'react';
 import {
-    TextField, 
-    Button, 
+    TextField,
+    Button,
     Box,
     Container,
     CssBaseline,
     Typography,
     Link,
 } from '@mui/material';
-
-import {
-    ArrowBackIos
-} from '@mui/icons-material'
-
-// Components
-import Copyright from '../../components/Copyright/Copyright';
+import { ArrowBackIos } from '@mui/icons-material';
+import axios from 'axios';
+import logo from '../../icon.svg';
+import { useNavigate } from 'react-router-dom';
 
 const ForgotPassword = () => {
     const [accessKey, setAccessKey] = useState('');
+    const [error, setError] = useState('');
+    const [buttonDisabled, setButtonDisabled] = useState(false);
 
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setError('');
+        setButtonDisabled(true);
 
         axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/password/verifyChangePassword`, {
             accesskey: accessKey
         })
         .then(response => {
-            console.log('Response from localhost:3200', response.data);
+            // console.log('Response from localhost:3200', response.data);
             if (response.data.message === "Email Sent") {
                 // Redirect to the verifyPassword page
                 navigate('/change-password-sent');
             } else {
-                // Handle other cases if needed
-                console.warn('Unexpected response message:', response.data.message);
+                setError(response.data.message);
+                setButtonDisabled(false);
             }
         })
         .catch(error => {
             console.error('Error making request', error.message);
-            // Handle error
+            setError('An unexpected error occurred.');
+            setButtonDisabled(false);
         });
     };
-
-
 
     return (
         <Container component="main" maxWidth="lg">
             <CssBaseline />
-
             <Box
                 sx={{
-                marginTop: 8,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
+                    marginTop: 8,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
                 }}
             >
-                <img src={logo} alt="" width={350}/>
-                <Typography component="h1" variant="h4" sx={{mt: 2, fontWeight: 'bold'}}>
+                <img src={logo} alt="" width={350} />
+                <Typography component="h1" variant="h4" sx={{ mt: 2, fontWeight: 'bold' }}>
                     Forgot Password
                 </Typography>
-                <Typography component="h1" variant="subtitle1" align='center' sx={{mb: 3}}>
+                <Typography component="h1" variant="subtitle1" align='center' sx={{ mb: 3 }}>
                     Enter your Access Key and we'll send you an email to reset your password.
                 </Typography>
                 <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
@@ -80,28 +75,30 @@ const ForgotPassword = () => {
                         autoFocus
                         value={accessKey}
                         onChange={(e) => setAccessKey(e.target.value)}
+                        error={Boolean(error)}
+                        helperText={error}
                     />
                     <Button
                         type="submit"
                         fullWidth
                         variant="contained"
-                        sx={{ mt: 1, mb: 5, p: 1.5}}
+                        sx={{ mt: 1, mb: 5, p: 1.5 }}
                         style={{
                             backgroundColor: "#599ef3",
                         }}
                         onClick={handleSubmit}
+                        disabled={buttonDisabled}
                     >
-                    Submit
+                        Submit
                     </Button>
                 </Box>
-                <Link color={'inherit'} href='/' style={{display: 'flex', gap: 4, alignItems: 'center', justifyContent: 'center', fontSize: 15}}>
-                    <ArrowBackIos sx={{fontSize: 15}}/>  
+                <Link color={'inherit'} href='/' style={{ display: 'flex', gap: 4, alignItems: 'center', justifyContent: 'center', fontSize: 15 }}>
+                    <ArrowBackIos sx={{ fontSize: 15 }} />
                     <span>Back to login</span>
                 </Link>
             </Box>
-            <Copyright />
         </Container>
-    )
+    );
 }
 
-export default ForgotPassword
+export default ForgotPassword;

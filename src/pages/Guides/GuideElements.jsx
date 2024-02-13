@@ -68,6 +68,7 @@ const GuideElements = (props) => {
             console.log('Error Fetching Data: ', error.message);
         }
     }, [page])
+    
 
     const notifySaveStatus = (status) => {
         updateSaveStatus(status);
@@ -222,47 +223,49 @@ const GuideElements = (props) => {
 
     return (
         <div>
-            <div className="page-title-lg">
-                <div className="title">
-                    {editingTitle ? ( // Use editingTitle state to conditionally render input or h1
+            {pageDetail && ( // Check if pageDetail exists
+                <div className="page-title-lg">
+                    <div className="title">
+                        {editingTitle ? ( // Use editingTitle state to conditionally render input or h1
+                            <div>
+                                <input
+                                    type="text"
+                                    value={editedTitle}
+                                    onChange={handleTitleChange}
+                                />
+                                <Button onClick={handleSaveTitle}>Save</Button>
+                                <Button onClick={handleDiscardTitle}>Discard</Button>
+                            </div>
+                        ) : (
+                            <>
+                                <h1>{pageDetail.program_pages_title}</h1>
+                                <Button onClick={handleToggleEditTitle}>Edit</Button>
+                            </>
+                        )} {/* Toggle editing mode button */}
+                    </div>
+                    <Stack spacing={2} direction="row">
                         <div>
-                            <input
-                                type="text"
-                                value={editedTitle}
-                                onChange={handleTitleChange}
-                            />
-                            <Button onClick={handleSaveTitle}>Save</Button>
-                            <Button onClick={handleDiscardTitle}>Discard</Button>
+                            <Button
+                                onClick={() => handleDeletePage(pageDetail.program_pages_id)}
+                            >
+                                <DeleteOutline />
+                            </Button>
                         </div>
-                    ) : (
-                        <>
-                            <h1>{pageDetail?.program_pages_title}</h1>
-                            <Button onClick={handleToggleEditTitle}>Edit</Button>
-                        </>
-                    )} {/* Toggle editing mode button */}
+                        <div className="page-save-btn">
+                            <Button
+                                startIcon={<Save />}
+                                variant='outlined'
+                                onClick={() => handleSave(pageDetail.program_pages_id)}
+                            >
+                                Save
+                            </Button>
+                        </div>
+                        <div className="page-add-btn">
+                            <AddElement onSelectOption={handleAddElement} onHandleImage={handleCoverPhotoFileChange} onHandleYoutube={handleAddYoutubeEmbed} />
+                        </div>
+                    </Stack>
                 </div>
-                <Stack spacing={2} direction="row">
-                    <div>
-                        <Button
-                            onClick={() => handleDeletePage(pageDetail.program_pages_id)}
-                        >
-                            <DeleteOutline />
-                        </Button>
-                    </div>
-                    <div className="page-save-btn">
-                        <Button
-                            startIcon={<Save />}
-                            variant='outlined'
-                            onClick={() => handleSave(pageDetail.program_pages_id)}
-                        >
-                            Save
-                        </Button>
-                    </div>
-                    <div className="page-add-btn">
-                        <AddElement onSelectOption={handleAddElement} onHandleImage={handleCoverPhotoFileChange} onHandleYoutube={handleAddYoutubeEmbed} />
-                    </div>
-                </Stack>
-            </div>
+            )}
             <DndContext
                 sensors={sensors}
                 onDragStart={() => setIsDragging(true)}

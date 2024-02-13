@@ -101,7 +101,7 @@ function PanelContent(props) {
                                 <div className={styles['titleContainer']}>
                                     <h2>{post.post_heading}</h2>
                                 </div>
-                                <p><Moment format='MMMM DD, YYYY | HH:mm A'>{post.post_dateadded}</Moment></p>
+                                <p><Moment format='MMMM DD, YYYY'>{post.post_dateadded}</Moment></p>
                             </div>
                             <p>
                                 {post.post_bodytext
