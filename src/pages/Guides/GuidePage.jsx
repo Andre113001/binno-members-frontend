@@ -39,12 +39,13 @@ const GuidePage = () => {
                     },
                 })
                 
-                setPageContents(res)
-                setCurrentPage(res.program_pages[0].program_pages_id);
-                setProgramId(res.program_pages[0].program_id);
-                // setBackgroundImage(`${import.meta.env.VITE_BACKEND_DOMAIN}/images?filePath=guide-pics/${res.program_pages[0].program_img}`);
-                setBackgroundImage(`${import.meta.env.VITE_BACKEND_DOMAIN}/images?filePath=guide-pics/${res.program_pages[0].program_img}`);
-                setImgName(res.program_pages[0].program_img);
+                setPageContents(res);
+                setBackgroundImage(`${import.meta.env.VITE_BACKEND_DOMAIN}/images?filePath=guide-pics/${res.program_img}`);
+                setProgramId(res.program_id);
+                if (res.program_pages.length > 0) {
+                    setCurrentPage(res.program_pages[0].program_pages_id);
+                    setImgName(res.program_pages[0].program_img);
+                } 
             }
 
             loadPageData()
@@ -88,7 +89,7 @@ const GuidePage = () => {
             image: fileAsbase64
         }
 
-        const res = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/images/update?filePath=guide-pics/${imgName}`, uploadData, {
+        const res = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/images/update?filePath=guide-pics/${pageContents.program_img}`, uploadData, {
             headers: {
                 'Content-Type': 'multipart/form-data', // Set Content-Type for file uploads
             },
@@ -102,9 +103,7 @@ const GuidePage = () => {
         if (res.data.result === true) {
             const res2 = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/programs/change_img`, requestData2)
 
-            if (res2.data === true) {
-                window.location.reload();
-            }
+            console.log(res2.data);
         }
     }
     
@@ -167,31 +166,27 @@ const GuidePage = () => {
                                         + Add Page
                                     </button>
                                     <ul>
-                                        {pageContents.program_pages?.map((content, index) => (
-                                            <li
-                                                key={content.program_pages_id}
-                                                className="pages"
-                                            >
-                                                <Link
-                                                    style={{
-                                                        textDecoration: 'none',
-                                                        color: 'black',
-                                                    }}
-                                                    onClick={() =>
-                                                        isSaved
-                                                            ? setCurrentPage(
-                                                                  content.program_pages_id
-                                                              )
-                                                            : showAlert()
-                                                    }
-                                                >
-                                                    {index + 1}.{' '}
-                                                    {
-                                                        content.program_pages_title
-                                                    }
-                                                </Link>
-                                            </li>
-                                        ))}
+                                        {pageContents?.program_pages && pageContents.program_pages.length > 0 ? (
+                                            pageContents?.program_pages.map((content, index) => (
+                                                <li key={content.program_pages_id} className="pages">
+                                                    <Link
+                                                        style={{
+                                                            textDecoration: 'none',
+                                                            color: 'black',
+                                                        }}
+                                                        onClick={() =>
+                                                            isSaved
+                                                                ? setCurrentPage(content.program_pages_id)
+                                                                : showAlert()
+                                                        }
+                                                    >
+                                                        {index + 1}. {content.program_pages_title}
+                                                    </Link>
+                                                </li>
+                                            ))
+                                        ) : (
+                                            <h4>No pages yet</h4>
+                                        )}
                                     </ul>
                                 </div>
                                 <div className="page-edit">

@@ -1,11 +1,41 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { guide } from '../../../../assets/EnablerAccountData'
+import useAccessToken from '../../../../hooks/useAccessToken';
 import EditIcon from '@mui/icons-material/Edit';
 import styles from './GuidesCards.module.css'
+import { Link, useNavigate} from 'react-router-dom';
+import Moment from 'react-moment';
 
+const GuideCards = (props) => {
+    const profileData = props.profileData;
+    const accessToken = useAccessToken();
+    const [guides, setGuides] = useState();
 
-const GuideCards = () => {
-  return (
+    useEffect(() => {
+        const loadHeadingData = async () => {
+            if (profileData) {
+                const profile = profileData;
+                const fetchGuides = await fetch(
+                    `${import.meta.env.VITE_BACKEND_DOMAIN}/programs/user/${profile.member_id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    }
+                );
+    
+                fetchGuides.json().then((result) => {
+                    // Get the first two items from the result array
+                    const firstThreeResults = result.slice(0, 3);
+                    setGuides(firstThreeResults);
+                });
+            }
+        };
+    
+        loadHeadingData();
+    }, [profileData]);
+
+    return (
     <>
         <section className={styles["GuidePage"]}>
             <div className={styles["titleContainer"]}>
@@ -13,15 +43,15 @@ const GuideCards = () => {
                 <a href="/guides">View all Guides...</a>
             </div>
             <div className={styles["flexContainer"]}>
-                {guide.map((item)=> (
-                    <div className={styles["guideContent"]} key={item.id}>
+                {guides?.map((item)=> (
+                    <div className={styles["guideContent"]} key={item.program_id}>
                         <div className={styles["guideImage"]}>
-                        <img src={item.img} alt=''/>
+                        <img src={`${import.meta.env.VITE_BACKEND_DOMAIN}/images?filePath=guide-pics/${item.program_img}`} alt=''/>
                         </div>
                         <div className={styles["guideFooter"]}>
                             <div className={styles["TitleDateContainer"]} >
-                            <h2>{item.title}</h2>
-                            <p className={styles["guideDate"]}>Last accessed: {item.date}</p>
+                            <h2>{item.program_heading}</h2>
+                            <p className={styles["guideDate"]}>Last accessed: <Moment format='MMMM DD, YYYY'>{item.program_datemodified}</Moment></p>
                             </div> 
                             <div className={styles["editButton"]}>
                                 <button>View and Edit<EditIcon/></button>
@@ -32,7 +62,7 @@ const GuideCards = () => {
             </div>
         </section>
     </>
-  ) 
+    ) 
 }
 
 export default GuideCards;

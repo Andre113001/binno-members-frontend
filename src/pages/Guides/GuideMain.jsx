@@ -7,11 +7,13 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import GuideModal from '../../components/guidesModal/GuidesModal.jsx';
 
 import { Link } from 'react-router-dom';
+import useLoadProfile from '../../hooks/useLoadProfile.jsx'
 // import useAccessToken from '../../hooks/useAccessToken.jsx';
 // import useLoadProfile from '../../hooks/useLoadProfile.jsx';
 // import sha256 from 'sha256';
 
 const GuideMain = () => {
+  const { profileData }= useLoadProfile();
 
   return (
     <>
@@ -25,11 +27,11 @@ const GuideMain = () => {
             <h1>My Guides</h1>
             <div className={styles["blogButtons"]}>
               <div className={styles["CreateGuideContainer"]}>
-                  <GuideModal />
+                  <GuideModal profileData={profileData}/>
               </div>
             </div>
             <div className={styles["contents"]}>
-              <GuideCards />
+              <GuideCards profileData={profileData}/>
             </div>
           </div>
         </div>

@@ -127,7 +127,7 @@ function InformationTab(props) {
                       <div className={styles["enablerContact"]} >
                           <p><EmailRoundedIcon />⠀{props.email}</p>
                           <p><CallRoundedIcon />⠀{props.phone}</p>
-                          <p><FacebookRoundedIcon/>⠀@{props.fb}</p>
+                          {/* <p><FacebookRoundedIcon/>⠀@{props.fb}</p> */}
                       </div>
                   </div>
                </div>

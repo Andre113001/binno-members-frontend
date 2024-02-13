@@ -2,19 +2,22 @@ import React, { useState, useEffect } from 'react'
 import styles from './GuidesCards.module.css'
 import useLoadProfile from '../../hooks/useLoadProfile.jsx'
 import Moment from 'react-moment'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import useAccessToken from '../../hooks/useAccessToken.jsx'
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Skeleton from '@mui/material/Skeleton';
+import useHttp from '../../hooks/http-hook.js'
 
-const GuideCards = () => {
+const GuideCards = (props) => {
     const [guides, setGuides] = useState([])
-    const { profileData } = useLoadProfile()
+    const { sendRequest, isLoading } = useHttp();
+    const profileData = props.profileData;
     const [loading, setLoading] = useState(true);
-    const accessToken = useAccessToken()
+    const accessToken = useAccessToken();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const loadHeadingData = async () => {
@@ -45,6 +48,30 @@ const GuideCards = () => {
 
     // console.log(guides);
 
+    const handleDeleteGuide = async (e, id) => {
+        e.stopPropagation();
+  
+        if (window.confirm("Are you sure you want to delete this Guide?")) {
+          const res = await sendRequest({
+            url: `${import.meta.env.VITE_BACKEND_DOMAIN}/programs/delete/${id}`,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // Specify that you are sending JSON data
+            },
+            body: JSON.stringify({
+                username: profileData.setting_institution
+            })
+          });
+          
+          console.log(res);
+          if (res.message === 'Program deleted successfully') {
+            window.location.reload();
+          } else {
+            alert("Delete Unsuccessful");
+          }
+        }
+      } 
+
     return (
         <>
             <section className={styles['content']}>
@@ -64,38 +91,44 @@ const GuideCards = () => {
                     ))
                 ) : (
                     guides.map((guide) => (
-                        <Link
-                            to={`/guides/${guide.program_id}`}
+                        <div 
+                            className={styles['guideContent']} 
                             key={guide.program_id}
-                            style={{ textDecoration: 'none', color: 'inherit' }}
+                            onClick={() => navigate(`/guides/${guide.program_id}`)}
                         >
-                            <div className={styles['guideContent']}>
-                                <div className={styles['guideImage']}>
-                                    <img src={`${import.meta.env.VITE_BACKEND_DOMAIN}/images?filePath=guide-pics/${guide.program_img}`} alt="" />
+                            <div className={styles['guideImage']}>
+                                <img src={`${import.meta.env.VITE_BACKEND_DOMAIN}/images?filePath=guide-pics/${guide.program_img}`} alt="" />
+                            </div>
+                            <div className={styles['guideFooter']}>
+                                <div
+                                    className={styles['TitleDateContainer']}
+                                >
+                                    <h2>{guide.program_heading}</h2>
+                                    <span className={styles['guideDate']}>
+                                        Last accessed:{' '}
+                                        <Moment format='MMMM DD, YYYY'>
+                                            {guide.program_datemodified}
+                                        </Moment>
+                                    </span>
                                 </div>
-                                <div className={styles['guideFooter']}>
-                                    <div
-                                        className={styles['TitleDateContainer']}
+                                <div className={styles['buttonContainer']}>
+                                    <p>Click to View and Edit</p>
+                                    <Stack 
+                                        direction="row" 
+                                        alignItems="center" 
+                                        margin={'0 20px'}
                                     >
-                                        <h2>{guide.program_heading}</h2>
-                                        <span className={styles['guideDate']}>
-                                            Last accessed:{' '}
-                                            <Moment format='MMMM DD, YYYY'>
-                                                {guide.program_datemodified}
-                                            </Moment>
-                                        </span>
-                                    </div>
-                                    <div className={styles['buttonContainer']}>
-                                        <p>Click to View and Edit</p>
-                                        <Stack direction="row" alignItems="center" margin={'0 20px'}>
-                                            <IconButton aria-label="delete" size="large">
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </Stack>
-                                    </div>
+                                        <IconButton 
+                                            aria-label="delete" 
+                                            size="large"
+                                            onClick={(e) => handleDeleteGuide(e, guide.program_id)}
+                                        >
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </Stack>
                                 </div>
                             </div>
-                        </Link>
+                        </div>
                     ))
                 )}
                 </div>

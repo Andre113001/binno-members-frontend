@@ -87,7 +87,7 @@ function AccountPage() {
                       fb={data.contact_facebook}
                   />
                   <div className={styles["guideContainer"]}>
-                    <GuideCards />
+                    <GuideCards profileData={profileData}/>
                   </div>
                   
               </div>

@@ -31,7 +31,7 @@ const Events = (props) => {
         loadHeadingData()
     }, [profileData])
 
-    console.log(events);
+    // console.log(events);
 
     return (
     <>

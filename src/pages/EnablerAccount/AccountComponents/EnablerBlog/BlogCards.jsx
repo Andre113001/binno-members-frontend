@@ -33,9 +33,6 @@ const BlogCards = (props) => {
         loadHeadingData();
     }, [profileData]);
 
-    console.log(blog);
-    
-
     return (
     <>
         <section className={styles["BlogPage"]}>     
@@ -58,7 +55,7 @@ const BlogCards = (props) => {
                             <div className={styles["date"]}>
                             <h4>{item.blog_datedadded}</h4>
                             </div>
-                        <p>{item.blog_content.slice(0,150)}...</p>    
+                        <p>{item.blog_content.slice(0,150)}...<span style={{color: '#fd7c06'}}>SEE MORE</span></p>    
                     </div>
                 </div>
                 ))} 
