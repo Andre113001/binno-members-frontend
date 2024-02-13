@@ -38,8 +38,9 @@
   }
 
   .content .boxItems {  
-    max-height: 600px;  
+    min-height: 600px;  
     min-width: 300px;
+    height: auto;
     padding: 10px;
     transition: 0.5s;
     background-color: white;
