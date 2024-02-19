@@ -35,6 +35,7 @@ import {
     Stack,
     Button
 } from '@mui/material';
+
 import axios from 'axios';
 
 const GuideElements = (props) => {
@@ -48,6 +49,7 @@ const GuideElements = (props) => {
     const [editedTitle, setEditedTitle] = useState(""); // Track edited title
     const [editingTitle, setEditingTitle] = useState(false); // Track whether title is being edited
     const accessToken = useAccessToken();
+    const [closeModal, setCloseModal] = useState(false);
     const { sendRequest, isLoading } = useHttp();
 
     useEffect(() => {
@@ -69,6 +71,14 @@ const GuideElements = (props) => {
         }
     }, [page])
     
+    const readFileAsBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = (error) => reject(error);
+        });
+      };
 
     const notifySaveStatus = (status) => {
         updateSaveStatus(status);
@@ -123,16 +133,37 @@ const GuideElements = (props) => {
     };
 
     const handleCoverPhotoFileChange = async (file) => {
-        const blob = file.slice(0, file.size, file.type);
-        const newElement = {
-            id: uuidv4(),
-            type: "img",
-            attributes: `src=\"${URL.createObjectURL(blob)}\" style=\"max-width: '400px'\"`,
-            content: ''
-        };
-        setElements((prevElements) => [newElement, ...prevElements]);
-        updateSaveStatus(false);
+        try {
+            const formData = new FormData();
+            formData.append('file_path', 'guide-page-pics');
+            formData.append('image', file);
+    
+            const imageRes = await fetch(`${import.meta.env.VITE_BACKEND_DOMAIN}/images/upload`, {
+                method: 'POST',
+                body: formData,
+            });
+    
+            if (imageRes.ok) {
+                const data = await imageRes.json();
+                console.log('File uploaded successfully:', data.filePath);
+                const newElement = {
+                    id: uuidv4(),
+                    type: "img",
+                    attributes: `src=\"${import.meta.env.VITE_BACKEND_DOMAIN}/images?filePath=guide-page-pics/${data.filePath}\" class=\"element_img\"  style=\"max-width: '400px'\"`,
+                    content: ''
+                };
+                setElements((prevElements) => [newElement, ...prevElements]);
+                // Handle success here
+            } else {
+                console.error('Failed to upload file:', imageRes.status, imageRes.statusText);
+                // Handle error here
+            }
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            // Handle error here
+        }
     }
+    
 
     const handleAddYoutubeEmbed = async (code) => {
         try {
@@ -141,15 +172,18 @@ const GuideElements = (props) => {
                 return;
             }
 
-            const embedCode = `<iframe title="YouTube Video" width="1300" height="720" src="https://www.youtube.com/embed/${code}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            const embedCode = `<iframe class="element_iframe" title="YouTube Video" width="1300" height="720" src="https://www.youtube.com/embed/${code}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
             const newElement = {
+                code: code,
                 id: uuidv4(),
                 type: "iframe",
                 attributes: embedCode,
                 content: ''
             };
-            setElements((prevElements) => [newElement, ...prevElements]);
-            updateSaveStatus(false);
+
+            console.log(newElement);
+            // setElements((prevElements) => [newElement, ...prevElements]);
+            // updateSaveStatus(false);
         } catch (error) {
             console.error('Error adding YouTube embed:', error);
             alert('Error adding YouTube embed: See console for details');
@@ -174,12 +208,22 @@ const GuideElements = (props) => {
         updateSaveStatus(false);
     };
 
-    const handleDeleteElement = (id) => {
+    const handleDeleteElement = async (id) => {
         const confirmed = window.confirm("Are you sure you want to delete this element?");
 
         if (confirmed) {
+
+            
+
             setElements((prevElements) => prevElements.filter((element) => element.id !== id));
             updateSaveStatus(false);
+            const data = elements.filter((element) => element.id === id);
+    
+            if (data[0].type === 'img') {
+                const filePath = data[0].attributes.split('filePath=')[1].split('"')[0];
+                
+                const deleteImageRes = await axios.get(`${import.meta.env.VITE_BACKEND_DOMAIN}/images/delete?filePath=${filePath}`);    
+            } 
         }
     };
 
@@ -261,7 +305,7 @@ const GuideElements = (props) => {
                             </Button>
                         </div>
                         <div className="page-add-btn">
-                            <AddElement onSelectOption={handleAddElement} onHandleImage={handleCoverPhotoFileChange} onHandleYoutube={handleAddYoutubeEmbed} />
+                            <AddElement onSelectOption={handleAddElement} onHandleImage={handleCoverPhotoFileChange} onYoutubeEmbed={handleAddYoutubeEmbed} />
                         </div>
                     </Stack>
                 </div>

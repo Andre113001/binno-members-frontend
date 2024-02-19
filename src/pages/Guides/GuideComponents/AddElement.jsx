@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import { Button, Menu, MenuItem, TextField, Typography, Divider } from '@mui/material';
 import { 
@@ -54,13 +54,19 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function AddElement({ onSelectOption, onHandleImage, onHandleYoutube }) {
+export default function AddElement({ onSelectOption, onHandleImage}) {
   const { handleClose, handleOpen, CustomModal } = useCustomModal();
-  const [passContent, setPassContent] = useState();
+  const [passContent, setPassContent] = useState('');
   const [anchorEl, setAnchorEl] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [image, setImage] = useState()
-  const [youtube, setYoutube] = useState();
+  const [youtube, setYoutube] = useState('');
+
+  const [type, setType] = useState('');
+  const [attributes, setAttributes] = useState('');
+  const [content, setContent] = useState('');
+  const textFieldRef = useRef(null);
+ 
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -81,11 +87,51 @@ export default function AddElement({ onSelectOption, onHandleImage, onHandleYout
     const match = link.match(regex);
   
     if (match && match[1]) {
+      // console.log(match[1]);
       return match[1];
     } else {
       // Handle invalid or unsupported links
       return null;
     }
+  }
+
+  const handleYoutubeLink = (link) => {
+    const youtubeCode = extractVideoCode(link);
+
+    const uploadData = {
+      type: 'iframe',
+      attributes: `"class=\"element_iframe\"" src="https://www.youtube.com/embed/${youtubeCode}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen`,
+      content: ''
+    }
+    // setType('iframe');
+    // setAttributes(`width="1300" height="720" src="https://www.youtube.com/embed/${youtubeCode}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen`);
+    return uploadData;
+  };
+
+  const handleChangeImage = (file) => {
+    const blob = file.slice(0, file.size, file.type);
+    console.log(blob);
+    setType('img');
+    setAttributes(`src=\"${URL.createObjectURL(blob)}\" style=\"max-width: '400px'\"`);
+    handleSubmit();
+  };
+
+  const handleSubmit = async () => {
+    const link = textFieldRef.current.value;
+    const code = handleYoutubeLink(link)
+
+    // console.log({
+    //   code: code,
+    //   type: type,
+    //   attributes: attributes,
+    //   content: content
+    // });
+    onSelectOption({ 
+    type: code.type,
+    attributes: code.attributes,
+    content: code.content,
+    }); 
+    handleClose();
   }
 
   return (
@@ -96,8 +142,7 @@ export default function AddElement({ onSelectOption, onHandleImage, onHandleYout
           handleClose={handleClose}
           content = {
             <>
-              <h1>{passContent}</h1>
-              <Button fullWidth variant='contained' sx={{p: 2.5, borderRadius: 2}} style={{backgroundColor: "#ff7a00"}} onClick={handleClose}>Submit</Button>
+              <div>{passContent}</div>
             </>
           }
         />
@@ -145,8 +190,75 @@ export default function AddElement({ onSelectOption, onHandleImage, onHandleYout
           <Notes />
           Paragraph
         </MenuItem>
-        {/* <Divider sx={{ my: 0.5 }} /> */}
+
+        <Divider sx={{ my: 0.5 }} />
+        <MenuItem onClick={() => {
+          handleOpen();
+          setPassContent(
+            <>
+              <center>
+              {/* <Typography variant='h3'>Upload an image</Typography>
+              <TextField
+                margin="normal"
+                fullWidth
+                id="image-link"
+                label="Image Link"
+                name="access-key"
+                autoComplete="off"
+                autoFocus
+              /> */}
+              {/* <Typography fontSize={30}>or</Typography> */}
+              <FileUploader
+                  required
+                  maxSize={20}
+                  minSize={0.002}
+                  onSizeError={(file) => alert(`File ${file.name} exceeds the allowed size.`)}
+                  label={`Upload your files here`}
+                  types={['JPG', 'PNG']}
+                  handleChange={(file) => onHandleImage(file)}
+              />
+              
+              </center>
+            </>
+          );
+        // { onSelectOption({ 
+        //   type: 'img',
+        //   attributes: "src=\"https://variety.com/wp-content/uploads/2023/06/MCDSPMA_SP062.jpg?w=1000&h=563&crop=1&resize=1000%2C563\" class=\"element_img\"",
+        //   content: ""
+        //   }
+          handleCloseAdd();
+          }} disableRipple>
+          <Image />
+          Image
+        </MenuItem>
+
         {/* Insert other components here */}
+        <MenuItem onClick={() => { 
+          handleOpen();
+          setPassContent(
+            <>
+              <center><Typography variant='h4' fontWeight={"bold"}>Youtube Embed</Typography>
+              <TextField
+                margin="normal"
+                fullWidth
+                name="yt-link"
+                autoComplete="off"
+                autoFocus
+                placeholder='https://www.youtube.com/watch?v=FTsuS3Opf1s'
+                // onChange={(e) => handleChangeYoutube(e)}
+                inputRef={textFieldRef}
+              />
+              <Button fullWidth variant='contained' sx={{p: 2.5, borderRadius: 2}} style={{backgroundColor: "#ff7a00"}} onClick={handleSubmit}>Submit</Button>
+              </center>
+            </>
+          );
+          
+          handleCloseAdd();
+          }} 
+          disableRipple>
+          <YouTube />
+          Youtube Embed
+        </MenuItem>
       </StyledMenu>
     </div>
   );

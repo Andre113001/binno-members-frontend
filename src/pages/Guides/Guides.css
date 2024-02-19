@@ -267,3 +267,8 @@ Link {
     font-size: 25px;
 }
 
+iframe {
+    width: 1300px;
+    height: 720px;
+    resize: both;
+}
