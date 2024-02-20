@@ -66,12 +66,12 @@ const Login = () => {
             navigate('/account');
         } else {
             setOverallError(true);
-            setAttemptCount(prevCount => prevCount + 1); // Increment attempt count
-            if (attemptCount >= 2) { // Check if attempt count exceeds threshold
-                window.location.reload();
-            } else {
-                setOtpCompleted(false);
-            }
+            // setAttemptCount(prevCount => prevCount + 1); // Increment attempt count
+            // if (attemptCount >= 2) { // Check if attempt count exceeds threshold
+            //     window.location.reload();
+            // } else {
+            //     setOtpCompleted(false);
+            // }
         }
     };
 

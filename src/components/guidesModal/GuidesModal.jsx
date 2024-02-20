@@ -58,7 +58,7 @@ export default function GuideModal(props) {
       const imageRes = await fetch(`${import.meta.env.VITE_BACKEND_DOMAIN}/images/upload`,{
         method: 'POST',
         body: formData,
-      })
+      });
 
       const imageData = await imageRes.json()
 
