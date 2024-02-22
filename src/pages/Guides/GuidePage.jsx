@@ -8,7 +8,7 @@ import { Link, useParams } from 'react-router-dom'
 import GuideElements from './GuideElements'
 import { AddPhotoAlternateOutlined } from '@mui/icons-material'
 
-import { Chip, styled, Button } from '@mui/material'
+import { Chip, styled, Button, Alert, Snackbar } from '@mui/material'
 import useHttp from '../../hooks/http-hook'
 import axios from 'axios'
 
@@ -22,7 +22,10 @@ const GuidePage = () => {
     const [ programId, setProgramId ] = useState();
     const [ imgName, setImgName ] = useState();
 
-    const [isSaved, setIsSaved] = useState(true)
+    const [isSaved, setIsSaved] = useState(true);
+    const [snackbarOpen, setSnackbarOpen] = useState(false); // State for managing Snackbar open/close
+    const [snackbarMessage, setSnackbarMessage] = useState(''); // State for managing Snackbar message
+    const [snackbarStatus, setSnackbarStatus] = useState('error');
     
     const [backgroundImage, setBackgroundImage] = useState(
         'https://www.givenow.com.au/img/default-cover.png'
@@ -62,7 +65,9 @@ const GuidePage = () => {
     }
 
     const showAlert = () => {
-        alert('Please save your changes before navigating to another page.')
+        setSnackbarStatus('info');
+        setSnackbarMessage('Please save your changes before navigating to another page.');
+        setSnackbarOpen(true);
     }
 
     const readFileAsBase64 = (file) => {
@@ -114,14 +119,12 @@ const GuidePage = () => {
         }
 
         try {
-            if (confirm('add page')) {
-                const res = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/programs/create_page`, uploadData);
+            const res = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/programs/create_page`, uploadData);
 
-                console.log(res.data);
+            console.log(res.data);
 
-                if (res.data === 'Page created successfully') {
-                    window.location.reload();
-                }
+            if (res.data === 'Page created successfully') {
+                window.location.reload();
             }
         } catch (error) {
             console.log('Error: ', error);
@@ -145,6 +148,21 @@ const GuidePage = () => {
 
     return (
         <div>
+            <Snackbar
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+                open={snackbarOpen}
+                autoHideDuration={3000}
+                onClose={() => setSnackbarOpen(false)}
+            >
+                <Alert
+                    severity={snackbarStatus}
+                >
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
             {pageContents ? (
                 <div className="App">
                     <div className="layoutContainer">

@@ -1,11 +1,12 @@
 // Import the useState hook
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { Sortable } from '../../components/DND/Sortable';
 import AddElement from './GuideComponents/AddElement';
 import useAccessToken from '../../hooks/useAccessToken';
 import useHttp from '../../hooks/http-hook';
+import useCustomModal from '../../hooks/useCustomModal';
 
 import {
     DndContext,
@@ -33,13 +34,16 @@ import {
 
 import {
     Stack,
-    Button
+    Button,
+    Snackbar,
+    Alert
 } from '@mui/material';
 
 import axios from 'axios';
 
 const GuideElements = (props) => {
     const { page, updateSaveStatus } = props;
+    const { handleClose, handleOpen, CustomModal } = useCustomModal();
     const [pageDetail, setPageDetail] = useState();
     const [elements, setElements] = useState([]);
     const [elementOption, setElementOption] = useState(null);
@@ -52,6 +56,12 @@ const GuideElements = (props) => {
     const [closeModal, setCloseModal] = useState(false);
     const { sendRequest, isLoading } = useHttp();
 
+    const [snackbarOpen, setSnackbarOpen] = useState(false); // State for managing Snackbar open/close
+    const [snackbarMessage, setSnackbarMessage] = useState(''); // State for managing Snackbar message
+    const [snackbarStatus, setSnackbarStatus] = useState('error');
+    const [passContent, setPassContent] = useState('');
+    const [selectedId, setSelectedID] = useState();
+ 
     useEffect(() => {
         try {
             const loadPageData = async () => {
@@ -93,19 +103,30 @@ const GuideElements = (props) => {
     );
 
     const handleDeletePage = async (id) => {
-        if (confirm('Are you sure you want to delete this page: ', id)) {
-            const res = await axios.get(`${import.meta.env.VITE_BACKEND_DOMAIN}/programs/delete/page/${id}`)
-
-            if (res.data.message === 'Page deleted successfully') {
-                window.location.reload();
-            }
+        const res = await sendRequest({
+            url: `${import.meta.env.VITE_BACKEND_DOMAIN}/programs/delete/page/${id}`
+        });
+        if (res.message === 'Page deleted successfully') {
+            // Show Snackbar for failed deletion
+            setSnackbarStatus('sucess');
+            setSnackbarMessage('Page Deleted Sucessfully');
+            setSnackbarOpen(true);
+            handleClose();
+            window.location.reload();
+        } else {
+            // Show Snackbar for failed deletion
+            setSnackbarStatus('error');
+            setSnackbarMessage('Failed to delete page');
+            setSnackbarOpen(true);
         }
     }
 
     const handleSave = async () => {
         try {
             if (!elements) {
-                alert('No elements data to save');
+                // Show Snackbar for empty elements data
+                setSnackbarMessage('No elements data to save');
+                setSnackbarOpen(true);
                 return;
             }
 
@@ -118,16 +139,24 @@ const GuideElements = (props) => {
             });
 
             if (response.ok) {
-                alert('Elements saved successfully');
+                // Show Snackbar for successful save
+                setSnackbarStatus('success');
+                setSnackbarMessage('Page saved successfully');
+                setSnackbarOpen(true);
                 notifySaveStatus(true);
             } else {
-                alert('Failed to save elements');
-                console.error('Save failed:', response.status, response.statusText);
+                // Show Snackbar for failed save
+                setSnackbarStatus('error');
+                setSnackbarMessage('Failed to save page');
+                setSnackbarOpen(true);
+                // console.error('Save failed:', response.status, response.statusText);
                 notifySaveStatus(false);
             }
         } catch (error) {
-            console.error('Error saving elements:', error);
-            alert('Error saving elements: See console for details');
+            // Show Snackbar for error saving elements
+            setSnackbarStatus('error');
+            setSnackbarMessage('Failed to save page');
+            setSnackbarOpen(true);
             notifySaveStatus(false);
         }
     };
@@ -209,12 +238,6 @@ const GuideElements = (props) => {
     };
 
     const handleDeleteElement = async (id) => {
-        const confirmed = window.confirm("Are you sure you want to delete this element?");
-
-        if (confirmed) {
-
-            
-
             setElements((prevElements) => prevElements.filter((element) => element.id !== id));
             updateSaveStatus(false);
             const data = elements.filter((element) => element.id === id);
@@ -224,13 +247,11 @@ const GuideElements = (props) => {
                 
                 const deleteImageRes = await axios.get(`${import.meta.env.VITE_BACKEND_DOMAIN}/images/delete?filePath=${filePath}`);    
             } 
-        }
     };
 
     const handleEditElement = (id) => {
         setEditMode(true);
         setEditingElementId(id);
-        console.log(id);
     };
 
     const handleTitleChange = (event) => {
@@ -267,6 +288,74 @@ const GuideElements = (props) => {
 
     return (
         <div>
+            <Snackbar
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+                open={snackbarOpen}
+                autoHideDuration={3000}
+                onClose={() => setSnackbarOpen(false)}
+            >
+            <Alert
+                severity={snackbarStatus}
+            >
+                {snackbarMessage}
+            </Alert>
+            </Snackbar>
+
+            <CustomModal
+                handleOpen={handleOpen}
+                handleClose={handleClose}
+                content = {
+                    <Fragment>
+                        <center>
+                            <div className="modal-content">
+                                <h1>Delete This Page?</h1>
+                                <h3>Are you sure to delete this Page?</h3>
+                                <div className="modal-button">
+                                    <Button
+                                    sx={{
+                                        height: "80px",
+                                        background: "#FF7A00",
+                                        border: "1px solid #FF7A00",
+                                        width: "280px",
+                                        borderRadius: "10px",
+                                        "&:hover": {
+                                        background: "#FF7A00",
+                                        },
+                                        color: "#fff",
+                                        fontSize: "18px",
+                                        fontWeight: "bold",
+                                    }}
+                                    onClick={() => {
+                                        handleDeletePage(selectedId);
+                                    }}
+                                    disabled={isLoading}
+                                    >
+                                        Confirm
+                                    </Button>
+                                    <Button
+                                    sx={{
+                                        height: "80px",
+                                        border: "1px solid #000",
+                                        width: "280px",
+                                        borderRadius: "10px",
+                                        fontSize: "18px",
+                                        fontWeight: "bold",
+                                        color: "#000",
+                                    }}
+                                    onClick={handleClose}
+                                    disabled={isLoading}
+                                    >
+                                    Cancel
+                                    </Button>
+                                </div>
+                            </div>
+                        </center>
+                    </Fragment>
+                }
+            />
             {pageDetail && ( // Check if pageDetail exists
                 <div className="page-title-lg">
                     <div className="title">
@@ -290,7 +379,11 @@ const GuideElements = (props) => {
                     <Stack spacing={2} direction="row">
                         <div>
                             <Button
-                                onClick={() => handleDeletePage(pageDetail.program_pages_id)}
+                                onClick={() => {
+                                    // handleDeletePage(pageDetail.program_pages_id);
+                                    setSelectedID(pageDetail.program_pages_id);
+                                    handleOpen();
+                                }}
                             >
                                 <DeleteOutline />
                             </Button>

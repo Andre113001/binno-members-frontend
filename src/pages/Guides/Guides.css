@@ -272,3 +272,14 @@ iframe {
     height: 720px;
     resize: both;
 }
+
+.modal-content h1 {
+    font-size: 50px;
+}
+
+.modal-button {
+    display: flex;
+    gap: 34px;
+    margin-top: 50px;
+    justify-content: center;
+}
