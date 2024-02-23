@@ -193,6 +193,8 @@ Link {
 
 .page-title-sm {
     margin-top: -50px;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 /* Add this style to your CSS file */
