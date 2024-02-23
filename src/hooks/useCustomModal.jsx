@@ -37,7 +37,7 @@ function useCustomModal() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <CloseIcon onClick={handleClose} className='absolute left-50 right-5 top-5 cursor-pointer' />
+          {/* <CloseIcon onClick={handleClose} className='cursor-pointer' /> */}
           {content}
           {additions}
         </Box>
