@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from 'react'
+import { useState , useEffect, Fragment} from 'react'
 import styles from './PanelContent.module.css'
 import IconButton from '@mui/material/IconButton';
 import ShareIcon from '@mui/icons-material/Share';
@@ -14,13 +14,22 @@ import useHttp from '../../hooks/http-hook';
 import { fetchImage } from '../../hooks/image-hook'
 import SocialMediaShare from '../../components/SocialMediaShare/SocialMediaShare';
 
+import { Button } from '@mui/material'
+
+import useCustomModal from '../../hooks/useCustomModal';
+import useCustomSnackbar from '../../hooks/useCustomSnackbar';
+
 
 function PanelContent(props) {
     const {filteredPosts} = props
     const navigate = useNavigate()
-    const { sendRequest } = useHttp()
+    const { sendRequest, isLoading } = useHttp()
     const [showShareComponent, setShowShareComponent] = useState(false);
     const [ postId, setPostId ] = useState();
+    const [selectedId, setSelectedID] = useState();
+
+    const { handleClose: handleCloseModal, handleOpen: handleOpenModal, CustomModal } = useCustomModal();
+    const { handleClose: handleCloseSnackbar, showSnackbar, SnackbarComponent } = useCustomSnackbar();
 
     const closeShareComponent = () => {
         setShowShareComponent(false);
@@ -32,9 +41,7 @@ function PanelContent(props) {
         setShowShareComponent(true);
     }
 
-    const handleDeletePost = async (id, username, e) => {
-        e.stopPropagation();
-        if (window.confirm("Are you sure you want to delete this Post?")) {
+    const handleDeletePost = async () => {
           const res = await sendRequest({
             url: `${import.meta.env.VITE_BACKEND_DOMAIN}/posts/delete`,
             method: 'POST',
@@ -42,21 +49,23 @@ function PanelContent(props) {
                 'Content-Type': 'application/json', // Specify that you are sending JSON data
             },
             body: JSON.stringify({
-                post_id: id,
-                username: username
+                post_id: selectedId,
+                username: filteredPosts[0].setting_institution
             })
           });
       
           if (res.message === 'Post deleted successfully') {
+            handleCloseModal();
+            showSnackbar('Post Deleted Successfully', 'success');
             window.location.reload();
           } else {
-            alert("Delete Unsuccessful");
+            showSnackbar('Delete Unsuccessful', 'error');
           }
-        }   
     } 
 
     return (
         <>
+        <SnackbarComponent />
         {showShareComponent && <SocialMediaShare type={"Blog"} id={`blog/${postId}`} setClose={closeShareComponent} />}
             {filteredPosts?.map((post, index) => {
                 return (
@@ -86,7 +95,11 @@ function PanelContent(props) {
                                     />
                                 </Stack>
                                 </div>
-                                <Stack direction="row" alignItems="center" onClick={(e) => handleDeletePost(post.post_id, post.author, e)}>
+                                <Stack direction="row" alignItems="center" onClick={(e) => {
+                                    e.stopPropagation();
+                                    setSelectedID(post.post_id);
+                                    handleOpenModal();
+                                }}>
                                     <IconButton size="medium">
                                         <Delete />
                                     </IconButton>
@@ -122,6 +135,56 @@ function PanelContent(props) {
                 </div>
                 )
             })}
+            <CustomModal
+                handleOpen={handleOpenModal}
+                handleClose={handleCloseModal}
+                content={
+                <Fragment>
+                    <div className="modal-content">
+                        <center>
+                            <h1>Delete This Post?</h1>
+                            <h3>Are you sure to delete this post?</h3>
+                            <div className="modal-button">
+                                <Button
+                                sx={{
+                                    height: "80px",
+                                    background: "#FF7A00",
+                                    border: "1px solid #FF7A00",
+                                    width: "280px",
+                                    borderRadius: "10px",
+                                    "&:hover": {
+                                    background: "#FF7A00",
+                                    },
+                                    color: "#fff",
+                                    fontSize: "18px",
+                                    fontWeight: "bold",
+                                }}
+                                onClick={handleDeletePost}
+                                disabled={isLoading}
+                                >
+                                    Confirm
+                                </Button>
+                                <Button
+                                sx={{
+                                    height: "80px",
+                                    border: "1px solid #000",
+                                    width: "280px",
+                                    borderRadius: "10px",
+                                    fontSize: "18px",
+                                    fontWeight: "bold",
+                                    color: "#000",
+                                }}
+                                onClick={handleCloseModal}
+                                disabled={isLoading}
+                                >
+                                Cancel
+                                </Button>
+                            </div>
+                        </center>
+                    </div>
+                </Fragment>
+                }
+            />
         </>
     )
 }

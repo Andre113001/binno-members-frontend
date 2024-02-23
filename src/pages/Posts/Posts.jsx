@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import SideBar from '../../components/Sidebar/Sidebar';
 import Header from '../../components/header/Header';
 import styles from './Posts.module.css';
@@ -14,6 +14,8 @@ import useLoadProfile from '../../hooks/useLoadProfile';
 import useAccessToken from '../../hooks/useAccessToken';
 import { fetchImage } from '../../hooks/image-hook.js';
 
+
+
 const Posts = () => {
   const [value, setValue] = useState(0);
   const { sendRequest, isLoading } = useHttp();
@@ -21,7 +23,10 @@ const Posts = () => {
   const accessToken = useAccessToken();
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState([]);
+  const [selectedId, setSelectedID] = useState();
   const [dataLoaded, setDataLoaded] = useState(false);
+
+
 
   useEffect(() => {
     const loadHeadingData = async () => {
@@ -70,6 +75,17 @@ const Posts = () => {
     setValue(newValue);
   };
 
+  const handleDeletePost = async (id) => {
+    // Your delete post logic here
+    try {
+      // Perform delete request
+      showSnackbar('Post Deleted Successfully', 'success');
+      handleCloseModal(); // Close the modal after successful deletion
+    } catch (error) {
+      showSnackbar('Error deleting post', 'error');
+    }
+  };
+
   return (
     <>
       <div className={styles['PostPage']}>
@@ -92,7 +108,10 @@ const Posts = () => {
               <TabPanel value={value} index={0}>
                 {dataLoaded ? (
                   posts.length > 0 ? (
-                    <PanelContent filteredPosts={posts} />
+                    <PanelContent 
+                      filteredPosts={posts} 
+                      handleDeletePost={handleDeletePost}
+                    />
                   ) : (
                     <p>No posts</p>
                   )
@@ -103,7 +122,10 @@ const Posts = () => {
               <TabPanel value={value} index={1}>
                 {dataLoaded ? (
                   posts.length > 0 ? (
-                    <PanelContent filteredPosts={posts.filter((post) => post.post_category === 'Milestone')} />
+                    <PanelContent 
+                      filteredPosts={posts.filter((post) => post.post_category === 'Milestone')} 
+                      handleDeletePost={handleDeletePost}
+                    />
                   ) : (
                     <p>No posts</p>
                   )
@@ -114,7 +136,10 @@ const Posts = () => {
               <TabPanel value={value} index={2}>
                 {dataLoaded ? (
                   posts.length > 0 ? (
-                    <PanelContent filteredPosts={posts.filter((post) => post.post_category === 'Promotion')} />
+                    <PanelContent 
+                      filteredPosts={posts.filter((post) => post.post_category === 'Promotion')} 
+                      handleDeletePost={handleDeletePost}
+                    />
                   ) : (
                     <p>No posts</p>
                   )

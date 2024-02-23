@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import styles from './GuidesCards.module.css'
 import useLoadProfile from '../../hooks/useLoadProfile.jsx'
 import Moment from 'react-moment'
@@ -10,14 +10,22 @@ import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Skeleton from '@mui/material/Skeleton';
 import useHttp from '../../hooks/http-hook.js'
+import { Button } from '@mui/material'
+
+import useCustomSnackbar from '../../hooks/useCustomSnackbar'
+import useCustomModal from '../../hooks/useCustomModal';
 
 const GuideCards = (props) => {
     const [guides, setGuides] = useState([])
+    const [selectedId, setSelectedID] = useState();
     const { sendRequest, isLoading } = useHttp();
     const profileData = props.profileData;
     const [loading, setLoading] = useState(true);
     const accessToken = useAccessToken();
     const navigate = useNavigate();
+
+    const { handleClose: handleCloseSnackbar, showSnackbar, SnackbarComponent } = useCustomSnackbar();
+    const { handleClose: handleCloseModal, handleOpen: handleOpenModal, CustomModal } = useCustomModal();
 
     useEffect(() => {
         const loadHeadingData = async () => {
@@ -46,34 +54,80 @@ const GuideCards = (props) => {
         loadHeadingData()
     }, [profileData, accessToken])
 
-    // console.log(guides);
+    const handleDeleteGuide = async () => {
+        const res = await sendRequest({
+        url: `${import.meta.env.VITE_BACKEND_DOMAIN}/programs/delete/${selectedId}`,
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json', // Specify that you are sending JSON data
+        },
+        body: JSON.stringify({
+            username: profileData.setting_institution
+        })
+        });
 
-    const handleDeleteGuide = async (e, id) => {
-        e.stopPropagation();
-  
-        if (window.confirm("Are you sure you want to delete this Guide?")) {
-          const res = await sendRequest({
-            url: `${import.meta.env.VITE_BACKEND_DOMAIN}/programs/delete/${id}`,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json', // Specify that you are sending JSON data
-            },
-            body: JSON.stringify({
-                username: profileData.setting_institution
-            })
-          });
-          
-          console.log(res);
-          if (res.message === 'Program deleted successfully') {
-            window.location.reload();
-          } else {
-            alert("Delete Unsuccessful");
-          }
+        if (res.message === 'Program deleted successfully') {
+        handleCloseModal();
+        showSnackbar('Guide Deleted Successfully', 'success');
+        window.location.reload();
+        } else {
+        showSnackbar('Delete Unsuccessful', 'error');
         }
-      } 
+    } 
 
     return (
         <>
+            <SnackbarComponent />
+            <CustomModal
+                handleOpen={handleOpenModal}
+                handleClose={handleCloseModal}
+                content = {
+                    <Fragment>
+                        <div className="modal-content">
+                            <center>
+                                <h1>Delete This Guide?</h1>
+                                <h3>Are you sure to delete this Guide?</h3>
+                                <div className="modal-button">
+                                    <Button
+                                    sx={{
+                                        height: "80px",
+                                        background: "#FF7A00",
+                                        border: "1px solid #FF7A00",
+                                        width: "280px",
+                                        borderRadius: "10px",
+                                        "&:hover": {
+                                        background: "#FF7A00",
+                                        },
+                                        color: "#fff",
+                                        fontSize: "18px",
+                                        fontWeight: "bold",
+                                    }}
+                                    onClick={handleDeleteGuide}
+                                    disabled={isLoading}
+                                    >
+                                        Confirm
+                                    </Button>
+                                    <Button
+                                    sx={{
+                                        height: "80px",
+                                        border: "1px solid #000",
+                                        width: "280px",
+                                        borderRadius: "10px",
+                                        fontSize: "18px",
+                                        fontWeight: "bold",
+                                        color: "#000",
+                                    }}
+                                    onClick={handleCloseModal}
+                                    disabled={isLoading}
+                                    >
+                                    Cancel
+                                    </Button>
+                                </div>
+                            </center>
+                        </div>
+                    </Fragment>
+                }
+            />
             <section className={styles['content']}>
                 <div className={styles['grid2']}>
                 {loading ? (
@@ -121,7 +175,11 @@ const GuideCards = (props) => {
                                         <IconButton 
                                             aria-label="delete" 
                                             size="large"
-                                            onClick={(e) => handleDeleteGuide(e, guide.program_id)}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setSelectedID(guide.program_id);
+                                                handleOpenModal();
+                                            }}
                                         >
                                             <DeleteIcon />
                                         </IconButton>

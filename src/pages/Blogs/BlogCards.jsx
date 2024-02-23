@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import styles from './BlogCard.module.css'
 import useLoadProfile from '../../hooks/useLoadProfile'
 import { Link, useNavigate } from 'react-router-dom'
@@ -14,6 +14,9 @@ import Skeleton from '@mui/material/Skeleton';
 
 import { fetchImage } from '../../hooks/image-hook'
 import useHttp from '../../hooks/http-hook'
+import { Button } from '@mui/material'
+import useCustomSnackbar from '../../hooks/useCustomSnackbar'
+import useCustomModal from '../../hooks/useCustomModal';
 
 const BlogCards = () => {
     const { sendRequest, isLoading } = useHttp();
@@ -25,13 +28,17 @@ const BlogCards = () => {
     const [showShareComponent, setShowShareComponent] = useState(false);
     const navigate = useNavigate()
     const [ blogId, setBlogId ] = useState();
+    const [selectedId, setSelectedID] = useState();
+
+    const { handleClose: handleCloseSnackbar, showSnackbar, SnackbarComponent } = useCustomSnackbar();
+    const { handleClose: handleCloseModal, handleOpen: handleOpenModal, CustomModal } = useCustomModal();
 
     useEffect(() => {
         const loadHeadingData = async () => {
             try {
                 setLoading(true);
                 if (profileData) {
-                  const profile = await profileData;
+                  const profile = profileData;
                   const guidesQuery = await fetch(
                     `${import.meta.env.VITE_BACKEND_DOMAIN}/blogs/user/${profile.member_id}`,
                     {
@@ -75,33 +82,83 @@ const BlogCards = () => {
         setShowShareComponent(true);
     }
 
-    const handleDeleteBlog = async (e, id) => {
-        console.log("delete clicked", id);
-        e.stopPropagation();
-        if (window.confirm("Are you sure you want to delete this Blog?")) {
-            const res = await sendRequest({
-                url: `${import.meta.env.VITE_BACKEND_DOMAIN}/blogs/delete`,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json', // Specify that you are sending JSON data
-                },
-                body: JSON.stringify({
-                    blogId: id,
-                    username: profileData.setting_institution
-                })
-            });
-        
-            if (res.message === 'Blog deleted successfully') {
-              window.location.reload();
-            } else {
-              alert("Delete Unsuccessful");
-            }
+    const handleDeleteBlog = async () => {
+        const res = await sendRequest({
+            url: `${import.meta.env.VITE_BACKEND_DOMAIN}/blogs/delete`,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // Specify that you are sending JSON data
+            },
+            body: JSON.stringify({
+                blogId: selectedId,
+                username: profileData.setting_institution
+            })
+        });
+    
+        if (res.message === 'Blog deleted successfully') {
+            handleCloseModal();
+            showSnackbar('Blog Deleted Successfully', 'success');
+            window.location.reload();
+        } else {
+            showSnackbar('Delete Unsuccessful', 'error');   
         }
     }
 
     return (
         <>
-            {showShareComponent && <SocialMediaShare type={"Blog"} id={`blog/${blogId}`} setClose={closeShareComponent} />}
+            <SnackbarComponent />
+            <CustomModal
+                handleOpen={handleOpenModal}
+                handleClose={handleCloseModal}
+                content = {
+                    <Fragment>
+                        <div className="modal-content">
+                            <center>
+                                <h1>Delete This Blog?</h1>
+                                <h3>Are you sure to delete this Blog?</h3>
+                                <div className="modal-button">
+                                    <Button
+                                    sx={{
+                                        height: "80px",
+                                        background: "#FF7A00",
+                                        border: "1px solid #FF7A00",
+                                        width: "280px",
+                                        borderRadius: "10px",
+                                        "&:hover": {
+                                        background: "#FF7A00",
+                                        },
+                                        color: "#fff",
+                                        fontSize: "18px",
+                                        fontWeight: "bold",
+                                    }}
+                                    onClick={(e) => {
+                                        handleDeleteBlog();
+                                    }}
+                                    disabled={isLoading}
+                                    >
+                                        Confirm
+                                    </Button>
+                                    <Button
+                                    sx={{
+                                        height: "80px",
+                                        border: "1px solid #000",
+                                        width: "280px",
+                                        borderRadius: "10px",
+                                        fontSize: "18px",
+                                        fontWeight: "bold",
+                                        color: "#000",
+                                    }}
+                                    onClick={handleCloseModal}
+                                    disabled={isLoading}
+                                    >
+                                    Cancel
+                                    </Button>
+                                </div>
+                            </center>
+                        </div>
+                    </Fragment>
+                }
+            />
             <section className={styles['content']}>
                 <div className={styles['grid2']}>
                     {loading ? (
@@ -138,7 +195,11 @@ const BlogCards = () => {
                                                     <ShareIcon/>
                                                 </IconButton>
                                             </Stack>
-                                            <Stack direction="row" alignItems="center" margin={'0 20px'} onClick={(e) => handleDeleteBlog(e, blog.blog_id)}>
+                                            <Stack direction="row" alignItems="center" margin={'0 20px'} onClick={(e) => {
+                                                e.stopPropagation();
+                                                setSelectedID(blog.blog_id);
+                                                handleOpenModal();
+                                            }}>
                                                 <IconButton aria-label="delete" size="large">
                                                     <DeleteIcon />
                                                 </IconButton>

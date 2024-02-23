@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import styles from './EventCard.module.css'
 import useLoadProfile from '../../hooks/useLoadProfile'
 import useAccessToken from '../../hooks/useAccessToken'
@@ -14,7 +14,12 @@ import Skeleton from '@mui/material/Skeleton';
 import Moment from 'react-moment';
 import moment from 'moment/moment'
 import 'moment-timezone';
-import useHttp from '../../hooks/http-hook'
+import useHttp from '../../hooks/http-hook';
+
+import { Button } from '@mui/material'
+
+import useCustomSnackbar from '../../hooks/useCustomSnackbar'
+import useCustomModal from '../../hooks/useCustomModal';
 
 const Events = () => {
     const [events, setEvents] = useState([])
@@ -22,7 +27,11 @@ const Events = () => {
     const accessToken = useAccessToken()
     const [imageSrc, setImageSrc] = useState()
     const [loading, setLoading] = useState(true);
+    const [selectedId, setSelectedID] = useState();
     const navigate = useNavigate();
+
+    const { handleClose, handleOpen, CustomModal } = useCustomModal();
+    const { showSnackbar, SnackbarComponent } = useCustomSnackbar();
     const {sendRequest, isLoading} = useHttp();
 
     useEffect(() => {
@@ -64,8 +73,7 @@ const Events = () => {
     }, [profileData, accessToken]);
 
     const handleDeleteEvent = async (id, e) => {
-        e.stopPropagation();
-        if (window.confirm("Are you sure you want to delete this Event?")) {
+          handleClose();
           const res = await sendRequest({
             url: `${import.meta.env.VITE_BACKEND_DOMAIN}/events/delete`,
             method: 'POST',
@@ -79,12 +87,12 @@ const Events = () => {
           });
       
           if (res.message === 'Event deleted successfully') {
+            showSnackbar('Event Deleted Successfully', 'success');
             window.location.reload();
           } else {
-            alert("Delete Unsuccessful");
+            showSnackbar('Delete Unsuccessful', 'error');
           }
-        }
-      } 
+    }
 
       const handleShowNoDataMessage = (hasData) => {
         // Display "No data yet" message when there are no events
@@ -103,6 +111,59 @@ const Events = () => {
 
     return (
         <>
+            <SnackbarComponent />
+            <CustomModal
+                handleOpen={handleOpen}
+                handleClose={handleClose}
+                content = {
+                    <Fragment>
+                        <center>
+                            <div className="modal-content">
+                                <h1>Delete This Event?</h1>
+                                <h3>Are you sure to delete this Event?</h3>
+                                <div className="modal-button">
+                                    <Button
+                                    sx={{
+                                        height: "80px",
+                                        background: "#FF7A00",
+                                        border: "1px solid #FF7A00",
+                                        width: "280px",
+                                        borderRadius: "10px",
+                                        "&:hover": {
+                                        background: "#FF7A00",
+                                        },
+                                        color: "#fff",
+                                        fontSize: "18px",
+                                        fontWeight: "bold",
+                                    }}
+                                    onClick={(e) => {
+                                        handleDeleteEvent(selectedId, e);
+                                    }}
+                                    disabled={isLoading}
+                                    >
+                                        Confirm
+                                    </Button>
+                                    <Button
+                                    sx={{
+                                        height: "80px",
+                                        border: "1px solid #000",
+                                        width: "280px",
+                                        borderRadius: "10px",
+                                        fontSize: "18px",
+                                        fontWeight: "bold",
+                                        color: "#000",
+                                    }}
+                                    onClick={handleClose}
+                                    disabled={isLoading}
+                                    >
+                                    Cancel
+                                    </Button>
+                                </div>
+                            </div>
+                        </center>
+                    </Fragment>
+                }
+            />
             <section className={styles['content']}>
                 <div className={styles['grid']}>
                 {loading ? (
@@ -157,7 +218,11 @@ const Events = () => {
                                         <p>{profileData.setting_institution}</p>
                                     </div>
                                 </div>
-                                <Stack direction="row" alignItems="center" margin={'0 20px'} onClick={(e) => handleDeleteEvent(event.event_id, e)}>
+                                <Stack direction="row" alignItems="center" margin={'0 20px'} onClick={(e) => {
+                                    e.stopPropagation();
+                                    setSelectedID(event.event_id);
+                                    handleOpen();
+                                }}>
                                     <IconButton aria-label="delete" size="large">
                                         <DeleteIcon />
                                     </IconButton>
