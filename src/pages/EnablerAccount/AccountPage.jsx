@@ -32,7 +32,7 @@ function AccountPage() {
   useEffect(() => {
       const loadHeadingData = async () => {
           if (profileData) {
-              const result = await profileData;
+              const result =  profileData;
               setData(result)
           }
       }

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import YoutubeEmbed from '../YoutubeEmbed/YoutubeEmbed'
+import styles from './Sortable.module.css';
 
 import { DragIndicator } from '@mui/icons-material';
 
@@ -17,6 +18,28 @@ export function Sortable(props) {
     transform,
     transition
   } = useSortable({ id: props.id});
+
+  const saveElement = () => {
+    setEditingElementId(null);
+    const foundElement = allElements.find((ele) => ele.id === elements.id);
+
+    const index = allElements.indexOf(foundElement);
+
+    let targetElement = [...allElements]
+    targetElement[index].content = contentRef.current.innerHTML; // Update the content using innerHTML
+
+    setElements(targetElement);
+};
+
+
+  // useEffect(() => {
+  //   // Resize the textarea to fit the content
+  //   if (contentRef.current) {
+  //     contentRef.current.style.height = 'auto';
+  //     contentRef.current.style.height = `${contentRef.current.scrollHeight}px`;
+  //     contentRef.current.style.width = `${contentRef.current.scrollWidth}px`;
+  //   }
+  // }, [content]);
 
   const fixedSizedStyle = {
     width: '100%', // Set the width to your desired value
@@ -38,20 +61,20 @@ export function Sortable(props) {
     transition
   };
 
-  const handleSaveElement = () => {
-    setContent(contentRef.current.value)
-    setEditingElementId(null);
-    const foundElement = allElements.find((ele) => ele.id === elements.id);
+  // const handleSaveElement = () => {
+  //   setContent(contentRef.current.value)
+  //   setEditingElementId(null);
+  //   const foundElement = allElements.find((ele) => ele.id === elements.id);
 
-    const index = allElements.indexOf(foundElement);
+  //   const index = allElements.indexOf(foundElement);
 
-    let targetElement = [...allElements]
-    targetElement[index].content = contentRef.current.value
+  //   let targetElement = [...allElements]
+  //   targetElement[index].content = contentRef.current.value
 
-    console.log(targetElement)
+  //   console.log(targetElement)
 
-    setElements(targetElement);
-  };
+  //   setElements(targetElement);
+  // };
 
   const handleDiscard = () => {
     setEditingElementId(null);
@@ -65,15 +88,7 @@ export function Sortable(props) {
         </div>
       </div>
       <div className="content-container">
-        {editingId === elements.id ? 
-          <>
-            <input defaultValue={content} ref={contentRef} />
-            <button onClick={handleSaveElement}>Save</button>
-            <button onClick={handleDiscard}>Discard</button>
-          </> : 
-          <div dangerouslySetInnerHTML={{ __html: `<${elements.type} ${elements.attributes}>${content}</${elements.type}>` }} />
-        }
-        
+          <div contentEditable={true} onInput={saveElement} ref={contentRef} dangerouslySetInnerHTML={{ __html: `<${elements.type} ${elements.attributes}>${content}</${elements.type}>` }} />
       </div>
     </div>
   );

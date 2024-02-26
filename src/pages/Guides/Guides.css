@@ -205,8 +205,8 @@ Link {
   
 .delete-button {
     position: absolute;
-    top: 55px;
-    right: -50px; /* Adjust the right offset as needed */
+    top: 60px;
+    left: -25px; /* Adjust the right offset as needed */
     cursor: pointer;
     background-color: #ed7b8e;
     border-radius: 5px;

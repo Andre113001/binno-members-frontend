@@ -35,8 +35,9 @@ const Login = () => {
   const [overallError, setOverallError] = useState(false);
   const [attemptCount, setAttemptCount] = useState(0); // Initialize attempt count
   const [otpCompleted, setOtpCompleted] = useState(false);
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { sendRequest, isLoading } = useHttp();
+  const [ password, setPassword ] = useState();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
