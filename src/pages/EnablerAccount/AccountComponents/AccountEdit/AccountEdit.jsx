@@ -7,15 +7,16 @@ import useLoadProfile from "../../../../hooks/useLoadProfile";
 
 import CameraAltRoundedIcon from '@mui/icons-material/CameraAltRounded';
 import useHttp from "../../../../hooks/http-hook";
+import useCustomSnackbar from "../../../../hooks/useCustomSnackbar";
 import axios from "axios";
 
 import { fetchImage } from "../../../../hooks/image-hook";
 
 function AccountEdit(props) {
     const [uploadedFileCover, setUploadedFileCover] = useState()
-    const [uploadErrorCover, setUploadErrorCover] = useState(null)
+    // const [uploadErrorCover, setUploadErrorCover] = useState(null)
     const [uploadedFileProfile, setUploadedFileProfile] = useState()
-    const [uploadErrorProfile, setUploadErrorProfile] = useState(null)
+    // const [uploadErrorProfile, setUploadErrorProfile] = useState(null)
     const fileRefCover = useRef();
     const fileRefProfile = useRef();
     const { sendRequest, isLoading } = useHttp();
@@ -24,6 +25,7 @@ function AccountEdit(props) {
     const [profilePic, setProfilePic] = useState();
     const [coverPic, setCoverPic] = useState();
     const [loading, setLoading] = useState(true);
+    const { handleClose, showSnackbar, SnackbarComponent } = useCustomSnackbar();
 
     useEffect(() => {
         const loadData = async () => {
@@ -51,19 +53,16 @@ function AccountEdit(props) {
         const isImage = file.type.split('/')[0] === 'image' ?? false
 
         if (!isImage) {
-            setUploadError('The uploaded file is not a valid image.')
+            showSnackbar('The uploaded file is not a valid image.', 'warning');
             return
         }
 
         if (!checkFileSize(file)) {
-            setUploadError(
-                'The image size exceeds the maximum allowed size of 5 MB.'
-            )
+            showSnackbar('The image size exceeds the maximum allowed size of 5 MB.', 'warning');
             return
         }
 
         setUploadedFileCover(file)
-        setUploadErrorCover(null)
         
         try {
             const fileAsbase64 = await readFileAsBase64(file);
@@ -85,10 +84,14 @@ function AccountEdit(props) {
             if (res.data.result === true) {
                 const res2 = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/members/update-profile-cover`, requestData2)
 
-                console.log(res2.data);
+                if (res2.data === 'Cover Pic Updated') {
+                    showSnackbar("Cover Photo Updated", "success");
+                } else {
+                    showSnackbar("Error Updating Cover Photo", "error");
+                }
             }
         } catch (error) {
-            console.log('error: ', error);
+            showSnackbar("Error Updating Cover Photo", "error");
         }
 
 
@@ -110,28 +113,25 @@ function AccountEdit(props) {
         const isImage = file.type.split('/')[0] === 'image' ?? false
 
         if (!isImage) {
-            setUploadError('The uploaded file is not a valid image.')
+            showSnackbar('The uploaded file is not a valid image.', 'warning');
             return
         }
 
         if (!checkFileSize(file)) {
-            setUploadError(
-                'The image size exceeds the maximum allowed size of 5 MB.'
-            )
+            showSnackbar('The image size exceeds the maximum allowed size of 5 MB.', 'warning');
             return
         }
 
         // const res = await 
 
         setUploadedFileProfile(file)
-        setUploadErrorProfile(null)
+        // setUploadErrorProfile(null)
         
         try {
             const fileAsbase64 = await readFileAsBase64(file);
             const requestData = {
                 image: fileAsbase64
             }
-            
             const res = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/images/update?filePath=profile-img/${profileData.setting_profilepic}`, requestData, {
                 headers: {
                     'Content-Type': 'multipart/form-data', // Set Content-Type for file uploads
@@ -145,8 +145,11 @@ function AccountEdit(props) {
 
             if (res.data.result === true) {
                 const res2 = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/members/update-profile-img`, requestData2)
-
-                console.log(res2.data);
+                if (res2.data === "Profile Pic Updated") {
+                    showSnackbar("Profile Photo Updated", "success");
+                } else {
+                    showSnackbar("Error Updating Profile Photo", "error");
+                }
             }
         } catch (error) {
             console.log('error: ', error);
@@ -158,9 +161,7 @@ function AccountEdit(props) {
         const fileSizeInMB = file.size / (1024 * 1024)
 
         if (fileSizeInMB > 5) {
-            setUploadError(
-                'The file size is too large. Please upload a file that is smaller than 5MB.'
-            )
+            showSnackbar('The file size is too large. Please upload a file that is smaller than 5MB.', 'error');
             return false
         }
 
@@ -169,6 +170,7 @@ function AccountEdit(props) {
     
     return (
     <>
+        <SnackbarComponent />
         <div className={styles["Header"]}>
             <div className={styles["profileCoverImage"]}>
                 {loading ? (
@@ -178,7 +180,7 @@ function AccountEdit(props) {
                         ) : (
                             <img src={uploadedFileCover ? URL.createObjectURL(uploadedFileCover) : coverPic} className={styles["coverPhoto"]} alt="Cover Photo" />
                     )}
-                        <button onClick={() => fileRefCover.current.click()} className={styles["CoverButton"]}><CameraAltRoundedIcon />⠀Edit Cover Photo
+                            <button onClick={() => fileRefCover.current.click()} className={styles["CoverButton"]}><CameraAltRoundedIcon />⠀Edit Cover Photo
                                 </button>
                             <input
                                     ref={fileRefCover}

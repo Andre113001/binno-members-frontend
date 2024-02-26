@@ -285,7 +285,6 @@ const GuideElements = (props) => {
         setEditingTitle(!editingTitle);
     }
 
-
     return (
         <div>
             <Snackbar
@@ -371,7 +370,7 @@ const GuideElements = (props) => {
                             </div>
                         ) : (
                             <>
-                                <h1>{pageDetail.program_pages_title}</h1>
+                                <h1 contentEditable={true}>{pageDetail.program_pages_title}</h1>
                                 <Button onClick={handleToggleEditTitle}>Edit</Button>
                             </>
                         )} {/* Toggle editing mode button */}
@@ -419,7 +418,8 @@ const GuideElements = (props) => {
                     >
                         {elements?.map((element) => (
                             <div className='sortable' key={element.id}>
-                                <Sortable id={element.id}
+                                <Sortable
+                                    id={element.id}
                                     editingId={editingElementId}
                                     elements={element}
                                     editMode={handleEditElement} // Pass the editing function
@@ -427,9 +427,9 @@ const GuideElements = (props) => {
                                     setElements={setElements}
                                     allElements={elements}
                                 />
-                                <div className={`edit-button${isDragging ? ' hidden' : ''}`} onClick={() => handleEditElement(element.id)}>
+                                {/* <div className={`edit-button${isDragging ? ' hidden' : ''}`} onClick={() => handleEditElement(element.id)}>
                                     <EditOutlined />
-                                </div>
+                                </div> */}
                                 <div className={`delete-button${isDragging ? ' hidden' : ''}`} onClick={() => handleDeleteElement(element.id)}>
                                     <DeleteOutline />
                                 </div>

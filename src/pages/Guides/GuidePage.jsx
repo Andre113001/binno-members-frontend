@@ -11,6 +11,7 @@ import { AddPhotoAlternateOutlined } from '@mui/icons-material'
 import { Chip, styled, Button, Alert, Snackbar } from '@mui/material'
 import useHttp from '../../hooks/http-hook'
 import axios from 'axios'
+import useCustomSnackbar from '../../hooks/useCustomSnackbar'
 
 
 import './Guides.css'
@@ -26,6 +27,7 @@ const GuidePage = () => {
     const [snackbarOpen, setSnackbarOpen] = useState(false); // State for managing Snackbar open/close
     const [snackbarMessage, setSnackbarMessage] = useState(''); // State for managing Snackbar message
     const [snackbarStatus, setSnackbarStatus] = useState('error');
+    const { showSnackbar, SnackbarComponent } = useCustomSnackbar();
     
     const [backgroundImage, setBackgroundImage] = useState(
         'https://www.givenow.com.au/img/default-cover.png'
@@ -108,7 +110,11 @@ const GuidePage = () => {
         if (res.data.result === true) {
             const res2 = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN}/programs/change_img`, requestData2)
 
-            console.log(res2.data);
+            if (res2.data) {
+                showSnackbar("Guide Cover Image Changed Sucessfully!", "success");
+            } else {
+                showSnackbar("Unable to change Guide Cover Image!", "error");
+            }
         }
     }
     
@@ -148,6 +154,7 @@ const GuidePage = () => {
 
     return (
         <div>
+            <SnackbarComponent />
             <Snackbar
                 anchorOrigin={{
                     vertical: 'top',
