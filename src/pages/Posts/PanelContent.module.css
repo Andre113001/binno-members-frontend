@@ -77,3 +77,29 @@
     margin: 0 10px;
     color: #575757;
 }
+
+.PinnedPostCotainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.PinnedPostContent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 700px;
+    min-width: 690px;
+    max-height: 720px;
+    margin: 20px;
+    box-shadow: 0px 0px 8px rgba(0 ,0 ,0 , 0.25);
+    border-radius: 10px;
+}
+
+
+.contentDetail{
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}

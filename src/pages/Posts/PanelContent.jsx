@@ -86,6 +86,84 @@ function PanelContent(props) {
 
   return (
     <>
+      {pinnedPosts.map((pinnedPostId) => {
+        const pinnedPost = filteredPosts.find(
+          (post) => post.post_id === pinnedPostId
+        );
+        return (
+          pinnedPost && (
+            <div className={styles["PinnedPostCotainer"]}>
+              <div
+                key={pinnedPost.post_id}
+                className={styles["PinnedPostContent"]}
+              >
+                <div className={styles["titleImageContainer"]}>
+                  <img
+                    src={
+                      pinnedPost.postPic &&
+                      URL.createObjectURL(pinnedPost.postPic)
+                    }
+                    alt=""
+                  />
+                </div>
+                <div className={styles["contentDetail"]}>
+                  <div className={styles["ShareCategoryContainer"]}>
+                    <div className={styles["ChipsContainer"]}>
+                      <Stack direction="row">
+                        <Chip
+                          label={pinnedPost.post_category}
+                          sx={{
+                            backgroundColor:
+                              pinnedPost.post_category === "Milestone"
+                                ? "#fd7c06"
+                                : "#054eae",
+                            color: "#fff",
+                            padding: "5px",
+                          }}
+                        />
+                      </Stack>
+                      <Stack direction="row" alignItems="center">
+                        <IconButton size="medium">
+                          <PushPinRoundedIcon sx={{ color: "#FF7A00" }} />
+                        </IconButton>
+                        <p>Pinned Post</p>
+                      </Stack>
+                    </div>
+                    {/* Add other actions/buttons as needed */}
+                  </div>
+                  <div className={styles["contentHeading"]}>
+                    <div className={styles["titleContainer"]}>
+                      <h2>{pinnedPost.post_heading}</h2>
+                    </div>
+                    <p>
+                      <Moment format="MMMM DD, YYYY">
+                        {pinnedPost.post_dateadded}
+                      </Moment>
+                    </p>
+                  </div>
+                  <p>
+                    {pinnedPost.post_bodytext.split(" ").slice(0, 50).join(" ")}
+                    <span style={{ color: "#fd7c06" }}>
+                      {pinnedPost.post_bodytext.split(" ").length > 50
+                        ? "... See More"
+                        : ""}
+                    </span>
+                  </p>
+                  <div className={styles["contentFooter"]}>
+                    <div className={styles["PostUserProfile"]}>
+                      <img
+                        src={URL.createObjectURL(pinnedPost.profilePic)}
+                        alt="User Profile"
+                      />
+                      <h2>{pinnedPost.author}</h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )
+        );
+      })}
       <SnackbarComponent />
       {showShareComponent && (
         <SocialMediaShare
@@ -101,110 +179,112 @@ function PanelContent(props) {
           pinPost(post.post_id);
           //   window.location.reload();
         };
+        if (!pinnedPosts.includes(post.post_id)) {
+          return (
+            <div className={styles["PostContent"]} key={post.post_id}>
+              <div
+                className={styles["PostCards"]}
+                style={{ cursor: "pointer" }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate(`/posts/${post.post_id}`, {
+                    state: {
+                      post,
+                    },
+                  });
+                }}
+              >
+                <div className={styles["titleImageContainer"]}>
+                  <img
+                    src={post.postPic && URL.createObjectURL(post.postPic)}
+                    alt=""
+                  />
+                </div>
 
-        return (
-          <div className={styles["PostContent"]} key={post.post_id}>
-            <div
-              className={styles["PostCards"]}
-              style={{ cursor: "pointer" }}
-              onClick={(e) => {
-                e.preventDefault();
-                navigate(`/posts/${post.post_id}`, {
-                  state: {
-                    post,
-                  },
-                });
-              }}
-            >
-              <div className={styles["titleImageContainer"]}>
-                <img
-                  src={post.postPic && URL.createObjectURL(post.postPic)}
-                  alt=""
-                />
-              </div>
-
-              <div className={styles["contentDetail"]}>
-                <div className={styles["ShareCategoryContainer"]}>
-                  <div className={styles["ChipsContiner"]}>
-                    <Stack direction="row">
-                      <Chip
-                        label={post.post_category}
-                        sx={{
-                          backgroundColor:
-                            post.post_category === "Milestone"
-                              ? "#fd7c06"
-                              : "#054eae",
-                          color: "#fff",
-                          padding: "5px",
-                        }}
-                      />
+                <div className={styles["contentDetail"]}>
+                  <div className={styles["ShareCategoryContainer"]}>
+                    <div className={styles["ChipsContiner"]}>
+                      <Stack direction="row">
+                        <Chip
+                          label={post.post_category}
+                          sx={{
+                            backgroundColor:
+                              post.post_category === "Milestone"
+                                ? "#fd7c06"
+                                : "#054eae",
+                            color: "#fff",
+                            padding: "5px",
+                          }}
+                        />
+                      </Stack>
+                    </div>
+                    <Stack
+                      direction="row"
+                      alignItems="center"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedID(post.post_id);
+                        handleOpenModal();
+                      }}
+                    >
+                      <IconButton size="medium">
+                        <Delete />
+                      </IconButton>
+                    </Stack>
+                    <Stack
+                      direction="row"
+                      alignItems="center"
+                      onClick={handlePinClick}
+                    >
+                      <IconButton size="medium">
+                        <PushPinRoundedIcon
+                          style={{ color: isPinned ? "#FF7A00" : "" }}
+                        />
+                      </IconButton>
+                    </Stack>
+                    <Stack
+                      direction="row"
+                      alignItems="center"
+                      onClick={(e) => showShare(e, post.post_id)}
+                    >
+                      <IconButton size="medium">
+                        <ShareIcon />
+                      </IconButton>
                     </Stack>
                   </div>
-                  <Stack
-                    direction="row"
-                    alignItems="center"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedID(post.post_id);
-                      handleOpenModal();
-                    }}
-                  >
-                    <IconButton size="medium">
-                      <Delete />
-                    </IconButton>
-                  </Stack>
-                  <Stack
-                    direction="row"
-                    alignItems="center"
-                    onClick={handlePinClick}
-                  >
-                    <IconButton size="medium">
-                      <PushPinRoundedIcon
-                        style={{ color: isPinned ? "#FF7A00" : "" }}
-                      />
-                    </IconButton>
-                  </Stack>
-                  <Stack
-                    direction="row"
-                    alignItems="center"
-                    onClick={(e) => showShare(e, post.post_id)}
-                  >
-                    <IconButton size="medium">
-                      <ShareIcon />
-                    </IconButton>
-                  </Stack>
-                </div>
-                <div className={styles["contentHeading"]}>
-                  <div className={styles["titleContainer"]}>
-                    <h2>{post.post_heading}</h2>
+                  <div className={styles["contentHeading"]}>
+                    <div className={styles["titleContainer"]}>
+                      <h2>{post.post_heading}</h2>
+                    </div>
+                    <p>
+                      <Moment format="MMMM DD, YYYY">
+                        {post.post_dateadded}
+                      </Moment>
+                    </p>
                   </div>
                   <p>
-                    <Moment format="MMMM DD, YYYY">
-                      {post.post_dateadded}
-                    </Moment>
+                    {post.post_bodytext.split(" ").slice(0, 50).join(" ")}
+                    <span style={{ color: "#fd7c06" }}>
+                      {post.post_bodytext.split(" ").length > 50
+                        ? "... See More"
+                        : ""}
+                    </span>
                   </p>
-                </div>
-                <p>
-                  {post.post_bodytext.split(" ").slice(0, 50).join(" ")}
-                  <span style={{ color: "#fd7c06" }}>
-                    {post.post_bodytext.split(" ").length > 50
-                      ? "... See More"
-                      : ""}
-                  </span>
-                </p>
-                <div className={styles["contentFooter"]}>
-                  <div className={styles["PostUserProfile"]}>
-                    <img
-                      src={URL.createObjectURL(post.profilePic)}
-                      alt="User Profile"
-                    />
-                    <h2>{post.author}</h2>
+                  <div className={styles["contentFooter"]}>
+                    <div className={styles["PostUserProfile"]}>
+                      <img
+                        src={URL.createObjectURL(post.profilePic)}
+                        alt="User Profile"
+                      />
+                      <h2>{post.author}</h2>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        );
+          );
+        }
+        return null;
       })}
       <CustomModal
         handleOpen={handleOpenModal}
