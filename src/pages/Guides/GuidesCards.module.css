@@ -45,7 +45,9 @@
     align-items: center;
     width: 1;
     color: black;
-    margin: 0;
+    margin: 10px;
+    width: 100%;
+    max-width: 700px;
 }
 
 .TitleDateContainer{
