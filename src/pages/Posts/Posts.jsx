@@ -14,6 +14,8 @@ import useLoadProfile from '../../hooks/useLoadProfile';
 import useAccessToken from '../../hooks/useAccessToken';
 import { fetchImage } from '../../hooks/image-hook.js';
 
+import { CircularProgress } from '@mui/material'
+
 
 
 const Posts = () => {
@@ -113,10 +115,14 @@ const Posts = () => {
                       handleDeletePost={handleDeletePost}
                     />
                   ) : (
-                    <p>No posts</p>
+                    <div className={styles['partial']}> 
+                      <h3>No posts</h3>
+                    </div>
                   )
                 ) : (
-                  <p>Loading...</p>
+                  <div className={styles['partial']}> 
+                    <CircularProgress />
+                  </div>
                 )}
               </TabPanel>
               <TabPanel value={value} index={1}>
@@ -126,12 +132,16 @@ const Posts = () => {
                       filteredPosts={posts.filter((post) => post.post_category === 'Milestone')} 
                       handleDeletePost={handleDeletePost}
                     />
+                    ) : (
+                      <div className={styles['partial']}> 
+                        <h3>No posts</h3>
+                      </div>
+                    )
                   ) : (
-                    <p>No posts</p>
-                  )
-                ) : (
-                  <p>Loading...</p>
-                )}
+                    <div className={styles['partial']}> 
+                      <CircularProgress />
+                    </div>
+                  )}
               </TabPanel>
               <TabPanel value={value} index={2}>
                 {dataLoaded ? (
@@ -140,12 +150,16 @@ const Posts = () => {
                       filteredPosts={posts.filter((post) => post.post_category === 'Promotion')} 
                       handleDeletePost={handleDeletePost}
                     />
+                    ) : (
+                      <div className={styles['partial']}> 
+                        <h3>No posts</h3>
+                      </div>
+                    )
                   ) : (
-                    <p>No posts</p>
-                  )
-                ) : (
-                  <p>Loading...</p>
-                )}
+                    <div className={styles['partial']}> 
+                      <CircularProgress />
+                    </div>
+                  )}
               </TabPanel>
             </div>
           </div>
