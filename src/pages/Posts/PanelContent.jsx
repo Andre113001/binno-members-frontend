@@ -201,8 +201,8 @@ function PanelContent(props) {
       <SnackbarComponent />
       {showShareComponent && (
         <SocialMediaShare
-          type={"Blog"}
-          id={`blog/${postId}`}
+          type={"Post"}
+          id={`/posts-view.php?post_id=${postId}`}
           setClose={closeShareComponent}
         />
       )}
