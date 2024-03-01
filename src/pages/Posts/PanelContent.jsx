@@ -27,10 +27,25 @@ function PanelContent(props) {
   const [showShareComponent, setShowShareComponent] = useState(false);
   const [postId, setPostId] = useState();
   const [selectedId, setSelectedID] = useState();
-  const [pinnedPosts, setPinnedPosts] = useState(() => {
-    const storedPinnedPosts = localStorage.getItem("pinnedPosts");
-    return storedPinnedPosts ? JSON.parse(storedPinnedPosts) : [];
-  });
+  const [pinnedPosts, setPinnedPosts] = useState([]);
+  const [pinnedContent, setPinnedContent] = useState();
+
+  useEffect(() => {
+    const fetchPinnedPosts = async () => {
+      try {
+        const storedPinnedPosts = await sendRequest({
+          url: `${import.meta.env.VITE_BACKEND_DOMAIN}/posts/pin/get`
+        })
+        
+        // console.log('storedPinnedPosts: ', storedPinnedPosts);
+        setPinnedPosts([storedPinnedPosts.post_id]);
+      } catch (error) {
+        console.error('Error fetching pinned posts:', error);
+      }
+    }
+
+    fetchPinnedPosts();
+  }, [])
 
   const {
     handleClose: handleCloseModal,
@@ -76,26 +91,45 @@ function PanelContent(props) {
     setPinnedPosts(pinnedPosts.filter((post) => post !== selectedId));
   };
 
-  const pinPost = (postId) => {
+  const pinPost = async (postId) => {
     setPinnedPosts([postId]);
+    await sendRequest({
+      url: `${import.meta.env.VITE_BACKEND_DOMAIN}/posts/pin`,
+      method: 'POST',
+      body: JSON.stringify({
+        postId: postId
+      })
+    })
+  
+    // console.log(res);
+
   };
 
-  useEffect(() => {
-    localStorage.setItem("pinnedPosts", JSON.stringify(pinnedPosts));
-  }, [pinnedPosts]);
+  // useEffect(() => {
+  //   setPinnedPosts([JSON.stringify(pinnedPosts)]);
+  // }, [pinnedPosts]);
 
   return (
     <>
-      {pinnedPosts.map((pinnedPostId) => {
+    {pinnedPosts.map((pinnedPostId, index) => {
         const pinnedPost = filteredPosts.find(
           (post) => post.post_id === pinnedPostId
         );
         return (
           pinnedPost && (
-            <div className={styles["PinnedPostCotainer"]}>
+            <div className={styles["PinnedPostCotainer"]} key={index}>
               <div
-                key={pinnedPost.post_id}
                 className={styles["PinnedPostContent"]}
+                style={{ cursor: "pointer" }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate(`/posts/${pinnedPost.post_id}`, {
+                    state: {
+                      post: pinnedPost,
+                    },
+                  });
+                }}
+               
               >
                 <div className={styles["titleImageContainer"]}>
                   <img
@@ -167,12 +201,12 @@ function PanelContent(props) {
       <SnackbarComponent />
       {showShareComponent && (
         <SocialMediaShare
-          type={"Blog"}
-          id={`blog/${postId}`}
+          type={"Post"}
+          id={`/posts-view.php?post_id=${postId}`}
           setClose={closeShareComponent}
         />
       )}
-      {filteredPosts?.map((post, index) => {
+      {filteredPosts.map((post, index) => {
         const isPinned = pinnedPosts.includes(post.post_id);
         const handlePinClick = (e) => {
           e.stopPropagation();

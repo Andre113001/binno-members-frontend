@@ -29,3 +29,9 @@
   align-items: center;
   flex: 1;
 }
+
+.partial {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

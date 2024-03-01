@@ -9,7 +9,7 @@ import {
 } from '@mui/icons-material';
 
 const SocialMediaShare = ({ id, type, setClose }) => {
-    const url = `www.binnostartup.site/${id}`;
+    const url = `https://binnostartup.site${id}`;
     console.log(url);
 
     const handleClose = () => {
