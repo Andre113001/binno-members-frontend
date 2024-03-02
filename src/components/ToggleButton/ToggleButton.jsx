@@ -29,8 +29,15 @@ export default function StyledToggleButton(props) {
       onChange={handleChange}
       aria-label="Platform"
     >
-      {/* wag na po galawin */}
-      <ToggleButton value={"Company"}>
+      <ToggleButton
+        value={"Company"}
+        sx={{
+          "&.Mui-selected": {
+            backgroundColor: "#5aaed5", 
+            fontWeight: "bold",
+          },
+        }}
+      >
         <Link
           to={{ pathname: "/register", state: { page: "0" } }}
           style={{ textDecoration: "none", color: "black" }}
@@ -38,7 +45,15 @@ export default function StyledToggleButton(props) {
           Start-up Company
         </Link>
       </ToggleButton>
-      <ToggleButton value={"Enabler"}>
+      <ToggleButton
+        value={"Enabler"}
+        sx={{
+          "&.Mui-selected": {
+            backgroundColor: "#5aaed5",
+            fontWeight: "bold",
+          },
+        }}
+      >
         <Link
           to={{ pathname: "/register/enabler", state: { page: "1" } }}
           style={{ textDecoration: "none", color: "black" }}

@@ -16,6 +16,7 @@ function EnablerRegForm() {
     const dropdownRef = useRef();
     const navigate = useNavigate();
 
+    const [error, setError] = useState("");
 
     const [formData, setFormData] = useState({
         institution: '',
@@ -61,35 +62,45 @@ function EnablerRegForm() {
           ...prevData,
           [name]: value,
         }));
+        setError("")
       };
 
-    const handleSubmit = async (e) => {
+      const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Form submitted with data:', formData);
         try {
-            const res = await sendRequest({url: `${import.meta.env.VITE_BACKEND_DOMAIN}/register/`, 
-                method: 'POST',
-                body: JSON.stringify(formData)
-            })
-
-            if (res.appId) {
-              console.log(res.appId);
-              console.log(formData);
-              localStorage.setItem("app_id", res.appId);
-              localStorage.setItem("form_info", JSON.stringify(formData));
-              navigate('/register/upload');
-            } else {
-              console.log(res);
-            }
+          // Check if all required fields are filled in
+          if (!formData.institution || !formData.email || !formData.address) {
+            throw new Error("Please fill in all required fields.");
+          }
+      
+          const res = await sendRequest({
+            url: `${import.meta.env.VITE_BACKEND_DOMAIN}/register/`,
+            method: 'POST',
+            body: JSON.stringify(formData)
+          });
+      
+          if (res.appId) {
+            console.log(res.appId);
+            console.log(formData);
+            localStorage.setItem("app_id", res.appId);
+            localStorage.setItem("form_info", JSON.stringify(formData));
+            navigate('/register/upload');
+          } else {
+            console.log(res);
+          }
         } catch (error) {
           console.error('Error:', error.message);
+      
+          // Set error message for display
+          setError(error.message);
       
           // Log more details from the error response if available
           if (error.response) {
             console.error('Error:', error.message);
           }
         }
-      };    
+      };       
 
   return (
     <>
@@ -108,7 +119,7 @@ function EnablerRegForm() {
                         </button> 
                         {isMenuOpen && (
                             <div className="EnablerTypes">
-                                <p onClick={() => {handleOptionClick({short: 'TBI', long: 'Technology Business Incubation'})}}>Technology Business Incubation</p>
+                                <p onClick={() => {handleOptionClick({short: 'TBI', long: 'Technology Business Incubator'})}}>Technology Business Incubation</p>
                                 <p onClick={() => handleOptionClick({short: 'LGU', long: 'Local Government Unit'})}>Local Government Unit</p>
                                 <p onClick={() => handleOptionClick({short: 'SUC', long: 'State Universities and Colleges'})}>State Universities and Colleges</p>
                             </div>
@@ -130,6 +141,7 @@ function EnablerRegForm() {
                                 value={formData.institution} 
                                 required 
                                 name='institution'
+                                error={Boolean(error)}
                                 onChange={handleChange}
                                 style={{width:'100%', borderRadius: '10px', boxShadow: "5px 5px 5px 5px rgb(0 0 0 / 10%)"}}/>
                         </div>
@@ -138,6 +150,7 @@ function EnablerRegForm() {
                                 value={formData.email}
                                 name='email' 
                                 required 
+                                error={Boolean(error)}
                                 onChange={handleChange}
                                 style={{width:'100%', borderRadius: '10px', boxShadow: "5px 5px 5px 5px rgb(0 0 0 / 10%)"}}/>
                             </div>
@@ -146,9 +159,11 @@ function EnablerRegForm() {
                                     value={formData.address} 
                                     name='address'
                                     required 
+                                    error={Boolean(error)}
                                     onChange={handleChange}
                                     style={{width:'100%', borderRadius: '10px', boxShadow: "5px 5px 5px 5px rgb(0 0 0 / 10%)"}}/>
                             </div>
+                            {error && <p style={{ color: "red" }}>{error}</p>}
                         </Box>
                     </div>
                         <div>

@@ -11,6 +11,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import moment from "moment";
 
 export default function NewEventModal() {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -92,8 +93,10 @@ export default function NewEventModal() {
     setEventDate(date);
   };
 
-  const handleTimeChange = (time) => {
-    setEventTime(time);
+  const handleTimeChange = (newTime) => {
+    const formattedTime = moment(newTime.$d).format("HH:mm:ss");
+    console.log(formattedTime);
+    setEventTime(formattedTime);
   };
 
   const handleTitleChange = (event) => {
@@ -189,10 +192,10 @@ export default function NewEventModal() {
                     />
                   </DemoItem>
                   <DemoItem
-                    label={<Label componentName="Time" valueType="time" />}
-                  >
-                    <TimePicker value={eventTime} onChange={handleTimeChange} />
-                  </DemoItem>
+                  label={<Label componentName="Time" valueType="time" />}
+                >
+                  <TimePicker value={eventTime} format="hh:mm:ss" onChange={handleTimeChange} />
+                </DemoItem>
                   <DemoItem
                     label={
                       <Label componentName="Location" valueType="location" />
