@@ -25,6 +25,7 @@ function RegistrationForm() {
         institution: "",
         email: "",
         address: "",
+        type: "Company"
       });
     };
 
@@ -38,11 +39,11 @@ function RegistrationForm() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     // Check if the entered value matches the email regex
-    if (name === "email" && !emailRegex.test(value)) {
-      setError("Please enter a valid email address");
-    } else {
-      setError("");
-    }
+    // if (name === "email" && !emailRegex.test(value)) {
+    //   setError("Please enter a valid email address");
+    // } else {
+    //   setError("");
+    // }
 
     setFormData((prevData) => ({
       ...prevData,
