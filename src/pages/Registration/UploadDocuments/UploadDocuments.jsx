@@ -37,7 +37,7 @@ const UploadDocuments = () => {
     const [uploadSuccess, setUploadSuccess] = useState(false);
     const [ appId, setAppId ] = useState();
     const [ formInfo, setFormInfo ] = useState();
-    const fileTypes = ["JPG", "PNG", "PDF"];
+    const fileTypes = ["PDF"];
     const { sendRequest, isLoading } = useHttp();
     const [toggle, setToggle] = useState(false);
 
