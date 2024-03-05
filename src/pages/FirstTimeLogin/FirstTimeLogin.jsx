@@ -143,7 +143,7 @@ const handleNextClick = async () => {
             Setting Up
           </Typography>
           <Typography>
-            Hi BiNNO, before accessing your account, let's first set up some things
+            Hi, before accessing your account, let's first set up some things
           </Typography>
           <Divider />
         </div>
@@ -233,10 +233,7 @@ const handleNextClick = async () => {
           <>
             <div className="description">
               <Typography fontSize={25} fontWeight="bold">
-                Contact Number (optional)
-              </Typography>
-              <Typography>
-                This is optional, but you may add your contact number
+                Contact Number
               </Typography>
               <MuiTelInput value={contact} defaultCountry="PH" inputProps={{ maxLength: 12 }} forceCallingCode disableDropdown style={{width: '100%'}} onChange={((event) => handleContactChange(event))} />
             </div>
