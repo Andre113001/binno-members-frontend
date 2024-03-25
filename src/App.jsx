@@ -17,8 +17,13 @@ import Dashboard from './pages/Dashboard/Dashboard'
 import Blogs from './pages/Blogs/Blogs'
 import GuideMain from './pages/Guides/GuideMain'
 import GuidePage from './pages/Guides/GuidePage'
+import Register from './pages/Registration/RegisterNew/Register'
+import Upload from './pages/Registration/UploadDocuments/UploadNew/UploadDocuments'
+
 import RegistrationPage from './pages/Registration/registrationPage'
+
 import RegistrationForm from './pages/Registration/RegistrationForm'
+
 import EnablerRegForm from './pages/Registration/EnablerRegForm'
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword'
 import VerifyPassword from './pages/ForgotPassword/VerifyPassword'
@@ -38,7 +43,7 @@ import Testing from './pages/Testing/testing'
 import AccountContext from './context/accountContext'
 import useLoadProfile from './hooks/useLoadProfile'
 import PostEdit from './pages/Posts/PostEditPage/PostEdit'
-import FirstTimeLogin from './pages/FirstTimeLogin/FirstTimeLogin'
+import FirstTimeLogin from './pages/FirstTimeLogin/FirstTimeLoginNew/FirstTimeLogin'
 // import PostEdit from './pages/Posts/PostEditPage/PostEdit';
 
 function App() {
@@ -143,18 +148,19 @@ function App() {
 
                             <Route
                                 path="/register"
-                                element={<RegistrationPage />}
+                                element={<Register />}
                             >
                                 <Route path="" element={<RegistrationForm />} />
                                 <Route
                                     path="enabler"
                                     element={<EnablerRegForm />}
                                 />
-                                <Route
+                                {/* <Route
                                     path="upload"
-                                    element={<UploadDocuments />}
-                                />
+                                    element={<Upload />}
+                                /> */}
                             </Route>
+                            <Route path='/upload' element={<Upload />} />
                             <Route path="/test" element={<Testing />} />
                         </Routes>
                     </div>

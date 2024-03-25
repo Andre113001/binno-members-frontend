@@ -1,0 +1,105 @@
+.setup-main {
+    background-color: #F9F9F9;
+    height: 100%;
+}
+
+.setup-container {
+    display: flex;
+    /* border: 1px solid; */
+    justify-content: center;
+}
+
+.setup-body {
+    /* border: 1px solid; */
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+}
+
+.setup-body > h1 {
+    margin: 0;
+    color: #fe7d07;
+}
+
+.setup-form-cover {
+    position: relative; /* Set position to relative */
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    border-radius: 16px;
+    width: 100%;
+    height: 250px;
+}
+
+.setup-form-profilePic {
+    position: absolute; /* Set position to absolute */
+    top: 35%; /* Position at the center vertically */
+    left: 23%; /* Position at the center horizontally */
+    display: flex;
+    border: #fe7d07 solid 12px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 12px;
+    border-radius: 50%;
+    padding: 20px;
+    background-color: #ffff;
+    width: 100px;
+    height: 100px;
+}
+
+.setup-form-name {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    position: absolute;
+    left: 40rem;
+}
+
+.setup-form-name > h2 {
+    margin: 0;
+}
+
+.setup-form-fields {
+    background-color: #ffff;
+    margin-top: 8rem;
+    padding: 50px;
+    border-radius: 16px;
+
+}
+
+.setup-form-fields > h1 {
+    text-align: center;
+    color: #fe7d07;
+
+}
+
+.text-field-container {
+    display: flex;
+    flex-direction: column; /* Change flex direction to column */
+    gap: 20px;
+}
+
+.field-row {
+    display: flex;
+    flex-direction: row; /* Change flex direction to column */
+    gap: 10px;
+}
+
+.field-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.company-forms { 
+    display: flex;
+    flex-direction: row;
+}
+
+

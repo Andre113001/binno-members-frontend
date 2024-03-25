@@ -1,0 +1,150 @@
+.body {
+    background-color: #F9F9F9;
+    height: 100vh;
+}
+
+.container {
+    width: 80vw;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto; /* Center horizontally */
+}
+
+.header {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.header-heading {
+    font-size: 48px;
+    color: #fe7d07;
+}
+
+.header, p {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.header-logo {
+    width: 20rem;
+    margin: 150px 0 10px 0;
+}
+
+.content-wrapper {
+    margin-top: 20px;
+    width: 80%;
+}
+
+.file-section {
+    display: flex;
+    /* justify-content: space-between; Distribute space between file cards */
+    /* border: 1px solid; */
+    justify-content: center;
+    gap: 50px;
+}
+
+.file-card {
+    /* border: 1px solid; */
+    background: #ffff;
+    display: flex;
+    flex-direction: column;
+    text-align: center; 
+    flex-grow: 1; /* Allow the file card to grow */
+    flex-basis: 0; /* Distribute available space equally */
+    min-width: 250px; /* Set a minimum width */
+    border-radius: 16px;
+    margin: 0; /* Remove the auto margin */
+}
+
+
+.file-heading {
+    font-weight: normal;
+    white-space: wrap;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.file-upload {
+    border: 1px dashed;
+    margin: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+}
+
+.file-upload:hover {
+    cursor: pointer;
+}
+/* 
+.file-upload > input {
+    border: 1px solid
+} */
+
+.file-upload > p {
+    font-size: 12px;
+}
+
+
+.submit-button {
+    margin-top: 20px;
+}
+
+.success-main {
+    margin-top: 50px;
+    background-color: #ffff;
+    padding: 20px;
+    border-radius: 16px;
+    width: 40%;
+}
+
+.success-heading {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.sucesss-main, p {
+    font-size: 24px;
+}
+
+.success-checklist {
+    display: flex;
+    /* border: 1px solid; */
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.success-checklist-items {
+    /* border: 1px solid; */
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    font-size: 24px;
+}
+
+.file-upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed;
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+    height: 100%;
+    margin: 20px;
+  }
+  
+.file-upload-label:hover {
+background-color: #f9f9f9;
+}
+
+.file-upload-label p {
+margin-top: 8px;
+font-size: 14px;
+}
+  
