@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import styles from './informationTab.module.css'
 import useHttp from '../../../../hooks/http-hook';
 
 import FmdGoodRoundedIcon from '@mui/icons-material/FmdGoodRounded';
 import CallRoundedIcon from '@mui/icons-material/CallRounded';
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
-import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
+import { Add } from '@mui/icons-material';
 
-
+import { MenuItem, Select } from '@mui/material'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -19,6 +19,7 @@ function InformationTab(props) {
     description: props.description,
     phone: props.phone
   });
+  const profileData = props.profileData;
   const [bio, setBio] = useState(props.description);
   const [contactNum, setContactNum] = useState(props.phone);
   const [error, setError] = useState('');
@@ -26,96 +27,164 @@ function InformationTab(props) {
 
   const handleDescriptionChange = (event) => {
     setBio(event.target.value);
+    props.setBio(event.target.value);
     setError('');
   };
 
   const handlePhoneChange = (event) => {
     setContactNum(event.target.value);
+    props.setContactNum(event.target.value);
     setError('');
   };
 
-  // console.log(props.member_id);
+  const handleChangeLink = (id, value) => {
+    const updatedLinks = companyLinks.map((link) => {
+        if (link.id === id) {
+            return { ...link, value };
+        }
+        return link;
+    });
+    setCompanyLinks(updatedLinks);
+};
+
 
   const handleSave = async () => {
-    if (bio === initialValues.description && contactNum === initialValues.phone) {
-      setError('No changes made');
-      console.error('No changes made');
-    } else {
-      const res = await sendRequest({
-        url: `${import.meta.env.VITE_BACKEND_DOMAIN}/members/update-profile`,
-        method: 'POST',
-        body: JSON.stringify({
-          member_id: props.member_id,
-          description: bio,
-          contactNumber: contactNum
-        }),
-        headers: {
-          'Content-Type': 'application/json', // Set Content-Type for file uploads
-        },
-      })
-      
-      console.log(res);
-
-      if (res.message === 'Profile settings and contact updated successfully') {
-        window.location.reload();
-      }
-    }
+    props.handleSave();
   }
+
+  console.log(profileData);
 
   return (
     <>
         
             {props.isEditing ?(
               <div className={styles["editingContainer"]}>
-                <h1>Edit Details</h1>
-                  <hr />
-                  <Box
-                    component="form"
-                    sx={{ m: 1, width: '60%' , display: 'flex', flexDirection: 'column'}}
-                    noValidate
-                    autoComplete="off"
-                  >
-                    <TextField
-                      id="enablerDescription"
-                      label="Description"
-                      defaultValue={props.description}
-                      onChange={handleDescriptionChange}
-                      sx={{margin: '10px'}}
-                      multiline
-                      rows={20}
-                    />
-                      {/* <TextField
-                      id="enablerAddress"
-                      label="Address"
-                      defaultValue={props.address}
-                      onChange={handleAddressChange}
-                      sx={{margin: '10px'}}
-                      /> */}
-                        {/* <TextField
-                        id="enablerEmail"
-                        label="Email"
-                        defaultValue={props.email}
-                        onChange={handleEmailChange}
-                        sx={{margin: '10px'}}
-                        /> */}
-                          <TextField
-                          id="enablerPhone"
-                          label="Phone"
-                          defaultValue={props.phone}
-                          onChange={handlePhoneChange}
-                          sx={{margin: '10px'}}
+                  <section className={styles['form-container']}>
+                    <h1 className={styles['editing_header']}>Your Profile</h1>
+                      <div className={styles['form-row']}>
+                        <div className={styles['form-col']}>
+                          <label htmlFor="company_name">Company Name</label>
+                          <TextField 
+                            id='company_name'
+                            size='small'
+                            placeholder="Insert your organization's name here..."
+                            fullWidth
+                            defaultValue={profileData.setting_institution}
                           />
-                          {/* <TextField
-                          id="enablerFacebook"
-                          label="Facebook"
-                          defaultValue={props.fb}
-                          onChange={handleFBChange}
-                          sx={{margin: '10px'}}
-                          /> */}
-                          <Button onClick={handleSave} variant='contained' size='large' startIcon={<Save />} sx={{bgcolor: "#fd7c06", p: 2, borderRadius: 4}}>
-                            Save
+                        </div>
+
+                        <div className={styles['form-col']}>
+                          <label htmlFor="email">Email Address</label>
+                          <TextField 
+                            id='email'
+                            size='small'
+                            placeholder='Insert email address here...'
+                            fullWidth
+                            defaultValue={profileData.email_address}
+                          />
+                        </div>
+                      </div>
+
+                      <div className={styles['form-row']}>
+                        <div className={styles['form-col']}>
+                          <label htmlFor="contact">Contact Number</label>
+                          <TextField 
+                            id='contact'
+                            size='small'
+                            placeholder='Insert contact number here...'
+                            fullWidth
+                            defaultValue={profileData.contact_number}
+                          />
+                        </div>
+                        <div className={styles['form-col']} > 
+                          {profileData.member_type === 2 && (
+                            <Fragment>
+                              <label htmlFor="enabler_class">Classification</label>
+                              <Select
+                                  id='enabler_class'
+                                  // value={classificationValue}
+                                  // onChange={handleClassificationChange}
+                                  fullWidth
+                                  size='small'
+                                >
+                                <MenuItem value={"SUC"}>State University and Colleges</MenuItem>
+                                <MenuItem value={"LGU"}>Local Government Unit</MenuItem>
+                                <MenuItem value={"TBI"}>Technology Business Incubator</MenuItem>
+                              </Select>
+                            </Fragment>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className={styles['form-row']}>
+                        <div className={styles['form-col']}>
+                          <label htmlFor="address">Address</label>
+                          <TextField 
+                            id='address'
+                            size='small'
+                            placeholder='Insert address here...'
+                            fullWidth
+                            defaultValue={profileData.setting_address}
+                          />
+                        </div>
+                      </div>
+
+
+                      <div className={styles['form-row']}>
+                        <div className={styles['form-col']}>
+                          <label htmlFor="tagline">Tagline</label>
+                          <TextField 
+                            id='tagline'
+                            size='small'
+                            placeholder='Masarap kahit walang sauce.'
+                            fullWidth
+                          />
+                        </div>
+                      </div>
+
+                      <div className={styles['form-row']}>
+                        <div className={styles['form-col']}>
+                          <label htmlFor="links">Company Links</label>
+                          {profileData.companyLinks && profileData.companyLinks.map((element, index) => (
+                              <TextField 
+                              id='links'
+                              size='small'
+                              fullWidth
+                              placeholder='Insert link here...'
+                              defaultValue={element.url}
+                            />
+                          ))}
+                           <Button
+                              variant='outlined'
+                              startIcon={<Add />}
+                              sx={{
+                                  color: 'text.primary',
+                                  borderColor: 'text.disabled',
+                                  '&:hover': {
+                                      borderColor: 'text.primary',
+                                      color: 'black'
+                                  }
+                              }}>
+                              Add
                           </Button>
-                  </Box>
+                        </div>
+                      </div>
+
+                      <div className={styles['form-row']}>
+                        <div className={styles['form-col']}>
+                          <label htmlFor="description">Description</label>
+                          <TextField 
+                            id='description'
+                            size='small'
+                            defaultValue={profileData.setting_bio}
+                            placeholder='Tell us about your organization...'
+                            fullWidth
+                            multiline
+                            rows={12}
+                          />
+                        </div>
+                      </div>
+                  </section>
               </div>
                ) : (
                 <div className={styles["AboutTabContainer"]}> {/* {styles["enablerContact"]} */}
