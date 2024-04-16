@@ -11,23 +11,38 @@ import './UploadDocuments.css';
 import { Link } from 'react-router-dom';
 import useHttp from '../../../hooks/http-hook';
 import axios from 'axios';
+import { Collapse } from '@mui/material';
+
+import useCustomToolTip from '../../../hooks/useCustomToolTip'; // Import the custom tooltip hook
+
+import useCustomSnackbar from '../../../hooks/useCustomSnackbar';
 
 import {
     AssignmentOutlined,
     Clear,
-    ArrowBackIos
+    HelpOutline,
+    ExpandMore,
+    ExpandLess
 } from '@mui/icons-material';
 
 import UploadSuccess from './UploadSuccess';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 const UploadDocuments = () => {
+    const { SnackbarComponent, showSnackbar } = useCustomSnackbar();
+    const { TooltipComponent, showTooltip } = useCustomToolTip(); // Use the custom tooltip hook
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [sizeError, setSizeError] = useState('');
     const [uploadSuccess, setUploadSuccess] = useState(false);
     const [ appId, setAppId ] = useState();
     const [ formInfo, setFormInfo ] = useState();
-    const fileTypes = ["JPG", "PNG", "PDF"];
+    const fileTypes = ["PDF"];
     const { sendRequest, isLoading } = useHttp();
+    const [toggle, setToggle] = useState(false);
+
+    const [error, setError] = useState("");
+    const [expandedItems, setExpandedItems] = useState({});
 
     useEffect(() => {
         const loadData = () => {
@@ -42,27 +57,32 @@ const UploadDocuments = () => {
 
     const handleFilesSubmit = async () => {
         try {
+            if (selectedFiles.length === 0) {
+                showSnackbar("Please upload at least one document.", 'warning')
+                return;
+            }
+    
             const data = { ...formInfo, id: appId, files: selectedFiles };
             const formData = new FormData();
-
+    
             formData.append('email', formInfo.email);
             formData.append('institution', formInfo.institution);
             formData.append('type', formInfo.type);
             formData.append('classification', formInfo.classification);
             formData.append('address', formInfo.address);
             formData.append('id', appId);
-
+    
     
             // Append each file to the FormData
             selectedFiles.forEach((file, index) => {
                 formData.append(`files`, file);
             });
-
+    
             const res = await axios.post(`${import.meta.env.VITE_BACKEND_DOMAIN_ADMIN}/application/upload`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',}
             });
-
+    
             if (res.data.result === true) {
                 setUploadSuccess(true);
                 localStorage.clear();
@@ -71,8 +91,11 @@ const UploadDocuments = () => {
         } catch (error) {
             // Handle error or show an error message
             console.error('Error uploading files:', error.message);
+    
+            // Set error message for display
+            setSizeError(error.message);
         }
-    };
+    };    
 
     
     
@@ -95,7 +118,7 @@ const UploadDocuments = () => {
       
         // Check if the total number of files is within the limit
         if (selectedFiles.length + fileList.length > 5) {
-          console.log('Maximum file limit reached (5 files)');
+          showSnackbar("Maximum file limit reached (5 files)", "warning")
         return; 
         }
       
@@ -115,6 +138,14 @@ const UploadDocuments = () => {
         setSelectedFiles((prevFiles) => [...prevFiles, ...filesToAdd]);
       };
     
+
+        // Function to toggle expanded state for a specific item
+        const toggleExpanded = (itemId) => {
+            setExpandedItems((prevExpandedItems) => ({
+                ...prevExpandedItems,
+                [itemId]: !prevExpandedItems[itemId]
+            }));
+        };
     
 
     const handleDeleteFileSelection = (index) => {
@@ -122,19 +153,63 @@ const UploadDocuments = () => {
         updatedFiles.splice(index, 1);
         setSelectedFiles(updatedFiles);
     };
-    
 
-    console.log(selectedFiles);
 
 
     const listItems = [
-        { id: 1, name: "BIR Permit" },
-        { id: 2, name: "Proof of Business" },
-        { id: 3, name: "Valid ID" },
+        { id: 0, name: "Business Identification Documents", requirements: [
+            "SEC Registration (for corporations)",
+            "DTI Registration (for sole proprietorships and partnerships)",
+            "Mayor's Permit/Business Permit",
+            "Bureau of Internal Revenue (BIR) Certificate of Registration",
+            "Value Added Tax (VAT) Registration (if applicable)",
+            "Taxpayer's Identification Number (TIN)",
+            "Social Security System (SSS) Employer ID",
+            "PhilHealth Employer Registration",
+            "Pag-IBIG Fund Employer Registration",
+            "Barangay Clearance",
+            "Fire Safety Inspection Certificate",
+            "Occupational Permit",
+            "Zoning Clearance",
+            "Environmental Clearance Certificate (ECC) (if applicable)",
+            "License or Accreditation from Regulatory Bodies (if applicable)"
+        ]},
+        { id: 1, name: "Proof of Business Address", requirements: [
+            "Barangay Clearance",
+            "Mayor's Permit",
+            "Lease Agreement or Land Title",
+            "Business Permit from the City or Municipality",
+            "Certificate of Registration from the Bureau of Internal Revenue (BIR)",
+            "Fire Safety Inspection Certificate",
+            "Sanitary Permit",
+            "Zoning Clearance"
+        ]},
+        { id: 2, name: "Valid ID", requirements: [
+            "Philippine Passport",
+            "Driver's License",
+            "Unified Multi-Purpose ID (UMID)",
+            "Social Security System (SSS) ID",
+            "Government Service Insurance System (GSIS) ID",
+            "Professional Regulation Commission (PRC) ID",
+            "Postal ID",
+            "Voter's ID",
+            "PhilHealth ID",
+            "Tax Identification Number (TIN) ID",
+            "Senior Citizen ID",
+            "Overseas Workers Welfare Administration (OWWA) ID",
+            "Seaman's Book",
+            "Alien Certificate of Registration (ACR) / Immigrant Certificate of Registration (ICR)",
+            "National Bureau of Investigation (NBI) Clearance",
+            "Police Clearance",
+            "Barangay Clearance",
+            "Company ID (issued by private companies)"
+        ] },
     ];
+
 
     return (
         <div>
+            <SnackbarComponent />
             <div className="upload-container">
                 {uploadSuccess ? (
                     <UploadSuccess />
@@ -142,18 +217,32 @@ const UploadDocuments = () => {
                     <>
                         <div>
                             <Typography variant="h3" fontWeight={"bold"}>Supporting Documents</Typography>
-                            <Typography>For Startup Company, Please upload the following:</Typography>
+                            <Typography>Please upload the following:</Typography>
                         </div>
                         <div>
                             <List>
-                                {listItems.map((item) => (
-                                    <ListItem key={item.id}>
+                            {listItems.map((item, index) => (
+                                <>
+                                    <ListItem key={item.id} button onClick={() => toggleExpanded(item.id)}>
                                         <ListItemIcon>
                                             <AssignmentOutlined />
                                         </ListItemIcon>
                                         <ListItemText primary={item.name} />
+                                        {expandedItems[item.id] ? <ExpandLess /> : <ExpandMore />}
                                     </ListItem>
-                                ))}
+                                    <Collapse in={expandedItems[item.id]} timeout="auto" unmountOnExit>
+                                        <List disablePadding>
+                                            <Typography variant='h6' fontWeight={'bold'}>You may select atleast one of the following</Typography>
+                                            {item.requirements.map((requirement, index) => (
+                                                <ListItem key={index} disableGutters>
+                                                    <ListItemText primary={requirement} />
+                                                </ListItem>
+                                            ))}
+                                        </List>
+                                    </Collapse>
+
+                                </>
+                            ))}
                             </List>
                         </div>
                         <Typography>Upload your documents</Typography>

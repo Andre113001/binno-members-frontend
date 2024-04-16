@@ -25,6 +25,7 @@ function RegistrationForm() {
         institution: "",
         email: "",
         address: "",
+        type: "Company"
       });
     };
 
@@ -38,11 +39,11 @@ function RegistrationForm() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     // Check if the entered value matches the email regex
-    if (name === "email" && !emailRegex.test(value)) {
-      setError("Please enter a valid email address");
-    } else {
-      setError("");
-    }
+    // if (name === "email" && !emailRegex.test(value)) {
+    //   setError("Please enter a valid email address");
+    // } else {
+    //   setError("");
+    // }
 
     setFormData((prevData) => ({
       ...prevData,
@@ -54,21 +55,27 @@ function RegistrationForm() {
     e.preventDefault();
     setError("");
     setButtonDisabled(true);
-
+  
+    // Check if all required fields are filled in
+    if (!formData.institution || !formData.email || !formData.address) {
+      setError("Please fill in all required fields.");
+      setButtonDisabled(false);
+      return; // Prevent further execution of the function
+    }
+  
     try {
       const res = await sendRequest({
         url: `${import.meta.env.VITE_BACKEND_DOMAIN}/register/`,
         method: "POST",
         body: JSON.stringify(formData),
       });
-
       if (res.appId) {
         localStorage.setItem("app_id", res.appId);
         localStorage.setItem("form_info", JSON.stringify(formData));
         navigate("/register/upload");
       } else {
         setError(
-          "Email or Institution Name is already registered to the platform. Please try again."
+          "Email or Institution Name is already registered to the platform or possibly application is still ongoing. Contact us if you have any troubles."
         );
         setButtonDisabled(false);
       }
@@ -78,6 +85,7 @@ function RegistrationForm() {
       setButtonDisabled(false);
     }
   };
+  
 
   return (
     <>
@@ -124,7 +132,7 @@ function RegistrationForm() {
                 required
                 name="email"
                 onChange={handleChange}
-                helperText={error} // Display error message if there's an error
+                error={Boolean(error)}
                 style={{
                   width: "100%",
                   borderRadius: "10px",
@@ -154,7 +162,7 @@ function RegistrationForm() {
             <button
               className="registerButton"
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || buttonDisabled}
             >
               Next
             </button>

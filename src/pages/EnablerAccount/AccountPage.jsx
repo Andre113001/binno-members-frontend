@@ -15,19 +15,24 @@ import useLoadProfile from '../../hooks/useLoadProfile'
 import AccountEdit from './AccountComponents/AccountEdit/AccountEdit'
 import PostCards from './AccountComponents/CompanyPosts/CompanyPostCards'
 import CompanyEvents from './AccountComponents/CompanyEvents/CompanyEventCards'
-
+import useHttp from '../../hooks/http-hook';
+import useCustomSnackbar from '../../hooks/useCustomSnackbar'
 
 
 function AccountPage() {
   const {profileData} = useLoadProfile();
   const [data, setData] = useState([]);
   const [isEditActive, setIsEditActive] = useState(true);
+  const { sendRequest, isLoading } = useHttp();
+  const { SnackbarComponent, showSnackbar } = useCustomSnackbar();
   const navigate = useNavigate();
+
+  const [ bio, setBio ] = useState();
+  const [ contactNum, setContactNum ] = useState();
 
   const toggleEdit = () => {
     setIsEditActive((prev) => !prev);
   };
-
 
   useEffect(() => {
       const loadHeadingData = async () => {
@@ -43,14 +48,41 @@ function AccountPage() {
   useEffect(() => {
     // Redirect logic based on member_first_time
     if (profileData && profileData.member_first_time === 1) {
-       navigate('/getting-started')
+       navigate('/getting-started', {state: { profileData }})
     }
   }, [profileData, navigate]);
 
-  console.log(profileData);
+  const handleSave = async () => {
+    if (!bio && !contactNum) {
+      showSnackbar('No changes made', "error"); 
+      return;
+    }
+
+    // const res = await sendRequest({
+    //   url: `${import.meta.env.VITE_BACKEND_DOMAIN}/members/update-profile`,
+    //   method: 'POST',
+    //   body: JSON.stringify({
+    //     member_id: props.member_id,
+    //     description: bio,
+    //     contactNumber: contactNum
+    //   }),
+    //   headers: {
+    //     'Content-Type': 'application/json', // Set Content-Type for file uploads
+    //   },
+    // })
+    
+    // console.log(res);
+
+    // if (res.message === 'Profile settings and contact updated successfully') {
+    //   window.location.reload();
+    // }
+  }
+
+  // console.log(profileData);
 
   return (
     <>
+    <SnackbarComponent/>
     <div className={styles["AccountPage"]}>
       <SideBar />
       <div className={styles["layoutContainer"]}>
@@ -130,8 +162,11 @@ function AccountPage() {
                           <EditRoundedIcon/> {isEditActive ? '⠀Edit Profile' : '⠀Save Edit'}
                         </button> */}
                         <Link to='/account' style={{textDecoration: 'none'}}>
-                          <button className={styles["discardButton"]} onClick={toggleEdit}>
-                            {isEditActive ? '⠀View Page' : 'Return to Account'}
+                          <button className={styles["discardButton"]} onClick={(e) => {
+                            e.preventDefault();
+                            handleSave();
+                          }}>
+                            {isEditActive ? '⠀View Page' : 'Save Changes'}
                             </button>
                         </Link>
                     </div>
@@ -145,6 +180,10 @@ function AccountPage() {
                           email={data.email_address}
                           phone={data.contact_number}
                           fb={data.contact_facebook}
+                          handleSave={handleSave}
+                          setBio={setBio}
+                          setContactNum={setContactNum}
+                          profileData={profileData}
                         />
                     </div>
                 </div>

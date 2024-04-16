@@ -74,6 +74,9 @@ const Login = () => {
       url: `${import.meta.env.VITE_BACKEND_DOMAIN}/login/verify`,
       method: "POST",
       body: JSON.stringify(requestDataOtp),
+      headers: {
+        'Content-Type': 'application/json',
+      }
     });
 
     if (res.auth === 1) {
@@ -113,6 +116,9 @@ const Login = () => {
         url: `${import.meta.env.VITE_BACKEND_DOMAIN}/login`,
         method: "POST",
         body: JSON.stringify({ accessKey, password }),
+        headers: {
+          'Content-Type': 'application/json',
+        }
       });
 
       if (res.twoAuth) {

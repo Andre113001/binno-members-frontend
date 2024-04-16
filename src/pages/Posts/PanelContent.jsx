@@ -91,13 +91,14 @@ function PanelContent(props) {
     setPinnedPosts(pinnedPosts.filter((post) => post !== selectedId));
   };
 
-  const pinPost = async (postId) => {
+  const pinPost = async (postId, author_id) => {
     setPinnedPosts([postId]);
     await sendRequest({
       url: `${import.meta.env.VITE_BACKEND_DOMAIN}/posts/pin`,
       method: 'POST',
       body: JSON.stringify({
-        postId: postId
+        postId: postId,
+        postAuthorId: author_id 
       })
     })
   
@@ -210,7 +211,7 @@ function PanelContent(props) {
         const isPinned = pinnedPosts.includes(post.post_id);
         const handlePinClick = (e) => {
           e.stopPropagation();
-          pinPost(post.post_id);
+          pinPost(post.post_id, post.post_author);
           //   window.location.reload();
         };
         if (!pinnedPosts.includes(post.post_id)) {

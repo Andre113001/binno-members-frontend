@@ -13,15 +13,28 @@ const useLoadProfile = () => {
             // Check if accessToken is truthy before proceeding
             if (accessToken) {
                 try {
-                    const results = await fetch(
+                    const results1 = await fetch(
                         `${
                             import.meta.env.VITE_BACKEND_DOMAIN
                         }/members/profile/${accessToken}`
                     )
-                    const data = await results.json()
+                    const data = await results1.json()
+
+                    const results2 = await fetch(
+                        `${
+                            import.meta.env.VITE_BACKEND_DOMAIN
+                        }/members/company_links/${data[0].member_id}`
+                    );
+
+                    const data1 = await results2.json();
+
+                    const combinedData = {
+                        ...data[0],
+                        companyLinks: data1
+                    }
 
                     // Save the fetched data to the state
-                    setProfileData(data[0])
+                    setProfileData(combinedData)
                 } catch (error) {
                     console.error('Error:', error)
                 }
