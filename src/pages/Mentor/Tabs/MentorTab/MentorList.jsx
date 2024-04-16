@@ -80,32 +80,28 @@ function MentorList() {
       <div className="flex flex-col w-full">
         {/* mentor list */}
         <SearchBar />
-        <div className="flex flex-col mt-10 w-[80%]">
+        <div className="flex flex-col mt-10 h-[110px] w-[80%]">
           {Mentors.map((mentor) => (
-            <div
-              key={mentor.id}
-              className="flex flex-col mb-6 bg-white rounded-xl shadow-md"
-            >
+            <div key={mentor.id} className="flex">
+              {/* profile image */}
+              <div className="absolute p-4 bg-[#F4F4F4] rounded-full">
+                <img
+                  // w-36 h-36
+                  className=" w-24 h-24 rounded-full"
+                  src={mentor.mentorProfile}
+                  alt="Mentor Profile"
+                />
+              </div>
               {/* mentor cards */}
-              <div className="flex flex-row items-center bg-white rounded-xl">
-                {/* profile image */}
-                <div className="w-42 h-42 p-4 bg-[#F4F4F4] rounded-full">
-                  <img
-                    // w-36 h-36
-                    className=" w-24 h-24 rounded-full"
-                    src={mentor.mentorProfile}
-                    alt="Mentor Profile"
-                  />
-                </div>
+              <div className="ml-24 mb-6 shadow-md flex flex-row items-center bg-white rounded-xl w-full h-32">
                 {/* profile container */}
                 <div className="flex items-center grow">
-                  {/* image container */}
-                  <h1 className="ml-8 text-2xl font-bold">
+                  <h1 className="ml-20 text-2xl font-bold">
                     {mentor.mentorName}
                   </h1>
                 </div>
                 <button
-                  className="mx-10 text-red-600 text-lg outline-none"
+                  className="mx-20 text-red-600 text-lg outline-none"
                   onClick={(e) => {
                     handleOpenModal();
                   }}

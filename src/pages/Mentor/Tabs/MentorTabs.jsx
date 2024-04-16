@@ -34,6 +34,8 @@ export default function MentorTabs() {
             marginTop: "40px",
             minWidth: "180px",
           }}
+          textColor="warning"
+          indicatorColor="warning"
           aria-label="TopBar"
         >
           <Tab label="Mentor List" value="1" />
