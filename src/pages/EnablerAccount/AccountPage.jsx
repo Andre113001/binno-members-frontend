@@ -20,15 +20,33 @@ import useCustomSnackbar from '../../hooks/useCustomSnackbar'
 
 
 function AccountPage() {
-  const {profileData} = useLoadProfile();
+  const { profileData } = useLoadProfile();
   const [data, setData] = useState([]);
   const [isEditActive, setIsEditActive] = useState(true);
   const { sendRequest, isLoading } = useHttp();
   const { SnackbarComponent, showSnackbar } = useCustomSnackbar();
   const navigate = useNavigate();
-
+  
   const [ bio, setBio ] = useState();
   const [ contactNum, setContactNum ] = useState();
+  const [ classification, setClassification ] = useState();
+  const [ email, setEmail ] = useState();
+  const [ tagline, setTagline ] = useState();
+  const [ address, setAddress ] = useState();
+  const [ companyLinks, setCompanyLinks ] = useState();
+
+  useEffect(() => {
+    const loadData = async () => {
+      setBio(profileData.setting_bio);
+      setContactNum(profileData.contact_number);
+      setEmail(profileData.email_address);
+      setTagline(profileData.setting_tagline);
+      setAddress(profileData.setting_address);
+      setCompanyLinks(profileData.companyLinks);
+    }
+
+    loadData();
+  }, [profileData])
 
   const toggleEdit = () => {
     setIsEditActive((prev) => !prev);
@@ -52,30 +70,30 @@ function AccountPage() {
     }
   }, [profileData, navigate]);
 
-  const handleSave = async () => {
-    if (!bio && !contactNum) {
-      showSnackbar('No changes made', "error"); 
-      return;
+  const handleSaveAll = async () => {
+    const res = await sendRequest({
+      url: `${import.meta.env.VITE_BACKEND_DOMAIN}/members/update-profile`,
+      method: 'POST',
+      body: JSON.stringify({
+        member_id: profileData.member_id,
+        bio,
+        contactNum,
+        email,
+        tagline,
+        address,
+        companyLinks
+      }),
+      headers: {
+        'Content-Type': 'application/json', // Set Content-Type for file uploads
+      },
+    })
+
+    if (res.message === 'Profile settings and contact updated successfully') {
+      showSnackbar('Profile Saved Successfully', 'success');
+      setTimeout(() => {
+        window.location.reload(); 
+      }, 1000);
     }
-
-    // const res = await sendRequest({
-    //   url: `${import.meta.env.VITE_BACKEND_DOMAIN}/members/update-profile`,
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     member_id: props.member_id,
-    //     description: bio,
-    //     contactNumber: contactNum
-    //   }),
-    //   headers: {
-    //     'Content-Type': 'application/json', // Set Content-Type for file uploads
-    //   },
-    // })
-    
-    // console.log(res);
-
-    // if (res.message === 'Profile settings and contact updated successfully') {
-    //   window.location.reload();
-    // }
   }
 
   // console.log(profileData);
@@ -164,7 +182,7 @@ function AccountPage() {
                         <Link to='/account' style={{textDecoration: 'none'}}>
                           <button className={styles["discardButton"]} onClick={(e) => {
                             e.preventDefault();
-                            handleSave();
+                            handleSaveAll();
                           }}>
                             {isEditActive ? '⠀View Page' : 'Save Changes'}
                             </button>
@@ -180,9 +198,14 @@ function AccountPage() {
                           email={data.email_address}
                           phone={data.contact_number}
                           fb={data.contact_facebook}
-                          handleSave={handleSave}
+                          handleSaveAll={handleSaveAll}
                           setBio={setBio}
+                          setClassification={setClassification}
                           setContactNum={setContactNum}
+                          setEmail={setEmail}
+                          setTagline={setTagline}
+                          setAddress={setAddress}
+                          setCompanyLinks={setCompanyLinks}
                           profileData={profileData}
                         />
                     </div>

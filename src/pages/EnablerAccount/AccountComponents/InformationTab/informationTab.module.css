@@ -72,6 +72,7 @@
 .form-col {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     width: 100%;
     gap: 10px;
 }
@@ -79,4 +80,31 @@
 .form-col > label {
     font-size: 20px;
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+ .modal-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    text-align: center;
+}
+
+.modal-container > h1 {
+    font-size: 30px;
+}
+
+.modal-container > p {
+    font-size: 25px;
+    width: 90%;
+}
+
+.modal-buttons {
+    width: 100%;
+    display: flex;
+    gap: 10px;
 }

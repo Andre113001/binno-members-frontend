@@ -11,6 +11,7 @@ const useCustomToolTip = () => {
         title={title}
         open={tooltipOpen}
         onClose={() => setTooltipOpen(false)}
+        placement='top'
         {...props}
       >
         {children}
