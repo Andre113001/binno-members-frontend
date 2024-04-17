@@ -29,6 +29,12 @@ const Mentors = [
     mentorProfile:
       "https://img.freepik.com/premium-photo/portrait-businessman-modern-office_252847-38998.jpg",
   },
+  {
+    id: "6",
+    mentorName: "Mentor mo ko",
+    mentorProfile:
+      "https://img.freepik.com/premium-photo/portrait-businessman-modern-office_252847-38998.jpg",
+  },
 ];
 
 export default Mentors;

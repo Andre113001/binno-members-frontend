@@ -27,24 +27,19 @@ export default function MentorTabs() {
       <TabContext value={value}>
         <TabList
           onChange={handleChange}
-          sx={{
-            width: "15%",
+          style={{
+            width: "230px",
             borderBottom: 1,
-            borderColor: "divider",
             marginTop: "40px",
-            minWidth: "180px",
           }}
-          textColor="warning"
-          indicatorColor="warning"
-          aria-label="TopBar"
         >
           <Tab label="Mentor List" value="1" />
           <Tab label="Requests" value="2" />
         </TabList>
-        <TabPanel wrapped value="1">
+        <TabPanel value="1">
           <MentorList />
         </TabPanel>
-        <TabPanel wrapped value="2">
+        <TabPanel value="2">
           <RequestList />
         </TabPanel>
       </TabContext>

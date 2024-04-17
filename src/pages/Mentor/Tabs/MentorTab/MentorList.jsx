@@ -80,20 +80,19 @@ function MentorList() {
       <div className="flex flex-col w-full">
         {/* mentor list */}
         <SearchBar />
-        <div className="flex flex-col mt-10 h-[110px] w-[80%]">
+        <div className="flex flex-col mt-10 w-[80%]">
           {Mentors.map((mentor) => (
-            <div key={mentor.id} className="flex">
+            <div key={mentor.id} className="flex ">
               {/* profile image */}
-              <div className="absolute p-4 bg-[#F4F4F4] rounded-full">
+              <div className="absolute ml-5 p-3 bg-[#F4F4F4] rounded-full">
                 <img
-                  // w-36 h-36
-                  className=" w-24 h-24 rounded-full"
+                  className=" w-20 h-20 rounded-full"
                   src={mentor.mentorProfile}
                   alt="Mentor Profile"
                 />
               </div>
               {/* mentor cards */}
-              <div className="ml-24 mb-6 shadow-md flex flex-row items-center bg-white rounded-xl w-full h-32">
+              <div className="ml-24 mb-6 shadow-md flex flex-row items-center bg-white rounded-xl w-full h-[100px]">
                 {/* profile container */}
                 <div className="flex items-center grow">
                   <h1 className="ml-20 text-2xl font-bold">
