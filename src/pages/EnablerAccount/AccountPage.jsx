@@ -112,7 +112,7 @@ function AccountPage() {
               <div className={styles["HeaderButtons"]}>
                 {isEditActive && ( // Only render the buttons if isEditActive is true
                     <>
-                        <button className={styles["profileEditButton"]} onClick={toggleEdit}>
+                        <button className={styles["profileEditButton"]} onClick={toggleEdit} >
                             <EditRoundedIcon/> {isEditActive ? '⠀Edit Profile' : '⠀Save Edit'}
                         </button>
                         <Link to={`https://binnostartup.site/startup-enabler-profile.php?setting_institution=${profileData?.setting_institution}&member_id=${profileData?.member_id}`} style={{textDecoration: 'none'}}> {/*link san viewer side sa profile*/}

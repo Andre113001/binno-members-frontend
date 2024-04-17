@@ -14,6 +14,7 @@ import moment from 'moment/moment';
 import { MenuItem, Select, IconButton, Button, TextField } from '@mui/material'
 import { MuiTelInput } from 'mui-tel-input';
 import useCustomSnackbar from '../../../../hooks/useCustomSnackbar';
+import { v4 as uuidv4 } from 'uuid';
 
 function InformationTab(props) {
   const { TooltipComponent: ToolTip1, showTooltip:showTooltip1 } = useCustomToolTip();
@@ -21,6 +22,7 @@ function InformationTab(props) {
   const { CustomModal, handleClose, handleOpen } = useCustomModal();
   const {  SnackbarComponent, showSnackbar } =  useCustomSnackbar();
   const profileData = props.profileData;
+  const uuid = uuidv4();
   
   const [initialValues, setInitialValues] = useState({
     description: props.description,
@@ -47,13 +49,7 @@ function InformationTab(props) {
   const [error, setError] = useState('');
   const {sendRequest, isLoading} = useHttp();
   const [changeForm, setChangeForm] = useState(true);
-  const initialCompanyLinks = profileData?.companyLinks.map((link, index) => ({
-    link_index: index + 1,
-    ...link, // Set the initial link_index sequentially starting from 1
-  })) || [];
-  const [linkCount, setLinkCount] = useState(profileData?.companyLinks.length || 0);
-  const [companyLinks, setCompanyLinks] = useState(initialCompanyLinks);
-  const [lastId, setLastId] = useState(companyLinks.length);
+  const [companyLinks, setCompanyLinks] = useState(profileData?.companyLinks);
   const [randomString, regenerateRandomString] = useRandomString();
   const [currentDate, setCurrentDate] = useState(moment().format('YYYY-MM-DD'));
   const [ currentModal, setCurrentModal ] = useState();
@@ -66,65 +62,39 @@ function InformationTab(props) {
     }
   }, [name, initialValues.name]);
 
-  const handleRemoveLink = async (index) => {
-
-      const updatedLinks = companyLinks.filter(link => link.link_index !== index)
-      .map(link => {
-        if (link.link_index > index) {
-          return { ...link} ;
-        }
-        return link;
-      });
-
-      // console.log(updatedLinks);
-      setCompanyLinks(updatedLinks);
-      // Update the indices of the remaining links
-      // const updatedLinksWithUpdatedIndices = updatedLinks.map((link, idx) => ({
-      //   ...link,
-      //   link_index: idx + 1, // Adjust the index starting from 1
-      // }));
-
-      // setCompanyLinks(updatedLinksWithUpdatedIndices);
-  
-    // // If the removed link has an id (i.e., it's not a new link), send a request to remove it
-    // if (companyLinks[indexToRemove].link_id) {
-    //   const res = await sendRequest({
-    //     url: `${import.meta.env.VITE_BACKEND_DOMAIN}/members/company_links/remove`,
-    //     method: 'POST',
-    //     body: JSON.stringify({
-    //       link_id: companyLinks[indexToRemove].link_id
-    //     })
-    //   });
-  
-    //   if (res) {
-    //     showSnackbar("Link Removed Successfully.", 'success');
-    //   }
-    // }
+  const handleRemoveLink = async (link_id) => {
+      const updatedLinks = companyLinks.filter(link => link.link_id !== link_id);
+      setCompanyLinks([...updatedLinks]);
+      props.setCompanyLinks([...updatedLinks]);
   };
   
   
   const handleAddLink = () => {
-    const newLink = { link_index: companyLinks.length + 1, link_id: null, url: '' };
-    setCompanyLinks((prevLinks) => [...prevLinks, newLink]);
+    const truncatedUuid = uuid.substring(0, 6);
+    const newLink = { link_id: truncatedUuid, url: '' };
+    setCompanyLinks((prevLinks) => {
+        // Ensure prevLinks is always initialized as an array
+        const updatedLinks = Array.isArray(prevLinks) ? prevLinks : [];
+        return [...updatedLinks, newLink];
+    });
   };
 
   const handleChangeLink = (index, value) => {
-    setCompanyLinks(prevLinks => {
-      return prevLinks.map((link, i) => {
-        if (i === index) {
-          return { ...link, url: value };
-        }
-        return link;
-      });
+    // Calculate updatedLinks based on the current state
+    const updatedLinks = companyLinks.map((link, i) => {
+      if (i === index) {
+        return { ...link, url: value };
+      }
+      return link;
     });
+  
+    // Update the local state
+    setCompanyLinks(updatedLinks);
+  
+    // Update the state managed by props
+    props.setCompanyLinks(updatedLinks);
   };
 
-  const handleSaveLink = async (link_id) => {
-    console.log({
-      link_id,
-      url: linkRef.current.value
-    });
-  }
 
   const handleClassificationChange = (value) => {
     setClassification(value);
@@ -177,17 +147,14 @@ function InformationTab(props) {
   };
 
   const handleCurrentPasswordChange = (event) => {
-    console.log('current pw: ', event);
     setCurrentPassword(event);
   };
   
   const handleNewPasswordChange = (event) => {
-    console.log('new pw: ', event);
     setNewPassword(event);
   };
   
   const handleConfirmPasswordChange = (event) => {
-    console.log('confirm pw: ', event);
     setConfirmPassword(event);
   };
 
@@ -303,7 +270,6 @@ function InformationTab(props) {
   }
 
   // console.log("profileData: ", profileData);
-  console.log(companyLinks);
 
   return (
     <>
@@ -523,59 +489,92 @@ function InformationTab(props) {
                             </div>
                           </div>
 
-                          <div className={styles['form-row']}>
-                            <div className={styles['form-col']}>
-                              <label htmlFor="links">Company Links</label>
-                              {companyLinks && companyLinks.map((link, index) => (
-                                <TextField 
-                                  key={link.link_index}
-                                  id={`link-${index}`}
-                                  size='small'
-                                  inputRef={linkRef}
-                                  fullWidth
-                                  onChange={e => handleChangeLink(index, e.target.value)}
-                                  placeholder='Insert link here...'
-                                  defaultValue={link.url}
-                                  InputProps={
-                                    toggleLinkEdit
-                                      ? {
-                                          endAdornment: (
-                                            <Button
-                                              onClick={() => handleSaveLink(link.link_id)}
-                                            >
-                                              Save
-                                            </Button>
-                                          ),
-                                        }
-                                      : companyLinks.length > 1 && (
-                                        {
-                                          endAdornment: (
-                                            <IconButton onClick={() => handleRemoveLink(link.link_index)}>
-                                              <Clear sx={{ color: 'red' }} />
-                                            </IconButton>
-                                          ),
-                                        }
+                            <div className={styles['form-row']}>
+                              <div className={styles['form-col']}>
+                                <label 
+                                    htmlFor="description" 
+                                    style={{
+                                      display: 'flex',
+
+                                    }}
+                                  >
+                                    <span style={{flex: 1}}>
+                                      Web Links 
+                                    </span>
+                                    {!isEditingField('links') && ( 
+                                      <Fragment>
+                                        <Button
+                                          sx={{
+                                            display: 'flex',
+                                            justifyContent: 'right',
+                                            textTransform: 'none',
+                                            color: '#292d3e',
+                                            '&:hover': {
+                                              color: '#292d3e',
+                                            },
+                                          }}
+                                          onClick={() => handleToggleEditField('links')}
+                                        >
+                                          Edit
+                                        </Button>
+                                      </Fragment>
                                       )
                                     }
-                                  />
-                                ))}
-                              <Button
-                                  variant='outlined'
-                                  startIcon={<Add />}
-                                  sx={{
-                                      color: 'text.primary',
-                                      borderColor: 'text.disabled',
-                                      '&:hover': {
-                                          borderColor: 'text.primary',
-                                          color: 'black'
+                                  </label>
+                                {companyLinks.length > 0 && companyLinks?.map((link, index) => (
+                                  <TextField 
+                                    key={link.link_id}
+                                    id={`link-${index}`}
+                                    size='small'
+                                    inputRef={linkRef}
+                                    fullWidth
+                                    disabled={!isEditingField('links')}
+                                    onChange={e => handleChangeLink(index, e.target.value)}
+                                    placeholder='Insert link here...'
+                                    defaultValue={link.url}
+                                    InputProps={
+                                      toggleLinkEdit
+                                        ? {
+                                            endAdornment: (
+                                              <Button
+                                                onClick={() => handleSaveLink(link.link_id)}
+                                              >
+                                                Save
+                                              </Button>
+                                            ),
+                                          }
+                                        : (
+                                          {
+                                            endAdornment: (
+                                              isEditingField('links') && (
+                                                <IconButton onClick={() => handleRemoveLink(link.link_id)}>
+                                                  <Clear sx={{ color: 'red' }} />
+                                                </IconButton>
+                                              )
+                                            ),
+                                          }
+                                        )
                                       }
-                                  }}
-                                  onClick={handleAddLink}
-                                  >
-                                  Add
-                              </Button>
+                                    />
+                                  ))}
+                                <Button
+                                    variant='outlined'
+                                    startIcon={<Add />}
+                                    sx={{
+                                        color: 'text.primary',
+                                        borderColor: 'text.disabled',
+                                        '&:hover': {
+                                            borderColor: 'text.primary',
+                                            color: 'black'
+                                        }
+                                    }}
+                                    disabled={!isEditingField('links')}
+                                    onClick={handleAddLink}
+                                    >
+                                    Add
+                                </Button>
+                              </div>
                             </div>
-                          </div>
 
                           <div className={styles['form-row']}>
                             <div className={styles['form-col']}>
