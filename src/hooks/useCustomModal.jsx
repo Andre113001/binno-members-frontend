@@ -14,7 +14,7 @@ const style = {
   boxShadow: 24,
   p: 10,
   borderRadius: 5,
-  backdropFilter: 'blur(5px)', // Add backdropFilter for blur effect
+  backdropFilter: "blur(10px)", // Add backdropFilter for blur effect
 };
 
 function useCustomModal() {

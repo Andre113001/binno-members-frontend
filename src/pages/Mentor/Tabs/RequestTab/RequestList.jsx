@@ -27,10 +27,10 @@ function RequestList() {
                     <h1 className="ml-8 text-2xl font-bold grow">
                       {req.mentorName}
                     </h1>
-                    <button className="bg-[#599EF3] rounded-lg p-2 px-4 m-2 text-white">
+                    <button className="bg-[#599EF3] rounded-lg p-2 px-4 m-2 text-white hover:bg-blue-600 ">
                       Accept
                     </button>
-                    <button className="border border-[#EB5858] rounded-lg p-2 px-4 m-2 text-[#EB5858]">
+                    <button className="border border-[#EB5858] rounded-lg p-2 px-4 m-2 text-[#EB5858] hover:bg-red-400 hover:text-white">
                       Reject
                     </button>
                   </div>
@@ -44,7 +44,7 @@ function RequestList() {
                     <div className="flex justify-center rounded-lg p-2 border border-black grow mr-5">
                       {req.attachedFile}
                     </div>
-                    <button className="bg-[#FF7A00] rounded-lg p-2 text-white">
+                    <button className="bg-[#FF7A00] rounded-lg p-2 text-white hover:bg-orange-600">
                       Download
                     </button>
                   </div>

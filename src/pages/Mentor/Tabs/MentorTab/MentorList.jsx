@@ -4,6 +4,7 @@ import Mentors from "./Mentor_data";
 import useCustomModal from "../../../../hooks/useCustomModal";
 import { Fragment } from "react";
 import { Button } from "@mui/material";
+import AddMentorButton from "../../AddMentors/AddMentorButton";
 
 function MentorList() {
   const {
@@ -112,6 +113,7 @@ function MentorList() {
           ))}
         </div>
       </div>
+      <AddMentorButton />
     </>
   );
 }

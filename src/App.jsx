@@ -40,6 +40,7 @@ import useLoadProfile from "./hooks/useLoadProfile";
 import PostEdit from "./pages/Posts/PostEditPage/PostEdit";
 import FirstTimeLogin from "./pages/FirstTimeLogin/FirstTimeLogin";
 import MentorPage from "./pages/Mentor/MentorPage";
+import AddMentor from "./pages/Mentor/AddMentors/AddMentor";
 // import PostEdit from './pages/Posts/PostEditPage/PostEdit';
 
 function App() {
@@ -68,7 +69,18 @@ function App() {
               <Route path="/invalid-token" element={<TokenInvalid />} />
               <Route path="/password-changed" element={<PasswordChanged />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/mentor" element={<MentorPage />} />
+              <Route
+                path="/mentor"
+                element={
+                  <>
+                    <Outlet />
+                  </>
+                }
+              >
+                <Route path="" element={<MentorPage />} />
+                <Route path="addMentor" element={<AddMentor />} />
+              </Route>
+              {/* <Route path="/mentor" element={<MentorPage />} /> */}
               <Route
                 path="/events"
                 element={
