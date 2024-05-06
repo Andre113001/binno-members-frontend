@@ -40,10 +40,12 @@ function Header() {
           )}
         </div>
         <div className="UserInfoContainer">
-          <h2 id="username">
+          <h2 className="text-2xl font-bold" id="username">
             {accountContext.profileData?.setting_institution}
           </h2>
-          <p id="userType">{accountContext.profileData?.user_type}</p>
+          <p className="text-lg" id="userType">
+            {accountContext.profileData?.user_type}
+          </p>
         </div>
       </div>
 
