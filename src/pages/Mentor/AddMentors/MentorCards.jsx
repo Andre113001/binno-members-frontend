@@ -4,6 +4,9 @@ import { Button } from "@mui/material";
 import MentorData from "./MentorData";
 import { Link } from "react-router-dom";
 import useCustomModal from "../../../hooks/useCustomModal";
+import FileUploadButton from "../../../components/FileUploadButton/FileUploadButton";
+import SuccessfulUpload from "./SuccessfulUpload";
+import { useState } from "react";
 
 function MentorCards() {
   const {
@@ -11,6 +14,23 @@ function MentorCards() {
     handleOpen: handleOpenModal,
     CustomModal,
   } = useCustomModal();
+
+  const [formData, setFormData] = useState({
+    to: "",
+    message: "",
+  });
+
+  //   const handleChange = (event) => {
+  //     setFormData({ ...formData, [event.target.name]: event.target.value });
+  //   };
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+    console.log("Submitted form data:", formData); // Example logging
+    <SuccessfulUpload />;
+    handleCloseModal();
+  };
+
   return (
     <>
       <CustomModal
@@ -18,14 +38,41 @@ function MentorCards() {
         handleClose={handleCloseModal}
         content={
           <Fragment>
-            <div className="w-full m-0">
+            <div className="w-full h-full m-0">
               <center>
                 <h1 className="text-2xl font-bold mb-2">Apply to Endorse</h1>
                 <h3 className="text-lg">
                   You are attempting to invite Sparkpoint for you to endorse.
                 </h3>
-                <div className="flex">
-                  <input type="text" />
+                {/* text areas  */}
+                <div className="flex border px-2 py-4 rounded-lg my-4">
+                  <span className="to-label">To:</span>
+                  <input
+                    type="text"
+                    className="w-full ml-2"
+                    name="to"
+                    // value={formData.to}
+                  />
+                </div>
+                <div className="flex border px-1 py-2 rounded-lg h-60">
+                  <textarea
+                    className="w-full"
+                    rows="10"
+                    cols="35"
+                    style={{ maxHeight: "230px" }}
+                    name="message"
+                    // value={formData.message}
+                    // onChange={}
+                  >
+                    Text
+                  </textarea>
+                </div>
+                {/* credentials container */}
+                <div className="flex flex-col items-start my-2">
+                  <h1>Show your credentials</h1>
+                  <div className="flex w-full mt-2">
+                    <FileUploadButton />
+                  </div>
                 </div>
                 <div className="flex flex-row">
                   <Button
@@ -65,11 +112,10 @@ function MentorCards() {
                       fontWeight: "bold",
                     }}
                     onClick={(e) => {
-                      handleDeleteFAQ();
+                      handleSubmit();
                     }}
-                    // disabled={isLoading}
                   >
-                    End
+                    Send
                   </Button>
                 </div>
               </center>
