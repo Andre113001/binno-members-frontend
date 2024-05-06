@@ -41,6 +41,7 @@ import PostEdit from "./pages/Posts/PostEditPage/PostEdit";
 import FirstTimeLogin from "./pages/FirstTimeLogin/FirstTimeLogin";
 import MentorPage from "./pages/Mentor/MentorPage";
 import AddMentor from "./pages/Mentor/AddMentors/AddMentor";
+import EnablersPage from "./pages/Enablers/EnablersPage";
 // import PostEdit from './pages/Posts/PostEditPage/PostEdit';
 
 function App() {
@@ -81,6 +82,9 @@ function App() {
                 <Route path="addMentor" element={<AddMentor />} />
               </Route>
               {/* <Route path="/mentor" element={<MentorPage />} /> */}
+
+              <Route path="/enablers" element={<EnablersPage />} />
+
               <Route
                 path="/events"
                 element={

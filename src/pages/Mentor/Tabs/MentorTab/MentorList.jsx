@@ -66,7 +66,7 @@ function MentorList() {
                       fontWeight: "bold",
                     }}
                     onClick={(e) => {
-                      handleDeleteFAQ();
+                      handleEndPartnership();
                     }}
                     // disabled={isLoading}
                   >

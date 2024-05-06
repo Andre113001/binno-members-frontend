@@ -12,7 +12,7 @@ const SideBarData_Mentor = [
   {
     title: "Enablers",
     icon: <RocketLaunchRoundedIcon />,
-    link: "/mentor",
+    link: "/enablers",
   },
   {
     title: "Blog Entries",
