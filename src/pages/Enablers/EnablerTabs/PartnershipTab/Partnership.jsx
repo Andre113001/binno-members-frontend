@@ -105,7 +105,7 @@ function Partnership() {
                     {/* image container */}
                     <div className="flex mr-14">
                       <img
-                        className="w-40 h-40 rounded-full"
+                        className="w-40 h-40 rounded-full object-cover"
                         src={part.partnerPorfile}
                         alt="Partner Profile"
                       />
@@ -141,7 +141,7 @@ function Partnership() {
               {/* content container */}
               <div className="items-center flex flex-row">
                 <img
-                  className="w-20 h-20 rounded-full mr-10"
+                  className="w-20 h-20 rounded-full mr-10 object-cover"
                   src={prev.partnerPorfile}
                   alt="Partner Profile"
                 />

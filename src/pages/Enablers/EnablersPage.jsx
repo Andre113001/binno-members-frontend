@@ -6,7 +6,7 @@ function EnablersPage() {
   return (
     <>
       {/* page container */}
-      <div className="flex w-full bg-[#F4F4F4] overflow-hidden">
+      <div className="flex w-full bg-[#F4F4F4] overflow-x-hidden">
         <SideBar />
         <div className="flex w-full ">
           <EnablerTab />

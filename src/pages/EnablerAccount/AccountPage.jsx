@@ -125,7 +125,6 @@ function AccountPage() {
                           to={`https://binnostartup.site/startup-enabler-profile.php?setting_institution=${profileData?.setting_institution}&member_id=${profileData?.member_id}`}
                           style={{ textDecoration: "none" }}
                         >
-                          {" "}
                           {/*link san viewer side sa profile*/}
                           <button className={styles["ViewPageButton"]}>
                             <VisibilityRoundedIcon />
