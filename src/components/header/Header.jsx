@@ -39,7 +39,8 @@ function Header() {
             <img src={profilePic} alt="User Profile" className="profileImage" />
           )}
         </div>
-        <div className="UserInfoContainer">
+        {/* className="UserInfoContainer" */}
+        <div className="items-center">
           <h2 className="text-2xl font-bold" id="username">
             {accountContext.profileData?.setting_institution}
           </h2>

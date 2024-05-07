@@ -87,7 +87,7 @@ function MentorList() {
               {/* profile image */}
               <div className="absolute ml-5 p-3 bg-[#F4F4F4] rounded-full">
                 <img
-                  className=" w-20 h-20 rounded-full"
+                  className=" w-20 h-20 object-cover rounded-full"
                   src={mentor.mentorProfile}
                   alt="Mentor Profile"
                 />

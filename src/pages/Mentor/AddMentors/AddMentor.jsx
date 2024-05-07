@@ -7,7 +7,7 @@ function AddMentor() {
   return (
     <>
       {/* main mentor page */}
-      <div className="flex flex-col bg-[#F4F4F4] ">
+      <div className="flex flex-col bg-[#F4F4F4]">
         {/* back button container */}
         <div className="flex ml-10 ">
           <Back link="/mentor" />
