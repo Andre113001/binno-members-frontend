@@ -769,7 +769,7 @@ function InformationTab(props) {
       ) : (
         // className={styles["AboutTabContainer"]}
         <div className="bg-white p-3 mr-3 shadow-lg rounded-lg w-[380px] h-max-[400px] h-[300px]">
-          <h1 className="text-3xl font-bold">About</h1>
+          <h1 className="text-3xl font-bold mb-1">About</h1>
           <hr />
           <div className={styles["enablerContent"]}>
             <p className={styles["enablerDescription"]}>{props.description}</p>
