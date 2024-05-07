@@ -40,7 +40,7 @@ const GuideCards = (props) => {
 
   return (
     <>
-      <section className="bg-white p-5 rounded-lg shadow-md h-[300px] h-max-[400px] w-[1000px]">
+      <section className="bg-white p-5 rounded-lg shadow-lg h-[300px] h-max-[400px] w-[1000px]">
         <div className={styles["titleContainer"]}>
           <h1 className="text-3xl font-bold">Recent Guide</h1>
           <a href="/guides">View all Guides...</a>
