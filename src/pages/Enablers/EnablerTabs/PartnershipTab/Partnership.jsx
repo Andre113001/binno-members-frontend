@@ -3,6 +3,7 @@ import { Fragment } from "react";
 import { currentPartner, previousPartners } from "./Partnership_data";
 import useCustomModal from "../../../../hooks/useCustomModal";
 import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 function Partnership() {
   const {
@@ -80,16 +81,18 @@ function Partnership() {
       {/* page container */}
       <div className="flex flex-col">
         {/* conditional rendering for mentor without a partner */}
-        {hasPartner ? (
+        {!hasPartner ? (
           <>
             {/* apply now container */}
-            <div className="flex flex-col bg-white p-8 rounded-lg w-[85%] shadow-lg mb-10">
+            <div className="flex flex-col bg-white p-16 rounded-lg w-[85%] shadow-lg mb-10">
               {/* content container */}
               <div className="flex flex-col items-center justify-center">
                 <h1>IT'S EMPTY HERE. APPLY PARTNERSHIP TO STARTUP ENABLERS.</h1>
-                <button className="mt-2 bg-[#FF7A00] text-white px-5 py-2 rounded-lg">
-                  Apply Now
-                </button>
+                <Link to={"/enablers/addEnabler"}>
+                  <button className="mt-4 bg-[#FF7A00] text-white px-5 py-2 rounded-lg">
+                    Apply Now
+                  </button>
+                </Link>
               </div>
             </div>
           </>
