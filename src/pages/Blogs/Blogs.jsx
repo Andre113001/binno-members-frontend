@@ -1,40 +1,46 @@
-import React, { useState } from 'react'
-import styles from './Blog.module.css'
-import BlogCards from './BlogCards.jsx';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import styles from "./Blog.module.css";
+import BlogCards from "./BlogCards.jsx";
+import { Link } from "react-router-dom";
 
-// Components 
-import SideBar from '../../components/Sidebar/Sidebar.jsx';
-import Header from '../../components/header/Header.jsx';
+// Components
+import SideBar from "../../components/Sidebar/Sidebar.jsx";
+import Header from "../../components/header/Header.jsx";
 
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
 
 const Blogs = () => {
   const type = "enabler";
 
   return (
-    <div className={styles['BlogPage']}>
+    <div className={styles["BlogPage"]}>
       <SideBar />
-      <div className={styles['layoutContainer']}>
-          <div className={styles["Headline"]}>
-            <Header />
+      <div className={styles["layoutContainer"]}>
+        <div className={styles["Headline"]}>
+          <Header />
+        </div>
+        <div className={styles["bodyContainer"]}>
+          <h1 className="text-3xl font-bold mb-6 ml-10">My Entries</h1>
+          <div className={styles["blogButtons"]}>
+            {/*create button container*/}
+            <div className={styles["addButtonContainer"]}>
+              <Link to="/blogs/create" style={{ textDecoration: "none" }}>
+                <button className={styles["actualButton"]}>
+                  <AddRoundedIcon />
+                  Create New Entry
+                </button>
+              </Link>
+            </div>
           </div>
-              <div className={styles["bodyContainer"]}>
-                <h1>My Entries</h1>
-                  <div className={styles["blogButtons"]}> {/*create button container*/}
-                    <div className={styles["addButtonContainer"]}>
-                        <Link to="/blogs/create" style={{textDecoration:'none'}}>
-                        <button className={styles["actualButton"]}><AddRoundedIcon />Create New Entry</button>
-                        </Link>
-                    </div>
-                  </div>
-                    <div className={styles["contents"]}> {/*conntent section container*/}
-                      <BlogCards />
-                    </div>
-              </div>
-        </div>        
+          <div className={styles["contents"]}>
+            {" "}
+            {/*conntent section container*/}
+            <BlogCards />
+          </div>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Blogs
+export default Blogs;

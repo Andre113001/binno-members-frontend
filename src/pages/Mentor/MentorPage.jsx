@@ -9,7 +9,9 @@ function MentorPage() {
       <Fragment>
         <div className="flex w-full bg-[#F4F4F4] overflow-hidden">
           <SideBar />
-          <MentorTabs />
+          <div className="flex w-full ">
+            <MentorTabs />
+          </div>
         </div>
       </Fragment>
     </>

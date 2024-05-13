@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import styles from './GuideMain.module.css';
-import GuideCards from './GuidesCards.jsx';
-import SideBar from '../../components/Sidebar/Sidebar.jsx';
-import Header from '../../components/header/Header.jsx';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import GuideModal from '../../components/guidesModal/GuidesModal.jsx';
+import React, { useState, useEffect } from "react";
+import styles from "./GuideMain.module.css";
+import GuideCards from "./GuidesCards.jsx";
+import SideBar from "../../components/Sidebar/Sidebar.jsx";
+import Header from "../../components/header/Header.jsx";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import GuideModal from "../../components/guidesModal/GuidesModal.jsx";
 
-import { Link } from 'react-router-dom';
-import useLoadProfile from '../../hooks/useLoadProfile.jsx'
+import { Link } from "react-router-dom";
+import useLoadProfile from "../../hooks/useLoadProfile.jsx";
 // import useAccessToken from '../../hooks/useAccessToken.jsx';
 // import useLoadProfile from '../../hooks/useLoadProfile.jsx';
 // import sha256 from 'sha256';
 
 const GuideMain = () => {
-  const { profileData }= useLoadProfile();
+  const { profileData } = useLoadProfile();
 
   return (
     <>
@@ -24,14 +24,14 @@ const GuideMain = () => {
             <Header />
           </div>
           <div className={styles["bodyContainer"]}>
-            <h1>My Guides</h1>
+            <h1 className="text-3xl font-bold ml-10 mb-3">My Guides</h1>
             <div className={styles["blogButtons"]}>
               <div className={styles["CreateGuideContainer"]}>
-                  <GuideModal profileData={profileData}/>
+                <GuideModal profileData={profileData} />
               </div>
             </div>
             <div className={styles["contents"]}>
-              <GuideCards profileData={profileData}/>
+              <GuideCards profileData={profileData} />
             </div>
           </div>
         </div>

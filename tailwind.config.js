@@ -6,6 +6,8 @@ export default {
   ],
   theme: {
     extend: {
+      primary: "#FF7A00",
+      secondary: '#5c9fef',
       whiteBG: "#F4F4F4"
     },
   },
