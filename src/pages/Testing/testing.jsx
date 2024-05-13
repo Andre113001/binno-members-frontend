@@ -1,11 +1,12 @@
 import React from 'react'
-import FirstTimeLogin from '../FirstTimeLogin/FirstTimeLogin'
-import SocialMediaShare from '../../components/SocialMediaShare/SocialMediaShare'
+import useLoadProfile from '../../hooks/useLoadProfile'
 
 const testing = () => {
+  const { profileData } = useLoadProfile();
+  console.log(profileData);
   return (
     <div>
-        <SocialMediaShare />
+      <h1 className='text-9xl bold'>{profileData?.setting_institution}'s Data</h1>
     </div>
   )
 }

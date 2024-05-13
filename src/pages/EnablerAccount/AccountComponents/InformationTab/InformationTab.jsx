@@ -123,27 +123,12 @@ function InformationTab(props) {
 
   const handleNameChange = (value) => {
     setName(value);
-  };
-    if (value !== name) {
-      setName(value);
-    }
   }
 
   const handleDescriptionChange = (event) => {
     setBio(event);
     props.setBio(event);
-    setError("");
-    if (event.length <= 200) {
-      console.log(`Description Length: ${event.length}`);
-      setBio(event);
-      props.setBio(event);
-      setError('');
-    } else {
-      // If input exceeds 200 characters, truncate it to 200 characters
-      setBio(event.slice(0, 200));
-      props.setBio(event.slice(0, 200));
-      setError('Maximum characters reached (200)');
-    }
+    setError('');
   };
   
 
@@ -303,130 +288,6 @@ function InformationTab(props) {
       }
     }
   }
-
-  const handleSaveDesc = async () => {
-    if (profileData?.setting_bio === bio || bio == '') {
-      showSnackbar('Unsaved Changes', 'error');
-      return;
-    }
-
-    const res = await sendRequest({
-      url: `${import.meta.env.VITE_BACKEND_DOMAIN}/profile/description`,
-      method: 'POST',
-      body: JSON.stringify({
-        member_id: profileData.member_id,
-        newDesc: bio
-      })
-    });
-
-    if (res) {
-      showSnackbar('Description Saved Successfully!', 'success');
-    } else {
-      showSnackbar('Description Unsaved, Internal Error', 'error');
-    }
-      
-  }
-  
-  
-  const handleSaveTagline = async () => {
-    if (profileData?.setting_tagline === tagline) {
-      showSnackbar('Unsaved Changes', 'error');
-      return;
-    }
-
-    const res = await sendRequest({
-      url: `${import.meta.env.VITE_BACKEND_DOMAIN}/profile/tagline`,
-      method: 'POST',
-      body: JSON.stringify({
-        member_id: profileData.member_id,
-        newTagline: tagline
-      })
-    });
-
-    if (res) {
-      showSnackbar('Tagline Saved Successfully!', 'success');
-    } else {
-      showSnackbar('Tagline Unsaved, Internal Error', 'error');
-    }
-  }
-  
-  const handleSaveAddress = async () => {
-    if (profileData?.setting_address === address) {
-      showSnackbar('Unsaved Changes', 'error');
-      return;
-    };
-
-    const res = await sendRequest({
-      url: `${import.meta.env.VITE_BACKEND_DOMAIN}/profile/address`,
-      method: 'POST',
-      body: JSON.stringify({
-        member_id: profileData.member_id,
-        newAddress: address
-      })
-    });
-
-    if (res) {
-      showSnackbar('Address Saved Successfully!', 'success');
-    } else {
-      showSnackbar('Address Unsaved, Internal Error', 'error');
-    }
-    
-  }
-  
-  const handleSaveContact = async () => {
-    if (profileData?.contact_number === contactNum) {
-      showSnackbar('Unsaved Changes', 'error');
-      return;
-    }
-
-    const res = await sendRequest({
-      url: `${import.meta.env.VITE_BACKEND_DOMAIN}/profile/contact`,
-      method: 'POST',
-      body: JSON.stringify({
-        member_id: profileData.member_id,
-        newContact: contactNum
-      })
-    });
-
-    if (res) {
-      showSnackbar('Contact Saved Successfully!', 'success');
-    } else {
-      showSnackbar('Contact Unsaved, Internal Error', 'error');
-    }
-    
-  }
-
-  const handleSaveLinks = async () => {
-    const isEmptyUrlFound = companyLinks.map(link => {
-      // Check if the URL is empty
-      return !link.url || link.url.trim() === '';
-    }).includes(true);
-
-    if (isEmptyUrlFound) {
-      // If an empty URL is found, handle it here (show error message, etc.)
-      console.log('Empty URL found.');
-      return;
-    }
-  
-    // If no empty URLs are found, proceed with saving links
-    const res = await sendRequest({
-      url: `${import.meta.env.VITE_BACKEND_DOMAIN}/profile/links`,
-      method: 'POST',
-      body: JSON.stringify({
-        member_id: profileData.member_id,
-        companyLinks: companyLinks
-      })
-    });
-
-    if (res) {
-      showSnackbar('Links Saved Successfully!', 'success');
-    } else {
-      showSnackbar('Links Unsaved, Internal Error', 'error');
-    }
-    // Add your saving logic here
-  }
-  
-  };
 
   // console.log("profileData: ", profileData);
 
@@ -611,23 +472,7 @@ function InformationTab(props) {
                                 value={address}
                                 disabled={!isEditingField('address')}
                                 InputProps={
-                                  isEditingField('address') ? {
-                                    endAdornment: ( // Render save button only if edit is false
-                                      <Button 
-                                        onClick={() => handleSaveAddress()} // Set edit to true when clicked
-                                        sx={{
-                                          textTransform: 'none',
-                                          color: '#292d3e',
-                                          '&:hover': {
-                                            color: '#292d3e',
-                                          },
-                                          marginRight: -2
-                                        }}
-                                      >
-                                        Save
-                                      </Button>
-                                    ),
-                                  } : { // If edit is true, don't add any InputProps
+                                  isEditingField('address') ? {} : { // If edit is true, don't add any InputProps
                                     endAdornment: ( // Render save button only if edit is false
                                       <Button 
                                         onClick={() => handleToggleEditField('address')} // Set edit to true when clicked
@@ -662,23 +507,7 @@ function InformationTab(props) {
                                 fullWidth
                                 disabled={!isEditingField('tagline')}
                                 InputProps={
-                                  isEditingField('tagline') ? {
-                                    endAdornment: ( // Render save button only if edit is false
-                                      <Button 
-                                        onClick={() => handleSaveTagline()} // Set edit to true when clicked
-                                        sx={{
-                                          textTransform: 'none',
-                                          color: '#292d3e',
-                                          '&:hover': {
-                                            color: '#292d3e',
-                                          },
-                                          marginRight: -2
-                                        }}
-                                      >
-                                        Save
-                                      </Button>
-                                    ),
-                                  } : { // If edit is true, don't add any InputProps
+                                  isEditingField('tagline') ? {} : { // If edit is true, don't add any InputProps
                                     endAdornment: ( // Render save button only if edit is false
                                       <Button 
                                         onClick={() => handleToggleEditField('tagline')} // Set edit to true when clicked
@@ -799,7 +628,7 @@ function InformationTab(props) {
                                 <span style={{flex: 1}}>
                                   Description 
                                 </span>
-                                {!isEditingField('bio') ? ( 
+                                {!isEditingField('bio') && ( 
                                   <Fragment>
                                     <Button
                                       sx={{
@@ -816,23 +645,6 @@ function InformationTab(props) {
                                       Edit
                                     </Button>
                                   </Fragment>
-                                  ) : (
-                                    <Fragment>
-                                    <Button
-                                      sx={{
-                                        display: 'flex',
-                                        justifyContent: 'right',
-                                        textTransform: 'none',
-                                        color: '#292d3e',
-                                        '&:hover': {
-                                          color: '#292d3e',
-                                        },
-                                      }}
-                                      onClick={() => handleSaveDesc()}
-                                    >
-                                      Save
-                                    </Button>
-                                  </Fragment>
                                   )
                                 }
                               </label>
@@ -840,19 +652,12 @@ function InformationTab(props) {
                                 id='description'
                                 size='small'
                                 onChange={e => handleDescriptionChange(e.target.value)}
-                                value={bio}
+                                defaultValue={profileData.setting_bio}
                                 placeholder='Tell us about your organization...'
                                 fullWidth
                                 multiline
                                 rows={12}
                                 disabled={!isEditingField('bio')}
-                                InputProps={{
-                                  endAdornment: (
-                                    <p position="end-right" style={{ textAlign: 'right', alignSelf: 'flex-end', marginTop: '10px' }} >
-                                    {bio.length}/200
-                                    </p>
-                                  ),
-                                }}
                               />
                             </div>
                           </div>
