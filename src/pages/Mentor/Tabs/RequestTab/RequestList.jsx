@@ -1,17 +1,49 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import SearchBar from "../../../../components/Search Bar/Searchbar";
-import Requests from "./Requests_data";
+import useCustomModal from "../../../../hooks/useCustomModal";
+import { Fragment } from "react";
+import { Button } from "@mui/material";
+import AddMentorButton from "../../AddMentors/AddMentorButton";
+import { useHttp } from '../../../../hooks/http-hook';
 
 function RequestList() {
+
+  const [requests, setRequests] = useState([]);
+  const { sendRequest } = useHttp(); 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await sendRequest({
+          url: `${import.meta.env.VITE_BACKEND_DOMAIN}/mentors/request/list/receiver/:receiverId`
+        });
+
+        if (!response) {
+          throw new Error('Failed to fetch data');
+        }
+
+        const data = await response;
+        console.log("data: ", data);
+        setRequests(data);
+      
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
   return (
     <>
       <div className="flex flex-col">
         <SearchBar />
         <div className="flex flex-col mt-4 ">
-          {Requests.map((req) => (
+          {requests.map((req) => (
             <>
               {/* main card container */}
-              <div key={req.id} className="flex">
+              <div key={req.member_id} className="flex">
                 {/* image container */}
                 <div className="absolute rounded-full p-4 bg-[#F4F4F4]">
                   <img
