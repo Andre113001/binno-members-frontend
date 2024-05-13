@@ -96,8 +96,6 @@ function AccountPage() {
     }
   }
 
-  // console.log(profileData);
-
   return (
     <>
     <SnackbarComponent/>
@@ -182,9 +180,10 @@ function AccountPage() {
                         <Link to='/account' style={{textDecoration: 'none'}}>
                           <button className={styles["discardButton"]} onClick={(e) => {
                             e.preventDefault();
-                            handleSaveAll();
+                            // setIsEditActive(true);
+                            window.location.reload();
                           }}>
-                            {isEditActive ? '⠀View Page' : 'Save Changes'}
+                            {isEditActive ? '⠀View Page' : 'Done'}
                             </button>
                         </Link>
                     </div>
