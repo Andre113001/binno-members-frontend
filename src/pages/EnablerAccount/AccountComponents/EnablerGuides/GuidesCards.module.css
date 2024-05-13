@@ -1,17 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;600;700;800&family=Nunito:wght@300;500&family=Roboto:wght@100;300;700;900&display=swap');
 
-.GuidePage {
-    margin: 0;
-    height: auto;
-    width: auto;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: #fff;
-    box-shadow: 0px 0px 8px rgba(0 ,0 ,0 , 0.25);
-    max-width: 1000px;
-    max-height: 450px;
-  }
-
   .titleContainer{
     display: flex;
     flex-direction: row;

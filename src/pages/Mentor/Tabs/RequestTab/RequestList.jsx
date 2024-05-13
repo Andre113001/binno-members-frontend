@@ -47,7 +47,7 @@ function RequestList() {
                 {/* image container */}
                 <div className="absolute rounded-full p-4 bg-[#F4F4F4]">
                   <img
-                    className="w-24 h-24 rounded-full"
+                    className="w-24 h-24 object-cover rounded-full"
                     src={req.mentorProfile}
                     alt="Profile Photo"
                   />

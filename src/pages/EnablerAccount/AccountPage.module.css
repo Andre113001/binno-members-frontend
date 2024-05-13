@@ -82,7 +82,8 @@
 }
 
 .layoutContainer {
-  display: flex;
+  display: flex; 
+  margin-left: 50px;
   flex-direction: column;
   height: 100vh;
   overflow-y: scroll;
@@ -109,6 +110,7 @@
   flex-direction: row;
   margin: 0;
   height: auto;
+  width: 100%;
 }
 
 .informationTabContainer{
@@ -117,6 +119,7 @@
 
 .guideContainer{
   flex: 1;
+  height: 300px;
 }
 
 .BlogEventContainer{

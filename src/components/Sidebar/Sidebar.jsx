@@ -77,7 +77,7 @@ function SideBar() {
               color: "#3e3e3e",
             }}
           >
-            <li className="">
+            <li className="row p-3">
               <div id="icon">{val.icon}</div>
               <div id="title">{val.title}</div>
             </li>
